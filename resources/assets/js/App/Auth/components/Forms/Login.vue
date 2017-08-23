@@ -57,11 +57,16 @@ export default {
                 .then(() => {
                     this.$router.push({name: 'dashboard'})
                     this.$Progress.finish()
+                    
+                    //set localStorage user data
+                    this.$authPersistence.storeToken()
+                    this.$authPersistence.storeUser()
                     Materialize.toast('Login efetuado com sucesso!', 2000)
                 })
 
                 .catch((error) => {
                     this.$Progress.fail()
+                    console.log(error);
                     Materialize.toast('Usuário ou senha incorreto!', 4000)
                 })
             

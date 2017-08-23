@@ -1,6 +1,6 @@
 <template>
 <div class="row">
-    <router-link to="/users" class="btn blue"><i class="material-icons">chevron_left</i></router-link>
+    <router-link :to="{name: 'users'}" class="btn blue"><i class="material-icons">chevron_left</i></router-link>
   <form @keydown="clearError($event.target.name)">
     <div class="row">
         <div class="input-field col s6">
@@ -73,7 +73,7 @@
         },
 
         props: [
-            'id'
+            'user_id'
         ],
 
         computed: {
@@ -87,11 +87,12 @@
         },
 
         created(){
-            axios.get('/api/dashboard/users/edit/' + this.id)
+            axios.get('/api/dashboard/users/edit/' + this.user_id)
             .then(function(response) {
                 this.user.name = response.data.name;
                 this.user.email = response.data.email;
                 this.user.isAdmin = response.data.isAdmin;
+
                  $(document).ready(function() {
                     Materialize.updateTextFields();
                 });
@@ -101,11 +102,11 @@
         methods: {
             sendForm(){
                 this.isLoading = true;
-                axios.put('/api/dashboard/users/update/' + this.id, this.user)
+                axios.put('/api/dashboard/users/update/' + this.user_id, this.user)
                 .then(function(response){
-                    toastr.success("Usuário atualizado com sucesso!");
+                    Materialize.toast("Usuário atualizado com sucesso!", 5000);
 
-                    this.$router.push('/users');
+                    this.$router.push({name: 'users'});
                 }.bind(this))
                 .catch(function(error){
                     this.errors = error.response.data;

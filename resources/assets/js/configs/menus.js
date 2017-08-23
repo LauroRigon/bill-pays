@@ -2,12 +2,16 @@ export default [
 	{
 		label: 'Dashboard',
 		icon: 'dashboard',
-		uri: '/home'
+		uri: {
+			name: 'dashboard'
+		}
 	},
 	{
 		label: 'Usuários',
 		icon: 'account_circle',
-		uri: "/users"
+		uri: {
+			name: 'users'
+		}
 	},
 	{
 		label: 'Contas',

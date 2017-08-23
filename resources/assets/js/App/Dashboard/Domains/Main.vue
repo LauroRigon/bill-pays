@@ -1,5 +1,5 @@
 <template>
-  <div class="row">  
+<div class="row">  
     <menubar></menubar>
     <main>
         <div class="container">
@@ -11,15 +11,14 @@
         </div>
     </main>
     
-    </div>
+</div>
 </template>
 
 <script>
-import Menubar from '../components/dashboard/partials/header/Main.vue';
+import Menubar from '../partials/header/Main.vue'
 
 export default {
-    components: {
-        Menubar
-    }
+	components: { Menubar }
 }
 </script>
+

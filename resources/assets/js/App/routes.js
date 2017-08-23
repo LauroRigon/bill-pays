@@ -1,8 +1,10 @@
 //Main do dashboard
-import DashboardMain from './Dashboard/components/Main.vue'
-
+import DashboardMain from './Dashboard/Domains/Main.vue'
 //Main de Auth
 import AuthMain from './Auth/components/Main.vue'
+
+//import AuthPersistence from '../plugins/AuthPersistence/index.js'
+import store from '../vuex/'
 
 export default [
     {
@@ -11,7 +13,14 @@ export default [
         children: [
             {
                 path: '/',
-                component: require('./Auth/components/Forms/Login.vue')
+                component: require('./Auth/components/Forms/Login.vue'),
+                beforeEnter: (to, from, next) => {
+                    if(store.getters.isLogged) {
+                        next(false)
+                    }else{
+                        next()
+                    }
+                }
             }
         ]
     },
@@ -20,14 +29,25 @@ export default [
         name: 'dashboard',
         component: DashboardMain,
         meta: {
-            requireAuth: false
-        }
-    },
-    {
-        path: '/teste',
-        component: require('../views/dashboard/user/User.vue'),
-        meta: {
             requireAuth: true
-        }
+        },
+        children: [
+            {
+                path: 'usuarios',
+                component: require('./Dashboard/Domains/User/User.vue'),
+                name: 'users'
+            },
+            {
+                path: 'usuarios/criar',
+                component: require('./Dashboard/Domains/User/Create.vue'),
+                name: 'users.create'
+            },
+            {
+                path: 'usuarios/editar/:user_id',
+                name: 'users.edit',
+                component: require('./Dashboard/Domains/User/Edit.vue'),
+                props: true
+            }
+        ]
     }
 ]

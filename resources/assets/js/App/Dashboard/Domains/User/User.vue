@@ -7,7 +7,7 @@
 				delete-api="/api/dashboard/users/delete/"
 				:actions="tableActions">
                 <div slot="buttons">
-                    <router-link class="left btn-floating btn-med blue" to="users/create"><i class="material-icons">add</i></router-link>
+                    <router-link class="left btn-floating btn-med blue" :to="{name: 'users.create'}"><i class="material-icons">add</i></router-link>
                 </div>
                 </vue-table>
     </div>
@@ -47,7 +47,7 @@
 
         methods: {
             editUser(item){
-                this.$router.push('users/edit/' + item.id)
+                this.$router.push({name: 'users.edit', params: { user_id: item.id }})
                 console.log(item)
             }
         }

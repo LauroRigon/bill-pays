@@ -16,16 +16,16 @@ import App from './App/App.vue'
 import router from './router'
 
 import store from './vuex'
-//import store from './vuex'
 
-//materialize js
-require('materialize-css');
+import AuthPersistence from './plugins/AuthPersistence/'
 
-Vue.component('vue-table', require('./components/dashboard/VueTable.vue'))
+Vue.use(AuthPersistence, store)
+
+Vue.component('vue-table', require('./components/VueTable.vue'))
 
 const app = new Vue({
   router,
   store,
   mode: 'history',
-  render: h => h(App)
+  render: h => h(App)  
 }).$mount('#app')
