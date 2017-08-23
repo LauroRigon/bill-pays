@@ -16,7 +16,7 @@ const isProtectedRoute = (route) => {
     console.log(route)
     let parentRoute = route.matched[0];
     
-    if (route.meta.requireAuth || !isNull(parentRoute)) {
+    if (route.meta.requireAuth || isNull(parentRoute)) {
         return true;
     }
 

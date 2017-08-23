@@ -58911,7 +58911,7 @@ var isProtectedRoute = function isProtectedRoute(route) {
     console.log(route);
     var parentRoute = route.matched[0];
 
-    if (route.meta.requireAuth || !(0, _lodash.isNull)(parentRoute)) {
+    if (route.meta.requireAuth || (0, _lodash.isNull)(parentRoute)) {
         return true;
     }
 
