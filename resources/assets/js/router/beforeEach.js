@@ -14,9 +14,9 @@ export default (to, from, next) => {
 
 const isProtectedRoute = (route) => {
     console.log(route)
-    let parentRoute = route.matched[0];
-    
-    if (route.meta.requireAuth || isNull(parentRoute)) {
+    let parentRoute = route.matched;
+
+    if (route.meta.requireAuth || parentRoute.find(isParentProtected)) {
         return true;
     }
 
@@ -30,4 +30,8 @@ const sessionFromStorage = () => {
 
     factory.setVuexToken()
     factory.setVuexUser()
+}
+
+const isParentProtected = (route) => {
+    return route.meta.requireAuth
 }

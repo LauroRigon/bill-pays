@@ -58909,9 +58909,9 @@ exports.default = function (to, from, next) {
 
 var isProtectedRoute = function isProtectedRoute(route) {
     console.log(route);
-    var parentRoute = route.matched[0];
+    var parentRoute = route.matched;
 
-    if (route.meta.requireAuth || (0, _lodash.isNull)(parentRoute)) {
+    if (route.meta.requireAuth || parentRoute.find(isParentProtected)) {
         return true;
     }
 
@@ -58927,6 +58927,10 @@ var sessionFromStorage = function sessionFromStorage() {
 
     factory.setVuexToken();
     factory.setVuexUser();
+};
+
+var isParentProtected = function isParentProtected(route) {
+    return route.meta.requireAuth;
 };
 
 /***/ }),
