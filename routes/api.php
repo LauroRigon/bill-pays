@@ -30,4 +30,5 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/users/edit/{user}', 'UserController@edit');
 	Route::post('/users/store', 'UserController@store');
     Route::put('/users/update/{user}', 'UserController@update');
+    Route::delete('/users/delete/{user}', 'UserController@destroy');
 });

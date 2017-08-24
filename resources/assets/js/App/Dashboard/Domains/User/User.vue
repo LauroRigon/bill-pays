@@ -40,15 +40,25 @@
                 ],
                 tableActions: [
                     { name: 'edit-item', icon: 'create', class: 'btn waves-effect waves-light orange', action: this.editUser},
-                    { name: 'delete-item', icon: 'delete_forever', class: 'btn waves-effect waves-light red'}
+                    { name: 'delete-item', icon: 'delete_forever', class: 'btn waves-effect waves-light red', action: this.deleteUser}
                 ]
             }
         },
 
         methods: {
-            editUser(item){
+            editUser(item) {
                 this.$router.push({name: 'users.edit', params: { user_id: item.id }})
                 console.log(item)
+            },
+
+            deleteUser(item) {
+                this.$Progress.start()
+                axios.delete('api/dashboard/users/delete/' + item.id)
+                .then(() => {
+                    this.$Progress.finish()
+                    Materialize.toast('Usuário deletado com sucesso!', 3000)
+                    console.log(this.$children[0].loadData())
+                })                
             }
         }
     }

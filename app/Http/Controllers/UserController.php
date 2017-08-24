@@ -110,6 +110,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->userRep->delete($id);
+
+        return response()->json(null, 200);
     }
 }
