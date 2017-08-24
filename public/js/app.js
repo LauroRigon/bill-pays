@@ -1957,13 +1957,16 @@ exports.default = {
             }
 
             this.isLoading = true;
+            this.$Progress.start();
             axios.post('/api/dashboard/users/store', this.user).then(function (response) {
+                _this.$Progress.finish();
                 Materialize.toast("Usuário criado com sucesso!", 5000);
 
                 _this.$router.push({ name: 'users' });
             }).catch(function (error) {
                 console.log(error);
                 _this.errors = error.response.data;
+                _this.$Progress.fail();
                 _this.isLoading = false;
             });
         },
@@ -2104,12 +2107,15 @@ exports.default = {
 
     methods: {
         sendForm: function sendForm() {
+            this.$Progress.start();
             this.isLoading = true;
             axios.put('/api/dashboard/users/update/' + this.user_id, this.user).then(function (response) {
                 Materialize.toast("Usuário atualizado com sucesso!", 5000);
+                this.$Progress.finish();
 
                 this.$router.push({ name: 'users' });
             }.bind(this)).catch(function (error) {
+                this.$Progress.fail();
                 this.errors = error.response.data;
                 this.isLoading = false;
             }.bind(this));
@@ -2192,6 +2198,59 @@ exports.default = {
         editUser: function editUser(item) {
             this.$router.push({ name: 'users.edit', params: { user_id: item.id } });
             console.log(item);
+        }
+    }
+};
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/App/Dashboard/Domains/User/profile/Avatar.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    data: function data() {
+        return {
+            avatarUrl: '',
+            avatar: ''
+        };
+    },
+
+
+    methods: {
+        openUploadModal: function openUploadModal() {
+            this.$refs.avatarInput.click();
+        },
+        onFilePicked: function onFilePicked(event) {
+            var _this = this;
+
+            var files = event.target.files;
+
+            var fileReader = new FileReader();
+            fileReader.addEventListener('load', function () {
+                _this.avatarUrl = fileReader.result;
+            });
+
+            fileReader.readAsDataURL(files[0]);
+            this.avatar = files[0];
         }
     }
 };
@@ -43547,26 +43606,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "row"
   }, [_c('div', {
     staticClass: "blue lighten-1 center-align white-text"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
+  }, [_c('div', {
     staticClass: "row"
-  }, [_c('h5', [_vm._v(_vm._s(_vm.user.name))])]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('h6', [_vm._v(_vm._s(_vm.user.email))])])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "row"
-  }, [_c('a', {
+  }, [_c('router-link', {
     attrs: {
-      "href": "javascript:;"
+      "to": {
+        name: 'change.avatar'
+      }
     }
   }, [_c('img', {
-    staticClass: "circle",
+    staticClass: "circle hoverable",
     attrs: {
       "height": "80px",
       "src": "https://image.freepik.com/free-icon/male-user-silhouette_318-35708.jpg"
     }
-  })])])
-}]}
+  })])], 1), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('h5', [_vm._v(_vm._s(_vm.user.name))])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('h6', [_vm._v(_vm._s(_vm.user.email))])])])])])
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -43820,6 +43879,48 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-98282f3e", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-b60088cc\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/App/Dashboard/Domains/User/profile/Avatar.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col m4 offset-m5 center-align"
+  }, [_c('img', {
+    staticClass: "responsive-img circle",
+    attrs: {
+      "src": _vm.avatarUrl
+    }
+  }), _vm._v(" "), _c('button', {
+    staticClass: "waves-effect btn blue",
+    on: {
+      "click": _vm.openUploadModal
+    }
+  }, [_vm._v("Selecionar Avatar")]), _vm._v(" "), _c('input', {
+    ref: "avatarInput",
+    staticStyle: {
+      "display": "none"
+    },
+    attrs: {
+      "type": "file",
+      "accept": "image/*"
+    },
+    on: {
+      "change": _vm.onFilePicked
+    }
+  })])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-b60088cc", module.exports)
   }
 }
 
@@ -58242,6 +58343,47 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/App/Dashboard/Domains/User/profile/Avatar.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/App/Dashboard/Domains/User/profile/Avatar.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-b60088cc\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/App/Dashboard/Domains/User/profile/Avatar.vue"),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "D:\\projetos\\bill-pays\\resources\\assets\\js\\App\\Dashboard\\Domains\\User\\profile\\Avatar.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Avatar.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b60088cc", Component.options)
+  } else {
+    hotAPI.reload("data-v-b60088cc", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/App/Dashboard/partials/header/Main.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -58553,6 +58695,13 @@ exports.default = [{
         name: 'users.edit',
         component: __webpack_require__("./resources/assets/js/App/Dashboard/Domains/User/Edit.vue"),
         props: true
+    },
+
+    //profile avatar
+    {
+        path: 'avatar',
+        name: 'change.avatar',
+        component: __webpack_require__("./resources/assets/js/App/Dashboard/Domains/User/profile/Avatar.vue")
     }]
 }];
 
@@ -58893,8 +59042,6 @@ var _index = __webpack_require__("./resources/assets/js/plugins/AuthPersistence/
 
 var _index2 = _interopRequireDefault(_index);
 
-var _lodash = __webpack_require__("./node_modules/lodash/lodash.js");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (to, from, next) {
@@ -58908,7 +59055,6 @@ exports.default = function (to, from, next) {
 };
 
 var isProtectedRoute = function isProtectedRoute(route) {
-    console.log(route);
     var parentRoute = route.matched;
 
     if (route.meta.requireAuth || parentRoute.find(isParentProtected)) {

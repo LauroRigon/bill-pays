@@ -101,14 +101,17 @@
 
         methods: {
             sendForm(){
+                this.$Progress.start()
                 this.isLoading = true;
                 axios.put('/api/dashboard/users/update/' + this.user_id, this.user)
                 .then(function(response){
                     Materialize.toast("Usuário atualizado com sucesso!", 5000);
+                    this.$Progress.finish()
 
                     this.$router.push({name: 'users'});
                 }.bind(this))
                 .catch(function(error){
+                    this.$Progress.fail()
                     this.errors = error.response.data;
                     this.isLoading = false;
                 }.bind(this));

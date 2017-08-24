@@ -1,6 +1,5 @@
 import store from '../vuex'
 import AuthPersistence from '../plugins/AuthPersistence/index.js'
-import { isNull } from 'lodash'
 
 export default (to, from, next) => {
     sessionFromStorage()
@@ -13,7 +12,6 @@ export default (to, from, next) => {
 }
 
 const isProtectedRoute = (route) => {
-    console.log(route)
     let parentRoute = route.matched;
 
     if (route.meta.requireAuth || parentRoute.find(isParentProtected)) {

@@ -47,6 +47,13 @@ export default [
                 name: 'users.edit',
                 component: require('./Dashboard/Domains/User/Edit.vue'),
                 props: true
+            },
+
+            //profile avatar
+            {
+                path: 'avatar',
+                name: 'change.avatar',
+                component: require('./Dashboard/Domains/User/profile/Avatar.vue')
             }
         ]
     }

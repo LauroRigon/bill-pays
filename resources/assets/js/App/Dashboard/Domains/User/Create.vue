@@ -86,17 +86,20 @@
             sendForm(){
                 if(!this.passwordConfirmation){return false}
 
-                this.isLoading = true;
+                this.isLoading = true
+                this.$Progress.start()
                 axios.post('/api/dashboard/users/store', this.user)
                 .then( (response) => {
+                    this.$Progress.finish()
                     Materialize.toast("Usuário criado com sucesso!", 5000);
 
-                    this.$router.push({name: 'users'});
+                    this.$router.push({name: 'users'})
                 })
                 .catch( (error) => {
                     console.log(error)
-                    this.errors = error.response.data;
-                    this.isLoading = false;
+                    this.errors = error.response.data
+                    this.$Progress.fail()
+                    this.isLoading = false
                 });
             },
 
@@ -109,15 +112,15 @@
             },
 
             clearError: function(error) {
-                delete this.errors[error];
+                delete this.errors[error]
             },
 
             clearFields: function() {
-                this.user.lastName = '';
-                this.user.firstName = '';
-                this.user.email = '';
-                this.user.password = '';
-                this.user.password_confirmation = '';
+                this.user.lastName = ''
+                this.user.firstName = ''
+                this.user.email = ''
+                this.user.password = ''
+                this.user.password_confirmation = ''
             },
         }
     }

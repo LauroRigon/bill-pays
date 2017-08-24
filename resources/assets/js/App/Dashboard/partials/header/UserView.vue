@@ -3,7 +3,7 @@
     <div class="row">
         <div class="blue lighten-1 center-align white-text">
             <div class="row">
-                <a href="javascript:;"><img class="circle" height="80px" src="https://image.freepik.com/free-icon/male-user-silhouette_318-35708.jpg"></a>
+                <router-link :to="{name: 'change.avatar'}"><img class="circle hoverable" height="80px" src="https://image.freepik.com/free-icon/male-user-silhouette_318-35708.jpg"></router-link>
             </div>
             <div class="row">
                 <h5>{{ user.name }}</h5>
