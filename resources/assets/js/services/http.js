@@ -76,7 +76,7 @@ export const http = {
         // Also, if we receive a Bad Request / Unauthorized error
         if (error.response.status === 400 || error.response.status === 401) {
           // and we're not trying to login
-          if (error.config.method === 'post' && error.config.url != '/api/login') {
+          if (error.config.url != '/api/login') {
             // the token must have expired. Log out.
             authPersistence.removeSession()
             Materialize.toast('Parece que sua sesão expirou!', 4000, null, () => window.location.reload())
