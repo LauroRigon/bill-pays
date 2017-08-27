@@ -1700,6 +1700,21 @@ exports.default = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/App/App.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+//
+
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/App/Auth/components/Forms/Login.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1748,6 +1763,8 @@ var _lodash = __webpack_require__("./node_modules/lodash/lodash.js");
 
 var _vuex = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 
+var _services = __webpack_require__("./resources/assets/js/services/index.js");
+
 exports.default = {
     data: function data() {
         return {
@@ -1769,9 +1786,6 @@ exports.default = {
                 _this.$router.push({ name: 'dashboard' });
                 _this.$Progress.finish();
 
-                //set localStorage user data
-                _this.$authPersistence.storeToken();
-                _this.$authPersistence.storeUser();
                 Materialize.toast('Login efetuado com sucesso!', 2000);
             }).catch(function (error) {
                 _this.$Progress.fail();
@@ -1863,64 +1877,8 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+var _services = __webpack_require__("./resources/assets/js/services/index.js");
 
 exports.default = {
     data: function data() {
@@ -1955,10 +1913,9 @@ exports.default = {
             if (!this.passwordConfirmation) {
                 return false;
             }
-
             this.isLoading = true;
             this.$Progress.start();
-            axios.post('/api/dashboard/users/store', this.user).then(function (response) {
+            _services.http.post('/dashboard/users/store', this.user).then(function (response) {
                 _this.$Progress.finish();
                 Materialize.toast("Usuário criado com sucesso!", 5000);
 
@@ -1992,7 +1949,64 @@ exports.default = {
             this.user.password_confirmation = '';
         }
     }
-};
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
@@ -2005,64 +2019,8 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+var _services = __webpack_require__("./resources/assets/js/services/index.js");
 
 exports.default = {
     data: function data() {
@@ -2093,7 +2051,7 @@ exports.default = {
     },
 
     created: function created() {
-        axios.get('/api/dashboard/users/edit/' + this.user_id).then(function (response) {
+        _services.http.get('/dashboard/users/edit/' + this.user_id).then(function (response) {
             this.user.name = response.data.name;
             this.user.email = response.data.email;
             this.user.isAdmin = response.data.isAdmin;
@@ -2109,7 +2067,7 @@ exports.default = {
         sendForm: function sendForm() {
             this.$Progress.start();
             this.isLoading = true;
-            axios.put('/api/dashboard/users/update/' + this.user_id, this.user).then(function (response) {
+            _services.http.put('/dashboard/users/update/' + this.user_id, this.user).then(function (response) {
                 Materialize.toast("Usuário atualizado com sucesso!", 5000);
                 this.$Progress.finish();
 
@@ -2142,7 +2100,64 @@ exports.default = {
             this.user.password_confirmation = '';
         }
     }
-};
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
@@ -2155,21 +2170,8 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+var _services = __webpack_require__("./resources/assets/js/services/index.js");
 
 exports.default = {
     data: function data() {
@@ -2203,14 +2205,28 @@ exports.default = {
             var _this = this;
 
             this.$Progress.start();
-            axios.delete('api/dashboard/users/delete/' + item.id).then(function () {
+            _services.http.delete('dashboard/users/delete/' + item.id).then(function () {
                 _this.$Progress.finish();
                 Materialize.toast('Usuário deletado com sucesso!', 3000);
-                console.log(_this.$children[0].loadData());
+                _this.$children[0].loadData();
             });
         }
     }
-};
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 
@@ -2338,8 +2354,15 @@ exports.default = {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; //
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2350,7 +2373,18 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 
-exports.default = {};
+var _vuex = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+
+exports.default = {
+  methods: _extends({}, (0, _vuex.mapActions)(['attemptLogout']), {
+    logout: function logout() {
+      this.attemptLogout().then(function () {
+        Materialize.toast("Logout efetuado com sucesso!");
+        window.location.reload();
+      });
+    }
+  })
+};
 
 /***/ }),
 
@@ -2485,7 +2519,81 @@ var _Pagination = __webpack_require__("./resources/assets/js/components/Paginati
 
 var _Pagination2 = _interopRequireDefault(_Pagination);
 
+var _services = __webpack_require__("./resources/assets/js/services/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   components: {
@@ -2580,7 +2688,7 @@ exports.default = {
       }
 
       console.log(url);
-      axios.get(url).then(function (response) {
+      _services.http.get(url).then(function (response) {
         console.log(response.data);
         this.items = response.data.data;
         this.pagination = {
@@ -2613,77 +2721,7 @@ exports.default = {
       return name.slice(0, 2) === '__';
     }
   }
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+};
 
 /***/ }),
 
@@ -43246,8 +43284,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": "Tabela de usuários",
       "has-actions": true,
       "fields": _vm.fields,
-      "source-data": "/api/dashboard/users",
-      "delete-api": "/api/dashboard/users/delete/",
+      "source-data": "/dashboard/users",
+      "delete-api": "/dashboard/users/delete/",
       "actions": _vm.tableActions
     }
   }, [_c('div', {
@@ -43554,7 +43592,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }))]), _vm._v(" "), (!menu.dropdown) ? _c('router-link', {
       attrs: {
         "to": menu.uri,
-        "tag": "li"
+        "tag": "li",
+        "exact": ""
       }
     }, [_c('a', {
       staticClass: "waves-effect waves"
@@ -43752,13 +43791,23 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('nav', {
     staticClass: "top-nav blue darken-2"
   }, [_c('div', {
     staticClass: "container"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "nav-wrapper"
   }, [_c('a', {
+    staticClass: "page-title"
+  }, [_vm._v("Menu de cima")]), _vm._v(" "), _c('ul', {
+    staticClass: "right"
+  }, [_c('li', [_c('a', {
+    on: {
+      "click": _vm.logout
+    }
+  }, [_vm._v("Sair")])])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', {
     staticClass: "button-collapse top-nav full hide-on-large-only",
     attrs: {
       "href": "#",
@@ -43766,11 +43815,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("menu")])]), _vm._v(" "), _c('div', {
-    staticClass: "nav-wrapper"
-  }, [_c('a', {
-    staticClass: "page-title"
-  }, [_vm._v("Menu de cima")])])])])
+  }, [_vm._v("menu")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -58068,7 +58113,7 @@ module.exports = function(module) {
 var disposed = false
 var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
   /* script */
-  null,
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/App/App.vue"),
   /* template */
   __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-77890373\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/App/App.vue"),
   /* styles */
@@ -58526,21 +58571,28 @@ module.exports = Component.exports
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.attemptLogin = undefined;
+exports.attemptLogout = exports.attemptLogin = undefined;
 
-var _axios = __webpack_require__("./node_modules/axios/index.js");
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _services = __webpack_require__("./resources/assets/js/services/index.js");
 
 var attemptLogin = exports.attemptLogin = function attemptLogin(context, payload) {
-    return _axios2.default.post('/api/login', payload).then(function (_ref) {
+    return _services.http.post('login', payload).then(function (_ref) {
         var data = _ref.data;
 
         //set vuex states
         context.commit('setToken', data.token);
         context.commit('setUser', data.user);
+
+        _services.authPersistence.storeToken(data.token);
+        _services.authPersistence.storeUser(data.user);
+    });
+};
+
+var attemptLogout = exports.attemptLogout = function attemptLogout(context) {
+    return _services.http.delete('logout').then(function (_ref2) {
+        var data = _ref2.data;
+
+        _services.authPersistence.removeSession();
     });
 };
 
@@ -58639,9 +58691,12 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _services = __webpack_require__("./resources/assets/js/services/index.js");
+
 exports.default = {
-    user: {},
-    token: ''
+    user: _services.authPersistence.getStoredUser(),
+    token: _services.authPersistence.getStoredToken()
 };
 
 /***/ }),
@@ -58664,33 +58719,34 @@ var _Main3 = __webpack_require__("./resources/assets/js/App/Auth/components/Main
 
 var _Main4 = _interopRequireDefault(_Main3);
 
+var _services = __webpack_require__("./resources/assets/js/services/index.js");
+
 var _vuex = __webpack_require__("./resources/assets/js/vuex/index.js");
 
 var _vuex2 = _interopRequireDefault(_vuex);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//Main de Auth
+//Main do dashboard
 exports.default = [{
     path: '/login',
     component: _Main4.default,
     children: [{
         path: '/',
         component: __webpack_require__("./resources/assets/js/App/Auth/components/Forms/Login.vue"),
-        beforeEnter: function beforeEnter(to, from, next) {
-            if (_vuex2.default.getters.isLogged) {
-                next(false);
-            } else {
-                next();
-            }
-        }
+        name: 'login',
+        beforeEnter: requireAuth
     }]
 }, {
     path: '/dashboard',
     name: 'dashboard',
     component: _Main2.default,
-    meta: {
-        requireAuth: true
+    beforeEnter: function beforeEnter(to, from, next) {
+        if (_vuex2.default.getters.isLogged) {
+            next();
+        } else {
+            next({ name: 'login' });
+        }
     },
     children: [{
         path: 'usuarios',
@@ -58714,9 +58770,15 @@ exports.default = [{
         component: __webpack_require__("./resources/assets/js/App/Dashboard/Domains/User/profile/Avatar.vue")
     }]
 }];
+//Main de Auth
 
-//import AuthPersistence from '../plugins/AuthPersistence/index.js'
-//Main do dashboard
+function requireAuth(to, from, next) {
+    if (_vuex2.default.getters.isLogged) {
+        next(false);
+    } else {
+        next();
+    }
+}
 
 /***/ }),
 
@@ -58746,9 +58808,7 @@ var _vuex = __webpack_require__("./resources/assets/js/vuex/index.js");
 
 var _vuex2 = _interopRequireDefault(_vuex);
 
-var _AuthPersistence = __webpack_require__("./resources/assets/js/plugins/AuthPersistence/index.js");
-
-var _AuthPersistence2 = _interopRequireDefault(_AuthPersistence);
+var _services = __webpack_require__("./resources/assets/js/services/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -58760,16 +58820,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 __webpack_require__("./resources/assets/js/bootstrap.js");
 
-_vue2.default.use(_AuthPersistence2.default, _vuex2.default);
-
 _vue2.default.component('vue-table', __webpack_require__("./resources/assets/js/components/VueTable.vue"));
 
 var app = new _vue2.default({
-  router: _router2.default,
   store: _vuex2.default,
+  router: _router2.default,
   mode: 'history',
   render: function render(h) {
     return h(_App2.default);
+  },
+  created: function created() {
+    _services.http.init();
   }
 }).$mount('#app');
 
@@ -58802,23 +58863,15 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__("./node_modules/axios/index.js");
+//window.axios = require('axios');
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+//window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
  * all outgoing HTTP requests automatically have it attached. This is just
  * a simple convenience so we don't have to attach every token manually.
  */
-
-var token = document.head.querySelector('meta[name="csrf-token"]');
-
-if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -58960,134 +59013,19 @@ exports.default = [{
 
 /***/ }),
 
-/***/ "./resources/assets/js/plugins/AuthPersistence/index.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _loaderFactory = __webpack_require__("./resources/assets/js/plugins/AuthPersistence/loaderFactory.js");
-
-var _loaderFactory2 = _interopRequireDefault(_loaderFactory);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var install = function install(Vue, store) {
-    Object.defineProperty(Vue.prototype, '$authPersistence', {
-        get: function get() {
-            return (0, _loaderFactory2.default)(this, store);
-        }
-    });
-};
-
-//to call function without vue
-var factory = function factory(store) {
-    return (0, _loaderFactory2.default)(undefined, store);
-};
-
-exports.default = { install: install, factory: factory };
-
-/***/ }),
-
-/***/ "./resources/assets/js/plugins/AuthPersistence/loaderFactory.js":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _lodash = __webpack_require__("./node_modules/lodash/lodash.js");
-
-var loaderFactory = function loaderFactory(context, store) {
-    return {
-        storeToken: function storeToken() {
-            var token = store.getters.getToken;
-            localStorage.setItem('access_token', token);
-        },
-        storeUser: function storeUser() {
-            var userLogged = store.getters.getUserLogged;
-            localStorage.setItem('user_logged', JSON.stringify(userLogged));
-        },
-        setVuexToken: function setVuexToken() {
-            var token = localStorage.getItem('access_token');
-            if (!(0, _lodash.isEmpty)(token)) {
-                store.commit('setToken', token);
-            }
-        },
-        setVuexUser: function setVuexUser() {
-            var userLogged = localStorage.getItem('user_logged');
-            if (!(0, _lodash.isEmpty)(userLogged)) {
-                store.commit('setUser', JSON.parse(userLogged));
-            }
-        }
-    };
-};
-
-exports.default = loaderFactory;
-
-/***/ }),
-
 /***/ "./resources/assets/js/router/beforeEach.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
 var _vuex = __webpack_require__("./resources/assets/js/vuex/index.js");
 
 var _vuex2 = _interopRequireDefault(_vuex);
 
-var _index = __webpack_require__("./resources/assets/js/plugins/AuthPersistence/index.js");
-
-var _index2 = _interopRequireDefault(_index);
+var _services = __webpack_require__("./resources/assets/js/services/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (to, from, next) {
-    sessionFromStorage();
-
-    if (!isProtectedRoute(to) || isUserAuth()) {
-        next();
-    } else {
-        next('/login');
-    }
-};
-
-var isProtectedRoute = function isProtectedRoute(route) {
-    var parentRoute = route.matched;
-
-    if (route.meta.requireAuth || parentRoute.find(isParentProtected)) {
-        return true;
-    }
-
-    return false;
-};
-
-var isUserAuth = function isUserAuth() {
-    return _vuex2.default.getters.isLogged;
-};
-
-var sessionFromStorage = function sessionFromStorage() {
-    var factory = _index2.default.factory(_vuex2.default);
-
-    factory.setVuexToken();
-    factory.setVuexUser();
-};
-
-var isParentProtected = function isParentProtected(route) {
-    return route.meta.requireAuth;
-};
 
 /***/ }),
 
@@ -59109,10 +59047,6 @@ var _vueRouter = __webpack_require__("./node_modules/vue-router/dist/vue-router.
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-var _vuex = __webpack_require__("./resources/assets/js/vuex/index.js");
-
-var _vuex2 = _interopRequireDefault(_vuex);
-
 var _routes = __webpack_require__("./resources/assets/js/App/routes.js");
 
 var _routes2 = _interopRequireDefault(_routes);
@@ -59129,15 +59063,12 @@ _vue2.default.use(_vueRouter2.default);
 //beforeEach function that verify wether user can access some route
 
 
-//vuex store
-
-
 var router = new _vueRouter2.default({
   routes: _routes2.default,
   linkActiveClass: 'active'
 });
 
-router.beforeEach(_beforeEach2.default);
+//router.beforeEach(beforeEach)
 
 exports.default = router;
 
@@ -59162,6 +59093,197 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _vue2.default.use(_vueProgressbar2.default, {
     color: '#0099ff',
     height: '2px'
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/services/authPersistence.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.authPersistence = undefined;
+
+var _lodash = __webpack_require__("./node_modules/lodash/lodash.js");
+
+var authPersistence = exports.authPersistence = {
+    storeToken: function storeToken(token) {
+        localStorage.setItem('access_token', token);
+    },
+    storeUser: function storeUser(user) {
+        localStorage.setItem('user_logged', JSON.stringify(user));
+    },
+    getStoredToken: function getStoredToken() {
+        return localStorage.getItem('access_token');
+    },
+    getStoredUser: function getStoredUser() {
+        return JSON.parse(localStorage.getItem('user_logged'));
+    },
+    removeSession: function removeSession() {
+        localStorage.removeItem('user_logged');
+        localStorage.removeItem('access_token');
+    }
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/services/http.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.http = undefined;
+
+var _lodash = __webpack_require__("./node_modules/lodash/lodash.js");
+
+var _services = __webpack_require__("./resources/assets/js/services/index.js");
+
+var _axios = __webpack_require__("./node_modules/axios/index.js");
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*export const createClient =  axios.create()
+
+export const init = () => {
+    createClient.defaults.baseURL = '/api'
+
+    //add Authorization header to request
+    createClient.interceptors.request.use(function(config) {
+        config.headers.Authorization = "Bearer " + AuthPersistence.getStoredToken()
+        console.log(config)
+        return config
+    })
+
+    createClient.interceptors.response.use(response => {
+        return response
+      }, error => {
+        // Also, if we receive a Bad Request / Unauthorized error
+        if (error.response.status === 400 || error.response.status === 401) {
+          // and we're not trying to login
+          if (!(error.config.method === 'post' && /\/api\/me\/?$/.test(error.config.url))) {
+            // the token must have expired. Log out.
+            AuthPersistence.removeSession()
+            Materialize.toast('Parece que sua sesão expirou!')
+          }
+        }
+  
+        return Promise.reject(error)
+      })
+    
+}*/
+
+//export default createClient
+
+var http = exports.http = {
+  axiosInstance: _axios2.default.create(),
+
+  get: function get(url) {
+    var successCb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var errorCb = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+    return this.axiosInstance.get(url, successCb, errorCb);
+  },
+  post: function post(url, data) {
+    var successCb = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    var errorCb = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+    return this.axiosInstance.post(url, data, successCb, errorCb);
+  },
+  put: function put(url, data) {
+    var successCb = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    var errorCb = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+    return this.axiosInstance.put(url, data, successCb, errorCb);
+  },
+  delete: function _delete(url) {
+    var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var successCb = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    var errorCb = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+    return this.axiosInstance.delete(url, data, successCb, errorCb);
+  },
+
+
+  //start configs to axios
+  init: function init() {
+    this.axiosInstance.defaults.baseURL = '/api';
+    var token = document.head.querySelector('meta[name="csrf-token"]');
+
+    if (token) {
+      this.axiosInstance.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    }
+
+    //add Authorization header to every request
+    this.axiosInstance.interceptors.request.use(function (config) {
+      config.headers.Authorization = "Bearer " + _services.authPersistence.getStoredToken();
+      return config;
+    });
+
+    this.axiosInstance.interceptors.response.use(function (response) {
+      return response;
+    }, function (error) {
+      console.log(error);
+      // Also, if we receive a Bad Request / Unauthorized error
+      if (error.response.status === 400 || error.response.status === 401) {
+        // and we're not trying to login
+        if (!(error.config.method === 'post' && /\/api\/me\/?$/.test(error.config.url))) {
+          // the token must have expired. Log out.
+          _services.authPersistence.removeSession();
+          Materialize.toast('Parece que sua sesão expirou!', 4000, null, function () {
+            return window.location.reload();
+          });
+        }
+      }
+
+      return Promise.reject(error);
+    });
+  }
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/services/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _authPersistence = __webpack_require__("./resources/assets/js/services/authPersistence.js");
+
+Object.keys(_authPersistence).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _authPersistence[key];
+    }
+  });
+});
+
+var _http = __webpack_require__("./resources/assets/js/services/http.js");
+
+Object.keys(_http).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _http[key];
+    }
+  });
 });
 
 /***/ }),

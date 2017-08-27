@@ -2,9 +2,6 @@ import Vue from 'vue'
 
 import VueRouter from 'vue-router'
 
-//vuex store
-import store from '../vuex'
-
 //rotes
 import routes from '../App/routes.js'
 
@@ -18,6 +15,6 @@ const router = new VueRouter({
   linkActiveClass: 'active'
 })
 
-router.beforeEach(beforeEach)
+//router.beforeEach(beforeEach)
 
 export default router

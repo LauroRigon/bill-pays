@@ -1,4 +1,6 @@
+import { authPersistence } from '../../../services'
+
 export default {
-    user: {},
-    token: ''
+    user: authPersistence.getStoredUser(),
+    token: authPersistence.getStoredToken()
 }

@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Http\Response;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LoginController extends Controller
 {
@@ -31,7 +30,7 @@ class LoginController extends Controller
 
         try {
             // attempt to verify the credentials and create a token for the user
-            if (! $token = app('tymon.jwt.auth')->attempt($credentials)) {
+            if (! $token = JWTAuth::attempt($credentials)) {
                 $this->incrementLoginAttempts($request);
 
                 return response()->json(['error' => 'invalid_credentials'], 401);
@@ -44,9 +43,12 @@ class LoginController extends Controller
         $user = $request->user();
 
         // all good so return the token
-        return response()->json(compact('token', 'user'));
+        return response()->json(compact('token', 'user'))->header('Authorization', $token);
     }
 
+    public function logout() {
+        dd(JWTAuth::getToken());
+    }
     /**
      * Set the key to login
      * @return string

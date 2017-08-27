@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import { http } from '../../../../services'
+
     export default {
         data(){
             return {
@@ -85,10 +87,9 @@
         methods: {
             sendForm(){
                 if(!this.passwordConfirmation){return false}
-
                 this.isLoading = true
                 this.$Progress.start()
-                axios.post('/api/dashboard/users/store', this.user)
+                http.post('/dashboard/users/store', this.user)
                 .then( (response) => {
                     this.$Progress.finish()
                     Materialize.toast("Usuário criado com sucesso!", 5000);

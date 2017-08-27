@@ -3,8 +3,8 @@
         <vue-table title="Tabela de usuários"
 				:has-actions="true"
 				:fields="fields"
-				source-data="/api/dashboard/users"
-				delete-api="/api/dashboard/users/delete/"
+				source-data="/dashboard/users"
+				delete-api="/dashboard/users/delete/"
 				:actions="tableActions">
                 <div slot="buttons">
                     <router-link class="left btn-floating btn-med blue" :to="{name: 'users.create'}"><i class="material-icons">add</i></router-link>
@@ -14,7 +14,8 @@
 </template>
 
 <script>
-    export default {
+import { http } from '../../../../services'
+    export default {        
         data() {
             return {
                 fields: [
@@ -53,11 +54,11 @@
 
             deleteUser(item) {
                 this.$Progress.start()
-                axios.delete('api/dashboard/users/delete/' + item.id)
+                http.delete('dashboard/users/delete/' + item.id)
                 .then(() => {
                     this.$Progress.finish()
                     Materialize.toast('Usuário deletado com sucesso!', 3000)
-                    console.log(this.$children[0].loadData())
+                    this.$children[0].loadData()
                 })                
             }
         }

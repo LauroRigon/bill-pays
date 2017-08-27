@@ -70,7 +70,8 @@
 </template>
 
     <script>
-      import Pagination from './Pagination.vue';
+      import Pagination from './Pagination.vue'
+      import { http } from '../services'
 
       export default {
           components: {
@@ -169,7 +170,7 @@
               }
 
               console.log(url)
-              axios.get(url)
+              http.get(url)
               .then(function(response) {
                 console.log(response.data);
                 this.items = response.data.data;

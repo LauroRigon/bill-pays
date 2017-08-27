@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import { http } from '../../../../services'
+
     export default {
         data(){
             return {
@@ -87,7 +89,7 @@
         },
 
         created(){
-            axios.get('/api/dashboard/users/edit/' + this.user_id)
+            http.get('/dashboard/users/edit/' + this.user_id)
             .then(function(response) {
                 this.user.name = response.data.name;
                 this.user.email = response.data.email;
@@ -103,7 +105,7 @@
             sendForm(){
                 this.$Progress.start()
                 this.isLoading = true;
-                axios.put('/api/dashboard/users/update/' + this.user_id, this.user)
+                http.put('/dashboard/users/update/' + this.user_id, this.user)
                 .then(function(response){
                     Materialize.toast("Usuário atualizado com sucesso!", 5000);
                     this.$Progress.finish()

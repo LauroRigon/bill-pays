@@ -3,7 +3,7 @@ import DashboardMain from './Dashboard/Domains/Main.vue'
 //Main de Auth
 import AuthMain from './Auth/components/Main.vue'
 
-//import AuthPersistence from '../plugins/AuthPersistence/index.js'
+import { authPersistence } from '../services'
 import store from '../vuex/'
 
 export default [
@@ -14,13 +14,8 @@ export default [
             {
                 path: '/',
                 component: require('./Auth/components/Forms/Login.vue'),
-                beforeEnter: (to, from, next) => {
-                    if(store.getters.isLogged) {
-                        next(false)
-                    }else{
-                        next()
-                    }
-                }
+                name: 'login',
+                beforeEnter: requireAuth
             }
         ]
     },
@@ -28,8 +23,12 @@ export default [
         path: '/dashboard',
         name: 'dashboard',
         component: DashboardMain,
-        meta: {
-            requireAuth: true
+        beforeEnter: (to, from, next) => {
+            if(store.getters.isLogged){
+                next()
+            }else{
+                next({name: 'login'})
+            }
         },
         children: [
             {
@@ -57,4 +56,14 @@ export default [
             }
         ]
     }
+
+    
 ]
+
+function requireAuth(to, from, next) {
+    if(store.getters.isLogged) {
+        next(false)
+    }else{
+        next()
+    }
+}

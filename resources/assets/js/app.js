@@ -17,15 +17,16 @@ import router from './router'
 
 import store from './vuex'
 
-import AuthPersistence from './plugins/AuthPersistence/'
-
-Vue.use(AuthPersistence, store)
+import { http } from './services'
 
 Vue.component('vue-table', require('./components/VueTable.vue'))
 
 const app = new Vue({
-  router,
   store,
+  router,
   mode: 'history',
-  render: h => h(App)  
+  render: h => h(App),
+  created() {
+    http.init()
+  }
 }).$mount('#app')

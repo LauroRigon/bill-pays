@@ -12,7 +12,7 @@
                   <li v-for="(subMenu, index) in menu.subMenus" :key="index"><router-link :to="subMenu.uri" class="waves-effect waves"><i class="material-icons">{{ subMenu.icon }}</i>{{ subMenu.label }}</router-link></li>
                 </ul>
               </div>
-            <router-link :to="menu.uri" v-if="!menu.dropdown" tag="li">
+            <router-link :to="menu.uri" v-if="!menu.dropdown" tag="li" exact>
               <a class="waves-effect waves"><i class="material-icons">{{ menu.icon }}</i>{{ menu.label }}</a>
             </router-link>
             </li>

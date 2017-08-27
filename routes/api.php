@@ -17,14 +17,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//login routes
+//auth routes
 Route::post('/login', 'Auth\LoginController@authenticate');
+Route::delete('/logout', 'Auth\LoginController@logout');
 
 //password resets routes
 $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 $this->post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.reset');
 
-Route::group(['prefix' => 'dashboard'], function () {
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function () {
 
     Route::get('/users', 'UserController@index');
     Route::get('/users/edit/{user}', 'UserController@edit');
