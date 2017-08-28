@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\User\StoreUser;
+use App\Http\Requests\User\UpdateUser;
+use App\Http\Requests\User\DeleteUser;
 use App\Domains\Users\User;
 use App\Domains\Users\Repositories\UserRepository;
 
@@ -31,25 +33,8 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUser $request)
     {
-        $messages = [
-            'required' => 'Este campo é obrigatório!',
-            'email' => 'O email deve ter um formato válido!',
-            'min' => 'A senha deve conter no mínimo :min caracteres!',
-            'unique' => 'Email já foi utilizado!'
-        ];
-
-        $this->validate($request, [
-                'name' => 'required',
-                'email' => 'required|email|unique:users',
-                'password' => 'required|min:6'
-            ], $messages);
-
-        if(!empty($this->errors)){
-            return response()->json($this->errors);
-        }
-
         $this->userRep->create($request->input());
 
         return response()->json(null, 200);
@@ -73,32 +58,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUser $request, User $user)
     {
-        $messages = [
-            'required' => 'Este campo é obrigatório!',
-            'email' => 'O email deve ter um formato válido!',
-            'min' => 'A senha deve conter no mínimo :min caracteres!',
-            'unique' => 'Email já foi utilizado!'
-        ];
-
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$user->id,
-            'password' => 'required|min:6',
-        ], $messages);
-
-        if(!empty($this->errors)){
-            return response()->json($this->errors);
-        }
-
         $this->userRep->update($request->input(), $user->id);
-        /*$user->name = ucwords($request->input('firstName') . " " . $request->input('lastName'));
-        $user->email = $request->input('email');
-        $user->password = bcrypt($request->input('password'));
-        $user->isAdmin = $request->input('isAdmin');
-        $user->save();
-*/
+
         return response()->json(null, 200);
     }
 
@@ -108,9 +71,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DeleteUser $request, User $user)
     {
-        $this->userRep->delete($id);
+        $this->userRep->delete($user->id);
 
         return response()->json(null, 200);
     }

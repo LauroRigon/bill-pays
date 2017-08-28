@@ -59239,10 +59239,14 @@ var http = exports.http = {
         if (error.config.url != '/api/login') {
           // the token must have expired. Log out.
           _services.authPersistence.removeSession();
-          Materialize.toast('Parece que sua sesão expirou!', 4000, null, function () {
+          Materialize.toast('Parece que sua sessão expirou!', 3000, null, function () {
             return window.location.reload();
           });
         }
+      }
+
+      if (error.response.status === 403) {
+        Materialize.toast('Você não pode fazer isso!', 3000);
       }
 
       return Promise.reject(error);
