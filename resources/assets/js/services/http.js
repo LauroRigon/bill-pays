@@ -79,8 +79,12 @@ export const http = {
           if (error.config.url != '/api/login') {
             // the token must have expired. Log out.
             authPersistence.removeSession()
-            Materialize.toast('Parece que sua sesão expirou!', 4000, null, () => window.location.reload())
+            Materialize.toast('Parece que sua sessão expirou!', 3000, null, () => window.location.reload())
           }
+        }
+
+        if(error.response.status === 403){
+          Materialize.toast('Você não pode fazer isso!', 3000)
         }
   
         return Promise.reject(error)
