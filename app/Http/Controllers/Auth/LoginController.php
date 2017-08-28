@@ -47,7 +47,13 @@ class LoginController extends Controller
     }
 
     public function logout() {
-        dd(JWTAuth::getToken());
+        if(JWTAuth::getToken()){
+            JWTAuth::invalidate();
+
+            return response()->json([], 200);
+        }
+
+        return response()->json([], 500);
     }
     /**
      * Set the key to login
