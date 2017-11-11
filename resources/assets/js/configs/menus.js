@@ -23,9 +23,15 @@ export default [
 	{
 		title: 'Contas',
 		icon: 'attach_money',
-		uri: {
-			name: 'bills'
-		}
+		items: [
+			{
+				title: 'Tipos',
+				icon: 'attach_money',
+				uri: {
+					name: 'bills.types'
+				}
+			}
+		]
 	},
 	{
 		title: 'Configurações',

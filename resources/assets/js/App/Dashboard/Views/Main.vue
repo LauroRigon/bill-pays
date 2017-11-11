@@ -2,14 +2,28 @@
 <v-app>
   <v-navigation-drawer app>
     <v-list dense class="pt-0">
-      <v-list-tile v-for="item in menus" :key="item.title" exact :to='item.uri'>
-        <v-list-tile-action>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+      <v-list-group v-for="item in menus" :key="item.title">
+        <v-list-tile slot="item" exact :to='item.uri'>
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+          <v-list-tile-action v-if="item.items">
+            <v-icon>keyboard_arrow_down</v-icon>
+          </v-list-tile-action>
+        </v-list-tile>
+
+        <v-list-tile v-for="subItem in item.items" :key="subItem.title" :to='subItem.uri'>
+          <v-list-tile-action>
+            <v-icon>{{ subItem.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list-group>
     </v-list>
   </v-navigation-drawer>
   <v-toolbar app></v-toolbar>
