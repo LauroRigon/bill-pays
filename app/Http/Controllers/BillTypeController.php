@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\User\StoreUser;
-use App\Http\Requests\User\UpdateUser;
-use App\Http\Requests\User\DeleteUser;
-use App\Domains\Users\User;
-use App\Domains\Users\Repositories\UserRepository;
-use Illuminate\Database\Eloquent\Collection;
+use App\Http\Requests\BillType\StoreBillType;
+use App\Http\Requests\BillType\UpdateBillType;
+use App\Http\Requests\BillType\DeleteBillType;
+use App\Domains\BillTypes\BillType;
+use App\Domains\BillTypes\Repositories\BillTypeRepository;
 
-class UserController extends Controller
+class BillTypeController extends Controller
 {
-    public function __construct(UserRepository $repository)
+    public function __construct(BillTypeRepository $repository)
     {
-        $this->userRep = $repository;
+        $this->repository = $repository;
     }
 
     /**
@@ -23,7 +22,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->userRep->all();
+        $users = $this->repository->paginate(10);
 
         return response()->json($users, 200);
     }
@@ -34,9 +33,9 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUser $request)
+    public function store(StoreBillType $request)
     {
-        $this->userRep->create($request->input());
+        $this->repository->create($request->input());
 
         return response()->json(null, 200);
     }
@@ -47,7 +46,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(BillType $user)
     {
         return response()->json($user, 200);
     }
@@ -59,9 +58,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUser $request, User $user)
+    public function update(UpdateBillType $request, BillType $user)
     {
-        $this->userRep->update($request->input(), $user->id);
+        $this->repository->update($request->input(), $user->id);
 
         return response()->json(null, 200);
     }
@@ -72,22 +71,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DeleteUser $request, User $user)
+    public function destroy(DeleteBillType $request, BillType $user)
     {
-        $this->userRep->delete($user->id);
-
-        return response()->json(null, 200);
-    }
-
-    /**
-     * Remove many resources from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroyMany(DeleteUser $request)
-    {
-        $this->userRep->deleteMany($request->all());
+        $this->repository->delete($user->id);
 
         return response()->json(null, 200);
     }

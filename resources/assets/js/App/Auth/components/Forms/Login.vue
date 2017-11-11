@@ -1,34 +1,51 @@
 <template>
-    <div class="row">
-        <div class="col s8 m6 offset-m3 offset-s1">
-            <div class="card z-depth-4" id="loginCard">
-                <div class="card-content">
-                    <span class="card-title text-darken-4 center-align">Fazer login</span>
-                    <div class="row">
-                        <div class="col m10 offset-m1">
-                            <div class="row">
-                                <div class="input-field ">
-                                    <input id="email" type="email" v-model="user.email"/>
-                                    <label for="email">Digite seu email</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field ">
-                                    <input id="password" type="password" v-model="user.password"/>
-                                    <label for="password">Digite sua senha</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <button type="submit" class="btn waves-effect waves-light right" :disabled="!isValid" @click="doLogin">
-                                    Entrar<i class="material-icons right">send</i>
-                                </button>
-                            </div>
-                        </div>
+<v-container fill-height fluid>
+    <v-layout flex align-center justify-center>
+        <v-flex xs4 align-end flexbox>
+            <v-card color="" class="black--text" >
+                <v-container fluid grid-list-lg>
+                <v-layout row>
+                    <v-flex xs4>
+                    <div>
+                        <div class="headline"><p class="text-md-center">Login</p></div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    </v-flex>
+                </v-layout>
+                <v-layout row>
+                    <v-flex xs12>
+                        <v-form >
+                            <v-text-field
+                            label="Email"
+                            v-model="user.email"
+                            type="email"
+                            required
+                            ></v-text-field>
+
+                            <v-text-field
+                            label="Senha"
+                            v-model="user.password"
+                            type="password"
+                            required
+                            ></v-text-field>
+                        </v-form>
+                        <v-btn @click="doLogin">Entrar</v-btn>
+                    </v-flex>
+                </v-layout>
+                </v-container>
+
+                <v-snackbar
+                :timeout="6000"
+                multi-line="multi-line"
+                vertical="vertical"
+                v-model="snackbar"
+                >
+                {{ snackbarContent }}
+                <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
+                </v-snackbar>
+            </v-card>
+        </v-flex>
+    </v-layout>
+</v-container>
 </template>
 
 <script>
@@ -42,7 +59,9 @@ export default {
             user: {
                 email: '',
                 password: ''
-            }
+            },
+            snackbar: false,
+            snackbarContent: ''
         }
     },
 
@@ -58,14 +77,15 @@ export default {
                 .then(() => {
                     this.$router.push({name: 'dashboard'})
                     this.$Progress.finish()
-                    
-                    Materialize.toast('Login efetuado com sucesso!', 2000)
+                    this.snackbar = true
+                    this.snackbarContent = "Logado com sucesso!"
                 })
 
                 .catch((error) => {
                     this.$Progress.fail()
+                    this.snackbar = true
                     console.log(error);
-                    Materialize.toast('Usuário ou senha incorreto!', 4000)
+                    this.snackbarContent = "Usuário ou senha incorreto!"
                 })
             
         }

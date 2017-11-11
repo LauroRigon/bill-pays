@@ -89,6 +89,18 @@ abstract class Repository implements RepositoryInterface
     }
 
     /**
+     * @param Array $items
+     * @return Bool
+     */
+    public function deleteMany($items)
+    {
+        $ids_to_delete = array_map(function($item) {
+           return $item['id'];
+        }, $items);
+        return $this->model->whereIn('id', $ids_to_delete)->delete();
+    }
+
+    /**
      * @param $id
      * @param array $columns
      * @return Model

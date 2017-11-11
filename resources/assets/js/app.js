@@ -9,8 +9,6 @@ require('./bootstrap')
 
 import Vue from 'vue'
 
-import VueProgressBar from './router/vueProgressBar.js'
-
 import App from './App/App.vue'
 
 import router from './router'
@@ -19,6 +17,8 @@ import store from './vuex'
 
 import { http } from './services'
 
+import Vuetify from 'vuetify'
+Vue.use(Vuetify)
 Vue.component('vue-table', require('./components/VueTable.vue'))
 
 const app = new Vue({

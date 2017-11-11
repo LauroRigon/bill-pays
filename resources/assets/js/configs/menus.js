@@ -1,31 +1,34 @@
 export default [
 	{
-		label: 'Dashboard',
+		title: 'Dashboard',
 		icon: 'dashboard',
 		uri: {
 			name: 'dashboard'
 		}
 	},
 	{
-		label: 'Usuários',
+		title: 'Usuários',
 		icon: 'account_circle',
 		uri: {
 			name: 'users'
 		}
 	},
 	{
-		label: 'Contas',
-		icon: 'attach_money',
-		dropdown: true,
-		subMenus: [
-			{	
-				label: 'Geral',
-				uri: "/contas/geral"
-			}
-		]
+		title: 'Clientes',
+		icon: 'assignment_ind',
+		uri: {
+			name: 'clients'
+		}
 	},
 	{
-		label: 'Configurações',
+		title: 'Contas',
+		icon: 'attach_money',
+		uri: {
+			name: 'bills'
+		}
+	},
+	{
+		title: 'Configurações',
 		icon: 'tal',
 		uri: "/configs"
 	}

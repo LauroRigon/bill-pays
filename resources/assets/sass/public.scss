@@ -1,11 +1,7 @@
-//Toastr
-@import "vendor/toastr.min";
-
 //Animate css
 @import "node_modules/animate.css/animate.min";
-
-// Materialize
-@import "node_modules/materialize-css/dist/css/materialize";
-
+//Sweet alert
+//@import "node_modules/sweetalert/dist/sweetalert";
+@import "node_modules/vuetify/dist/vuetify.min";
 //Materialize icons
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons");

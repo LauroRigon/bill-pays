@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Client;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class DeleteUser extends FormRequest
+class StoreClient extends FormRequest
 {
 
     public function messages()
@@ -14,7 +13,6 @@ class DeleteUser extends FormRequest
         return [
             'required' => 'Este campo é obrigatório!',
             'email' => 'O email deve ter um formato válido!',
-            'min' => 'A senha deve conter no mínimo :min caracteres!',
             'unique' => 'Email já foi utilizado!'
         ];
     }
@@ -26,20 +24,9 @@ class DeleteUser extends FormRequest
      */
     public function authorize()
     {
-        return (Auth::user()->isAdmin && self::userIsNotBeingDeleted());
+        return Auth::user()->isAdmin;
     }
 
-    public function userIsNotBeingDeleted()
-    {
-        $items = $this->request->all();
-        foreach ($items as $item) {
-            if ($item['id'] == Auth::id()) {
-                return false;
-            }
-        }
-        return true;
-
-    }
     /**
      * Get the validation rules that apply to the request.
      *
@@ -48,6 +35,8 @@ class DeleteUser extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required',
+            'email' => 'nullable|email|unique:users'
         ];
     }
 }

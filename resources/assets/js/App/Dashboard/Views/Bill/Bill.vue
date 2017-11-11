@@ -53,13 +53,28 @@ import { http } from '../../../../services'
             },
 
             deleteUser(item) {
+                swal({
+                    title: "Tem certeza?",
+                    text: "Não será possivel recuperar este usuário",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: 'red',
+                    confirmButtonText: "Deletar",
+                    cancelButtonText: "Cancelar",
+                    closeOnConfirm: true
+                }, () => {
+                    this.sendDeleteRequest(item.id)
+                })
+            },
+
+            sendDeleteRequest(id) {
                 this.$Progress.start()
-                http.delete('dashboard/users/delete/' + item.id)
+                http.delete('dashboard/users/delete/' + id)
                 .then(() => {
                     this.$Progress.finish()
                     Materialize.toast('Usuário deletado com sucesso!', 3000)
                     this.$children[0].loadData()
-                })                
+                })      
             }
         }
     }
