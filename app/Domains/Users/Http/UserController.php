@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Domains\Users\Http;
 
-use App\Http\Requests\Client\StoreClient;
-use App\Http\Requests\Client\UpdateClient;
-use App\Http\Requests\Client\DeleteClient;
-use App\Domains\Clients\Client;
-use App\Domains\Clients\Repositories\ClientRepository;
+use App\Http\Requests\User\StoreUser;
+use App\Http\Requests\User\UpdateUser;
+use App\Http\Requests\User\DeleteUser;
+use App\Domains\Users\User;
+use App\Domains\Users\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Collection;
 
-class ClientController extends Controller
+use App\Http\Controllers\Controller;
+
+class UserController extends Controller
 {
-    public function __construct(ClientRepository $repository)
+    public function __construct(UserRepository $repository)
     {
-        $this->clientRep = $repository;
+        $this->userRep = $repository;
     }
 
     /**
@@ -23,9 +25,9 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = $this->clientRep->all();
+        $users = $this->userRep->all();
 
-        return response()->json($clients, 200);
+        return response()->json($users, 200);
     }
 
     /**
@@ -34,22 +36,22 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreClient $request)
+    public function store(StoreUser $request)
     {
-        $this->clientRep->create($request->input());
+        $this->userRep->create($request->input());
 
         return response()->json(null, 200);
     }
 
     /**
-     * Return Client data to edit.
+     * Return user data to edit.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Client $client)
+    public function edit(User $user)
     {
-        return response()->json($client, 200);
+        return response()->json($user, 200);
     }
 
     /**
@@ -59,9 +61,9 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateClient $request, Client $client)
+    public function update(UpdateUser $request, User $user)
     {
-        $this->clientRep->update($request->input(), $client->id);
+        $this->userRep->update($request->input(), $user->id);
 
         return response()->json(null, 200);
     }
@@ -72,9 +74,9 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DeleteClient $request, Client $client)
+    public function destroy(DeleteUser $request, User $user)
     {
-        $this->clientRep->delete($client->id);
+        $this->userRep->delete($user->id);
 
         return response()->json(null, 200);
     }
@@ -85,9 +87,9 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroyMany(DeleteClient $request)
+    public function destroyMany(DeleteUser $request)
     {
-        $this->clientRep->deleteMany($request->all());
+        $this->userRep->deleteMany($request->all());
 
         return response()->json(null, 200);
     }

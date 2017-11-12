@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Domains\BillTypes\Http;
 
 use App\Http\Requests\BillType\StoreBillType;
 use App\Http\Requests\BillType\UpdateBillType;
 use App\Http\Requests\BillType\DeleteBillType;
 use App\Domains\BillTypes\BillType;
 use App\Domains\BillTypes\Repositories\BillTypeRepository;
+
+use App\Http\Controllers\Controller;
 
 class BillTypeController extends Controller
 {

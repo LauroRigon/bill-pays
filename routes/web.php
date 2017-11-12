@@ -13,9 +13,9 @@
 
 /* Dashboard Index */
 //Route::get('/{path?}', 'HomeController@dashboard')->where('path', '[\/\w\.-]*');
-Route::get('/', 'HomeController@dashboard');
+Route::get('/', '\App\Domains\Home\Http\HomeController@dashboard');
 
 
 //Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', '\App\Domains\Home\Http\HomeController@index')->name('home');
