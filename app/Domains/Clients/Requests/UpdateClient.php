@@ -1,11 +1,10 @@
 <?php
-
-namespace App\Http\Requests\User;
+namespace App\Domains\Clients\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class DeleteBillType extends FormRequest
+class UpdateClient extends FormRequest
 {
 
     public function messages()
@@ -13,7 +12,6 @@ class DeleteBillType extends FormRequest
         return [
             'required' => 'Este campo é obrigatório!',
             'email' => 'O email deve ter um formato válido!',
-            'min' => 'A senha deve conter no mínimo :min caracteres!',
             'unique' => 'Email já foi utilizado!'
         ];
     }
@@ -25,7 +23,7 @@ class DeleteBillType extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->isAdmin;;
+        return Auth::user()->isAdmin;
     }
 
     /**
@@ -36,6 +34,8 @@ class DeleteBillType extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$this->route('client')->id,
         ];
     }
 }

@@ -43,5 +43,20 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function () 
         Route::put('/update/{client}', '\App\Domains\Clients\Http\ClientController@update');
         Route::delete('/delete', '\App\Domains\Clients\Http\ClientController@destroyMany');
     });
+
+    Route::group(['prefix' => 'contas'], function() {
+        Route::group(['prefix' => 'tipo'], function() {
+            Route::get('/', '\App\Domains\Clients\Http\ClientController@index');
+            Route::get('/edit/{client}', '\App\Domains\Clients\Http\ClientController@edit');
+            Route::post('/store', '\App\Domains\Clients\Http\ClientController@store');
+            Route::put('/update/{client}', '\App\Domains\Clients\Http\ClientController@update');
+            Route::delete('/delete', '\App\Domains\Clients\Http\ClientController@destroyMany');
+        });
+        /*Route::get('/', '\App\Domains\Clients\Http\ClientController@index');
+        Route::get('/edit/{client}', '\App\Domains\Clients\Http\ClientController@edit');
+        Route::post('/store', '\App\Domains\Clients\Http\ClientController@store');
+        Route::put('/update/{client}', '\App\Domains\Clients\Http\ClientController@update');
+        Route::delete('/delete', '\App\Domains\Clients\Http\ClientController@destroyMany');*/
+    });
     //Route::get('/clients', 'ClientController@index');
 });

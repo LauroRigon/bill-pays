@@ -2,9 +2,9 @@
 
 namespace App\Domains\Users\Http;
 
-use App\Http\Requests\User\StoreUser;
-use App\Http\Requests\User\UpdateUser;
-use App\Http\Requests\User\DeleteUser;
+use App\Domains\Users\Http\Requests\StoreUser;
+use App\Domains\Users\Http\Requests\UpdateUser;
+use App\Domains\Users\Http\Requests\DeleteUser;
 use App\Domains\Users\User;
 use App\Domains\Users\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Collection;

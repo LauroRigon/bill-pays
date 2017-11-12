@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Client;
+namespace App\Domains\BillTypes\Http\Requests;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class DeleteClient extends FormRequest
+class UpdateBillType extends FormRequest
 {
 
     public function messages()
@@ -26,7 +25,7 @@ class DeleteClient extends FormRequest
      */
     public function authorize()
     {
-        return (Auth::user()->isAdmin);
+        return Auth::user()->isAdmin;
     }
 
     /**
@@ -37,6 +36,9 @@ class DeleteClient extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$this->route('user')->id,
+            'password' => 'required|min:6',
         ];
     }
 }

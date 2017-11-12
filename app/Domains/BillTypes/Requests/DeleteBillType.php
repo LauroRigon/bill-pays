@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Domains\BillTypes\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class UpdateUser extends FormRequest
+class DeleteBillType extends FormRequest
 {
 
     public function messages()
@@ -25,7 +25,7 @@ class UpdateUser extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->isAdmin;
+        return Auth::user()->isAdmin;;
     }
 
     /**
@@ -36,9 +36,6 @@ class UpdateUser extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$this->route('user')->id,
-            'password' => 'required|min:6',
         ];
     }
 }

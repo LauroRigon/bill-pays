@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests\BillType;
+namespace App\Domains\Users\Http\Requests;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreBillType extends FormRequest
+class DeleteUser extends FormRequest
 {
 
     public function messages()
@@ -25,9 +26,20 @@ class StoreBillType extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->isAdmin;
+        return (Auth::user()->isAdmin && self::userIsNotBeingDeleted());
     }
 
+    public function userIsNotBeingDeleted()
+    {
+        $items = $this->request->all();
+        foreach ($items as $item) {
+            if ($item['id'] == Auth::id()) {
+                return false;
+            }
+        }
+        return true;
+
+    }
     /**
      * Get the validation rules that apply to the request.
      *
@@ -36,9 +48,6 @@ class StoreBillType extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6'
         ];
     }
 }

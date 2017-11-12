@@ -2,9 +2,9 @@
 
 namespace App\Domains\Clients\Http;
 
-use App\Http\Requests\Client\StoreClient;
-use App\Http\Requests\Client\UpdateClient;
-use App\Http\Requests\Client\DeleteClient;
+use App\Domains\Clients\Http\Requests\StoreClient;
+use App\Domains\Clients\Http\Requests\UpdateClient;
+use App\Domains\Clients\Http\Requests\DeleteClient;
 use App\Domains\Clients\Client;
 use App\Domains\Clients\Repositories\ClientRepository;
 use Illuminate\Database\Eloquent\Collection;
