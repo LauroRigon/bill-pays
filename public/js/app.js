@@ -1690,6 +1690,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
 
 var _lodash = __webpack_require__("./node_modules/lodash/lodash.js");
 
@@ -33065,7 +33067,7 @@ var render = function() {
     [
       _c(
         "v-flex",
-        { attrs: { md9: "" } },
+        { attrs: { xs12: "", sm12: "", md9: "", lg9: "" } },
         [
           _c("v-data-table", {
             staticClass: "elevation-1",
@@ -33397,7 +33399,7 @@ var render = function() {
     [
       _c(
         "v-flex",
-        { attrs: { md9: "" } },
+        { attrs: { xs12: "", sm12: "", md9: "", lg9: "" } },
         [
           _c("v-data-table", {
             staticClass: "elevation-1",
@@ -34596,7 +34598,7 @@ var render = function() {
         [
           _c(
             "v-flex",
-            { attrs: { xs4: "", "align-end": "", flexbox: "" } },
+            { attrs: { xs12: "", md5: "", "align-end": "", flexbox: "" } },
             [
               _c(
                 "v-card",
@@ -34629,7 +34631,7 @@ var render = function() {
                         [
                           _c(
                             "v-flex",
-                            { attrs: { xs12: "" } },
+                            { attrs: { md12: "", "offset-md1": "" } },
                             [
                               _c(
                                 "v-form",
@@ -34639,6 +34641,22 @@ var render = function() {
                                       label: "Email",
                                       type: "email",
                                       required: ""
+                                    },
+                                    on: {
+                                      keydown: function($event) {
+                                        if (
+                                          !("button" in $event) &&
+                                          _vm._k(
+                                            $event.keyCode,
+                                            "enter",
+                                            13,
+                                            $event.key
+                                          )
+                                        ) {
+                                          return null
+                                        }
+                                        _vm.doLogin()
+                                      }
                                     },
                                     model: {
                                       value: _vm.user.email,
@@ -34654,6 +34672,22 @@ var render = function() {
                                       label: "Senha",
                                       type: "password",
                                       required: ""
+                                    },
+                                    on: {
+                                      keydown: function($event) {
+                                        if (
+                                          !("button" in $event) &&
+                                          _vm._k(
+                                            $event.keyCode,
+                                            "enter",
+                                            13,
+                                            $event.key
+                                          )
+                                        ) {
+                                          return null
+                                        }
+                                        _vm.doLogin()
+                                      }
                                     },
                                     model: {
                                       value: _vm.user.password,
@@ -35224,7 +35258,7 @@ var render = function() {
     [
       _c(
         "v-flex",
-        { attrs: { md9: "" } },
+        { attrs: { xs12: "", sm12: "", md9: "", lg9: "" } },
         [
           _c("v-data-table", {
             staticClass: "elevation-1",
@@ -35718,6 +35752,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-layout",
+    { attrs: { row: "", wrap: "" } },
     [
       _c(
         "v-flex",
@@ -68333,10 +68368,6 @@ exports.default = [{
 			name: 'bills.types'
 		}
 	}]
-}, {
-	title: 'Configurações',
-	icon: 'tal',
-	uri: "/configs"
 }];
 
 /***/ }),
