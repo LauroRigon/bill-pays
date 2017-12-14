@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Domains\BillTypes\Http\Requests;
+namespace App\Domains\Bills\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class UpdateBillType extends FormRequest
+class PayBill extends FormRequest
 {
 
     public function messages()
     {
         return [
-            'required' => 'Este campo é obrigatório!',
-            'email' => 'O email deve ter um formato válido!',
-            'min' => 'A senha deve conter no mínimo :min caracteres!',
-            'unique' => 'Email já foi utilizado!'
+            'paymentDate.required' => 'É preciso selecionar uma data!',
+            'paymentDate.before_or_equal' => 'A data não pode ser depois de hoje!'
         ];
     }
 
@@ -36,9 +34,7 @@ class UpdateBillType extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$this->route('user')->id,
-            'password' => 'required|min:6',
+            'paymentDate' => 'required|date|before_or_equal:' . date("Y-m-d")
         ];
     }
 }

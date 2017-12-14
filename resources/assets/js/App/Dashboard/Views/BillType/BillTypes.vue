@@ -1,5 +1,4 @@
 <template>
-<div>
 <v-layout row wrap>
   <v-flex md9>
     <v-data-table
@@ -34,7 +33,7 @@
             </td>
             <td class="text-xs-right">{{ props.item.id }}</td>
             <td class="text-xs-right">{{ props.item.name }}</td>
-            <td class="text-xs-right">{{ props.item.email }}</td>
+            <td class="text-xs-right">{{ props.item.default_price }}</td>
         </tr>
       </template>
     </v-data-table>
@@ -51,14 +50,14 @@
         </div>
         </v-card-title>
         <v-card-text>
-            <v-btn color="primary" dark :to="{name: 'clients.create'}">
+            <v-btn color="primary" dark :to="{name: 'bills.types.create'}">
                   Cadastrar
             </v-btn>
 
             <template v-if="(howManyItemSelected >= 1)">
                 <v-btn color="warning" dark 
                     v-if="(howManyItemSelected == 1)"
-                    :to="{name: 'clients.edit', params: {client_id: this.selected[0].id}}"
+                    :to="{name: 'bills.types.edit', params: {bill_type_id: this.selected[0].id}}"
                 >
                   Editar
                 </v-btn>
@@ -81,7 +80,7 @@
 
         <v-dialog v-model="deleteDialog" persistent>
             <v-card>
-                <v-card-title class="headline">Deletar cliente?</v-card-title>
+                <v-card-title class="headline">Deletar tipo de conta?</v-card-title>
                 <v-card-text>Essa ação será irreversível.</v-card-text>
                 <v-card-actions>
                 <v-spacer></v-spacer>
@@ -94,7 +93,6 @@
     </v-card>
   </v-flex>
 </v-layout>
-</div>
 </template>
 
 <script>
@@ -111,15 +109,15 @@ import { isEmpty } from 'lodash'
                     },
                     {
                         text: 'Nome',
-                        value: 'id'
+                        value: 'name'
                     },
                     {
-                        text: 'Email',
-                        value: 'id'
+                        text: 'Preço padrão',
+                        value: 'default_price'
                     }
                 ],
                 items: [],
-                tableIsLoading:true,
+                tableIsLoading: true,
                 pagination: { 
                     sortBy: 'column', 
                     page: 1, 
@@ -155,7 +153,7 @@ import { isEmpty } from 'lodash'
             loadData() {
                 this.tableIsLoading = true
                 this.selected = []
-                http.get("/dashboard/clients")
+                http.get("/dashboard/contas/tipos")
                 .then((response) => {
                     this.items = response.data
                     this.pagination.totalItems = response.data.length
@@ -166,10 +164,10 @@ import { isEmpty } from 'lodash'
 
             deleteItems() {
                 this.$Progress.start()
-                http.delete('dashboard/clients/delete', {data: this.selected})
+                http.delete('dashboard/contas/tipos/delete', {data: this.selected})
                 .then(() => {
                     this.$Progress.finish()
-                    this.toast.text = "Cliente(s) deletado(s) com sucesso!"
+                    this.toast.text = "Tipos(s) deletado(s) com sucesso!"
                     this.toast.toastVisible = true
                     this.loadData()
                 })

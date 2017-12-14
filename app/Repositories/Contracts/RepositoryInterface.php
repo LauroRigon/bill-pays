@@ -13,8 +13,11 @@ interface RepositoryInterface
 
     public function delete($id);
 
+    public function deleteMany($items);
+
     public function find($id, $columns = ['*']);
 
     public function findBy($field, $value, $columns = ['*']);
+
 }
 

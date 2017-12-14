@@ -75,7 +75,7 @@ export default {
             
             this.attemptLogin(this.user)
                 .then(() => {
-                    this.$router.push({name: 'dashboard'})
+                    this.$router.push({name: 'dashboard.index'})
                     this.$Progress.finish()
                     this.snackbar = true
                     this.snackbarContent = "Logado com sucesso!"

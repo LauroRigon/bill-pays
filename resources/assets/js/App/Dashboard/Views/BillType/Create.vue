@@ -72,40 +72,22 @@ import { isEmpty } from 'lodash'
             }
         },
 
-        props: [
-            'bill_type_id'
-        ],
-
-        created(){
-            this.$Progress.start()
-            http.get('/dashboard/contas/tipos/edit/' + this.bill_type_id)            
-            .then((response) => {
-                console.log(response)
-                this.billType.name = response.data.name;
-                this.billType.default_price = response.data.default_price;
-
-                this.$Progress.finish()
-            })
-            
-        },
-
         methods: {
             sendForm(){
+                this.isLoading = true
                 this.$Progress.start()
-                this.isLoading = true;
-                http.put('/dashboard/contas/tipos/update/' + this.bill_type_id, this.billType)
-                .then((response) => {
+                http.post('/dashboard/contas/tipos/store', this.billType)
+                .then( (response) => {
+                    this.isLoading = false
                     this.$Progress.finish()
-                    this.toast.text = "Tipo de conta atualizado com sucesso!"
+                    this.toast.text = "Cliente criado com sucesso!"
                     this.toast.toastVisible = true
-
-                    this.$router.push({name: 'bills.types'});
                 })
-                .catch((error) => {
-                    this.$Progress.fail()
+                .catch( (error) => {
+                    this.isLoading = false
                     this.handleErrors(error.response);
-                    this.isLoading = false;
-                })
+                    this.$Progress.fail()
+                });
             },
 
             handleErrors(errorResponse) {

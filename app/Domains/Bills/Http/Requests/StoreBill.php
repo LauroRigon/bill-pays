@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Domains\BillTypes\Http\Requests;
+namespace App\Domains\Bills\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreBillType extends FormRequest
+class StoreBill extends FormRequest
 {
 
     public function messages()
     {
         return [
-            'required' => 'Este campo é obrigatório!',
-            'email' => 'O email deve ter um formato válido!',
-            'min' => 'A senha deve conter no mínimo :min caracteres!',
-            'unique' => 'Email já foi utilizado!'
+            'clients.required' => 'Selecione os clientes para cadastrar as contas!',
+            'type.required' => 'Selecione o tipo das contas!',
+            'price.required' => 'Digite um preço para as contas!',
+            'price.numeric' => 'sa porra precisa ser numerico'
         ];
     }
 
@@ -36,9 +36,9 @@ class StoreBillType extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6'
+            'clients' => 'required|array|min:1',
+            'type' => 'required|numeric',
+            'price' => 'required|numeric',
         ];
     }
 }
