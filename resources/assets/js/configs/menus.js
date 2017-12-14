@@ -39,10 +39,5 @@ export default [
 				}
 			}
 		]
-	},
-	{
-		title: 'Configurações',
-		icon: 'tal',
-		uri: "/configs"
 	}
 ]
