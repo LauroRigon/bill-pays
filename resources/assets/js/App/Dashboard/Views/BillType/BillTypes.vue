@@ -1,6 +1,6 @@
 <template>
 <v-layout row wrap>
-  <v-flex md9>
+  <v-flex xs12 sm12 md9 lg9>
     <v-data-table
         :loading="tableIsLoading"
         v-model="selected"

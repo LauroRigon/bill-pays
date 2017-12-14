@@ -1,7 +1,7 @@
 <template>
 <v-container fill-height fluid>
     <v-layout flex align-center justify-center>
-        <v-flex xs4 align-end flexbox>
+        <v-flex xs12 md5 align-end flexbox>
             <v-card color="" class="black--text" >
                 <v-container fluid grid-list-lg>
                 <v-layout row>
@@ -12,13 +12,14 @@
                     </v-flex>
                 </v-layout>
                 <v-layout row>
-                    <v-flex xs12>
-                        <v-form >
+                    <v-flex md12 offset-md1>
+                        <v-form>
                             <v-text-field
                             label="Email"
                             v-model="user.email"
                             type="email"
                             required
+                            @keydown.enter="doLogin()"
                             ></v-text-field>
 
                             <v-text-field
@@ -26,6 +27,7 @@
                             v-model="user.password"
                             type="password"
                             required
+                            @keydown.enter="doLogin()"
                             ></v-text-field>
                         </v-form>
                         <v-btn @click="doLogin">Entrar</v-btn>

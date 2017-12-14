@@ -1,5 +1,5 @@
 <template>
-<v-layout>
+<v-layout row wrap>
     <v-flex xs12 sm12 md12 lg6>
         <expired-table></expired-table>
     </v-flex>
