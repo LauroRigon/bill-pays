@@ -2,9 +2,9 @@
 
 namespace App\Domains\BillTypes\Http;
 
-use App\Http\Requests\BillType\StoreBillType;
-use App\Http\Requests\BillType\UpdateBillType;
-use App\Http\Requests\BillType\DeleteBillType;
+use App\Domains\BillTypes\Http\Requests\StoreBillType;
+use App\Domains\BillTypes\Http\Requests\UpdateBillType;
+use App\Domains\BillTypes\Http\Requests\DeleteBillType;
 use App\Domains\BillTypes\BillType;
 use App\Domains\BillTypes\Repositories\BillTypeRepository;
 
@@ -24,7 +24,7 @@ class BillTypeController extends Controller
      */
     public function index()
     {
-        $users = $this->repository->paginate(10);
+        $users = $this->repository->all();
 
         return response()->json($users, 200);
     }
@@ -48,9 +48,10 @@ class BillTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(BillType $user)
+    public function edit($bill_type_id)
     {
-        return response()->json($user, 200);
+        $bill_type = $this->repository->find($bill_type_id, ['name', 'default_price']);
+        return response()->json($bill_type, 200);
     }
 
     /**
@@ -60,9 +61,9 @@ class BillTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBillType $request, BillType $user)
+    public function update(UpdateBillType $request, $bill_type_id)
     {
-        $this->repository->update($request->input(), $user->id);
+        $this->repository->update($request->input(), $bill_type_id);
 
         return response()->json(null, 200);
     }
@@ -73,9 +74,22 @@ class BillTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DeleteBillType $request, BillType $user)
+    public function destroy(DeleteBillType $request, BillType $bill_type)
     {
-        $this->repository->delete($user->id);
+        $this->repository->delete($bill_type->id);
+
+        return response()->json(null, 200);
+    }
+
+    /**
+     * Remove many resources from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyMany(DeleteBillType $request)
+    {
+        $this->repository->deleteMany($request->input());
 
         return response()->json(null, 200);
     }

@@ -15,7 +15,10 @@ class CreateBillTypesTable extends Migration
     {
         Schema::create('bill_types', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->float('default_price')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

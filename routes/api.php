@@ -45,18 +45,31 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function () 
     });
 
     Route::group(['prefix' => 'contas'], function() {
-        Route::group(['prefix' => 'tipo'], function() {
-            Route::get('/', '\App\Domains\Clients\Http\ClientController@index');
-            Route::get('/edit/{client}', '\App\Domains\Clients\Http\ClientController@edit');
-            Route::post('/store', '\App\Domains\Clients\Http\ClientController@store');
-            Route::put('/update/{client}', '\App\Domains\Clients\Http\ClientController@update');
-            Route::delete('/delete', '\App\Domains\Clients\Http\ClientController@destroyMany');
+        Route::group(['prefix' => 'tipos'], function() {
+            Route::get('/', '\App\Domains\BillTypes\Http\BillTypeController@index');
+            Route::get('/edit/{bill_type}', '\App\Domains\BillTypes\Http\BillTypeController@edit');
+            Route::post('/store', '\App\Domains\BillTypes\Http\BillTypeController@store');
+            Route::put('/update/{bill_type}', '\App\Domains\BillTypes\Http\BillTypeController@update');
+            Route::delete('/delete', '\App\Domains\BillTypes\Http\BillTypeController@destroyMany');
         });
-        /*Route::get('/', '\App\Domains\Clients\Http\ClientController@index');
-        Route::get('/edit/{client}', '\App\Domains\Clients\Http\ClientController@edit');
-        Route::post('/store', '\App\Domains\Clients\Http\ClientController@store');
-        Route::put('/update/{client}', '\App\Domains\Clients\Http\ClientController@update');
-        Route::delete('/delete', '\App\Domains\Clients\Http\ClientController@destroyMany');*/
+
+        Route::group(['prefix' => '/'], function() {
+            //Route::get('/', '\App\Domains\BillTypes\Http\BillTypeController@index');
+            //Route::get('/edit/{bill_type}', '\App\Domains\BillTypes\Http\BillTypeController@edit');
+            Route::post('/store', '\App\Domains\Bills\Http\BillController@store');
+            //Route::put('/update/{bill_type}', '\App\Domains\BillTypes\Http\BillTypeController@update');
+            //Route::delete('/delete', '\App\Domains\BillTypes\Http\BillTypeController@destroyMany');
+
+            Route::get('/expireds', '\App\Domains\Bills\Http\BillController@getExpireds');
+            Route::get('/notexpireds', '\App\Domains\Bills\Http\BillController@getNotExpireds');
+        });
+
+        Route::group(['prefix' => 'conta'], function() {
+            Route::get('/view/{bill}', '\App\Domains\Bills\Http\BillController@getBill');
+            Route::delete('/delete/{bill}', '\App\Domains\Bills\Http\BillController@destroy');
+            Route::post('/pay/{bill}', '\App\Domains\Bills\Http\BillController@payBill');
+        });
     });
-    //Route::get('/clients', 'ClientController@index');
 });
+
+

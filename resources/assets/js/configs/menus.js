@@ -3,7 +3,7 @@ export default [
 		title: 'Dashboard',
 		icon: 'dashboard',
 		uri: {
-			name: 'dashboard'
+			name: 'dashboard.index'
 		}
 	},
 	{
@@ -25,8 +25,15 @@ export default [
 		icon: 'attach_money',
 		items: [
 			{
-				title: 'Tipos',
+				title: 'Lançar contas',
 				icon: 'attach_money',
+				uri: {
+					name: 'bills.create'
+				}
+			},
+			{
+				title: 'Tipos',
+				icon: 'line_weight',
 				uri: {
 					name: 'bills.types'
 				}
