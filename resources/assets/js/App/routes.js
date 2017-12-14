@@ -24,6 +24,7 @@ export default [
     },
     {
         path: '/dashboard',
+        name: 'dashboard',
         component: DashboardMain,
         beforeEnter: (to, from, next) => {
             if(store.getters.isLogged){
@@ -34,17 +35,12 @@ export default [
         },
         children: [
             {
-                path: '/',
-                name: 'dashboard.index',
-                component: require('./Dashboard/Views/Dashboard/Index.vue')
-            },
-            {
                 path: 'usuarios',
                 component: Parent,
                 children: [
                     {
                         path: '/',
-                        component: require('./Dashboard/Views/User/Users.vue'),
+                        component: require('./Dashboard/Views/User/User.vue'),
                         name: 'users'
                     },
                     {
@@ -66,7 +62,7 @@ export default [
                 children: [
                     {
                         path: '/',
-                        component: require('./Dashboard/Views/Client/Clients.vue'),
+                        component: require('./Dashboard/Views/Client/Client.vue'),
                         name: 'clients'
                     },
                     {
@@ -75,7 +71,7 @@ export default [
                         name: 'clients.create'
                     },
                     {
-                        path: 'editar/:client_id',
+                        path: 'editar/:clients_id',
                         name: 'clients.edit',
                         component: require('./Dashboard/Views/Client/Edit.vue'),
                         props: true
@@ -87,49 +83,19 @@ export default [
                 component: Parent,
                 children: [
                     {
-                        path: 'tipos',
-                        component: require('./Dashboard/Views/BillType/Edit.vue'),
-                        component: Parent,
-                        children: [
-                            {
-                                name: 'bills.types',
-                                path: '/',
-                                component: require('./Dashboard/Views/BillType/BillTypes.vue'),
-                            },
-                            {
-                                name: 'bills.types.create',
-                                path: 'criar',
-                                component: require('./Dashboard/Views/BillType/Create.vue'),
-                            },
-                            {
-                                name: 'bills.types.edit',
-                                path: 'editar/:bill_type_id',
-                                component: require('./Dashboard/Views/BillType/Edit.vue'),
-                                props: true
-                            },
-                        ]
-                    },
-
-                    {
                         path: '/',
                         component: require('./Dashboard/Views/Bill/Bill.vue'),
                         name: 'bills'
                     },
                     {
-                        path: 'criar',
-                        component: require('./Dashboard/Views/Bill/Create.vue'),
+                        path: '/criar',
+                        component: require('./Dashboard/Views/User/Create.vue'),
                         name: 'bills.create'
                     },
                     {
-                        path: 'editar/:bill_id',
+                        path: '/editar/:bill_id',
                         name: 'bills.edit',
-                        component: require('./Dashboard/Views/Bill/Edit.vue'),
-                        props: true
-                    },
-                    {
-                        path: 'conta/:bill_id',
-                        name: 'bills.bill',
-                        component: require('./Dashboard/Views/Bill/Bill.vue'),
+                        component: require('./Dashboard/Views/User/Edit.vue'),
                         props: true
                     }
                 ]

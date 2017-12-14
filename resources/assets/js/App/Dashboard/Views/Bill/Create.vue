@@ -1,237 +1,128 @@
 <template>
-<v-layout row wrap>
-  <v-flex md9>
-    <v-form v-model="valid">
-        <v-flex xs12>
-            <v-select
-                label="Clientes"
-                v-model="bill.clients"
-                item-text="name"
-                item-value="id"              
-                multiple
-                chips
-                :items="clients"
-                required
-                :rules="requiredRule"
-            ></v-select>
-        </v-flex>       
+<div class="row">
+    <router-link :to="{name: 'users'}" class="btn blue"><i class="material-icons">chevron_left</i></router-link>
 
-        <v-flex xs4>
-            <v-select
-                label="Tipo de conta"
-                v-bind:items="billTypes"
-                v-model="bill.type"
-                item-text="name"
-                single-line
-                bottom
-                required
-                :rules="requiredRule"
-            ></v-select>
-        </v-flex>
+    <form @keydown="clearError($event.target.name)">
+        <div class="row">
+            <div class="input-field col s6">
+                <i class="material-icons prefix">account_circle</i>
+                <input id="name" type="text" name="name" class="validate" :class="getError('name')? 'invalid': ''" v-model="user.name">
+                <span class="red-text" v-if="getError('name')" style="margin-left: 15%">{{ getError('name') }}</span>
+                <label for="first_name"> Nome</label>
+            </div>
+        </div>
 
-        <v-flex xs6>
-            <v-flex xs4>
-                <v-text-field
-                    label="Valor"
-                    v-model="bill.price"
-                    type="number"
-                    required
-                    :rules="requiredRule"
-                    :value="setDefaultValue"
-                ></v-text-field>
-            </v-flex>
-            <v-switch label="Pegar valor padrão" v-model="default_value"></v-switch>
-        </v-flex>
+        <div class="row">
+            <div class="input-field col s6">
+                <i class="material-icons prefix">email</i>
+                <input type="email" id="email" name="email" class="validate" v-model="user.email">
+                <span class="red-text" v-if="getError('email')" style="margin-left: 15%">{{ getError('email') }}</span>
+                <label for="email" data-error="Inválido" data-success="Correto">Email</label>
+            </div>
+        </div>
 
-        <v-flex xs11 sm5>
-            <v-dialog
-                v-model="modal_date_active"
-                lazy
-                full-width
-                max-width="340px"
-            >
-                <v-text-field
-                slot="activator"
-                label="Escolha uma data de vencimento"
-                v-model="bill.expire_date"
-                prepend-icon="event"
-                readonly
-                ></v-text-field>
-                <v-date-picker v-model="bill.expire_date" scrollable actions locale="pt-br">
-                <template slot-scope="{ save, cancel }">
-                    <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn flat color="primary" @click="cancel">Cancelar</v-btn>
-                    <v-btn flat color="primary" @click="save">Ok</v-btn>
-                    </v-card-actions>
-                </template>
-                </v-date-picker>
-            </v-dialog>
-        </v-flex>
+        <div class="row">
+            <div class="input-field col s6">
+                <i class="material-icons prefix">enhanced_encryption</i>
+                <input type="password" id="password" name="password" class="validate" v-model="user.password">
+                <span class="red-text" v-if="getError('password')" style="margin-left: 15%">{{ getError('password') }}</span>
+                <label for="password">Senha</label>
+            </div>
 
-        <v-flex xs6>
-            <v-text-field
-                v-model="bill.description"
-                label="Descrição"
-                type="text"
-            ></v-text-field>
-        </v-flex>
-        
-        <v-btn
-        @click="sendForm()"
-        :disabled="!valid"
-        color="primary"
-        :loading="isLoading"
-        >
-        Confirmar
-        </v-btn>
-        <v-snackbar
-        :timeout="toast.timeout"
-        :y="toast.y"
-        :x="toast.x"
-        :mode="toast.mode"
-        v-model="toast.toastVisible"
-        >
-        {{ toast.text }}
-        <v-btn flat color="pink" @click.native="toast.toastVisible = false">Close</v-btn>
-    </v-snackbar>
-    </v-form>
-  </v-flex>
-  
-    
-</v-layout>
+            <div class="input-field col s6">
+                <input type="password" id="password_confirmation" name="password_confirmation" v-model="user.password_confirmation">
+                <span class="red-text" v-if="!passwordConfirmation">As senha não são iguais!</span>
+                <label for="password_confirmation">Confirme a senha</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <input id="isadmin" name="isAdmin" type="checkbox" :checked="user.isAdmin? 'checked': ''" v-model="user.isAdmin">
+                <label for="isadmin">Admin?</label>
+            </div>
+            <div class="preloader-wrapper small active right" v-show="isLoading">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn waves-effect waves-light right" @click.prevent="sendForm()">Criar
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
+    </form>
+</div>
 </template>
 
 <script>
 import { http } from '../../../../services'
-import { isEmpty } from 'lodash'
 
     export default {
         data(){
             return {
                 isLoading: false,
-                bill: {
-                    clients: [],
-                    type: null,
-                    price: null,
-                    description: "",
-                    expire_date: null
-                },
-                clients: [],
-                billTypes: [],
-                default_value: true,
-                modal_date_active: false,
-
-                toast: {
-                    toastVisible: false,
-                    timeout: 3000,
-                    y: 'top',
-                    x: 'right',
-                    text: '',
-                    mode: 'vertical'
-                },
-                valid: true,
-                requiredRule: [
-                    (v) => !!v || 'Este campo é obrigatório!',
-                ]
-            }
-        },
-
-        created(){
-            this.setExpireDateToday()
-
-            this.$Progress.start()
-            this.getClients();
-
-            this.getBillTypes();
-            this.$Progress.finish()
-        },
-
-        watch: {
-            /*default_value(){
-                if(this.bill.type != null && this.default_value){
-                    this.bill.price = this.bill.type.default_price
+                errors: {},
+                user: {
+                    name: '',
+                    email: '',
+                    isAdmin: true,
+                    password: '',
+                    password_confirmation: ''
                 }
-            }*/
-            billPriceSelected(value){
-                if(this.bill.type != null){
-                    if(value != this.bill.type.default_price){
-                        this.default_value = false;
-                    }
-                }
-
             }
         },
 
         computed: {
-            setDefaultValue(){
-                if(this.bill.type != null && this.default_value){
-                    this.bill.price = this.bill.type.default_price
+            passwordConfirmation() {
+                if(this.user.password !== this.user.password_confirmation && this.user.password_confirmation !== ""){
+                    return false;
+                }else{
+                    return true;
                 }
-            },
-
-            billPriceSelected(){
-                return this.bill.price
             }
         },
 
         methods: {
-            setExpireDateToday(){
-                var date = new Date();
-                this.bill.expire_date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
-            },
-
-            getDataAsRequest(){
-                let request = { ...this.bill}   //cria um novo objeto com as coisas do this.bill. Só atribuir ele retorna um observer que altera o valor original DATA
-                request.type = request.type.id;
-                return request
-            },
-
             sendForm(){
+                if(!this.passwordConfirmation){return false}
                 this.isLoading = true
                 this.$Progress.start()
-
-                http.post('/dashboard/contas/store', this.getDataAsRequest())
+                http.post('/dashboard/users/store', this.user)
                 .then( (response) => {
-                    this.isLoading = false
                     this.$Progress.finish()
-                    this.toast.text = "Contas criadas com sucesso!"
-                    this.toast.toastVisible = true
+                    Materialize.toast("Usuário criado com sucesso!", 5000);
+
+                    this.$router.push({name: 'users'})
                 })
                 .catch( (error) => {
+                    console.log(error)
+                    this.errors = error.response.data
+                    this.$Progress.fail()
                     this.isLoading = false
-                    this.$Progress.fail()
-                    this.handleErrors(error.response);
-                    
                 });
             },
 
-            getClients() {
-                http.get('/dashboard/clients')
-                .then( ({data}) => this.clients = data )
-                .catch( (error) => {
-                    this.handleErrors(error.response);
-                    this.$Progress.fail()
-                });
-            },
-            
-            getBillTypes() {
-                http.get('/dashboard/contas/tipos')
-                .then( ({data}) => this.billTypes = data)
-
-                .catch( (error) => {
-                    this.handleErrors(error.response);
-                    this.$Progress.fail()
-                });
-            },
-
-            handleErrors(errorResponse) {
-                if(!isEmpty(errorResponse.data.errors.name[0])){
-                    this.toast.text = errorResponse.data.errors.name[0]
-                    this.toast.color = 'error'
-                    this.toast.toastVisible = true
+            getError: function(error) {
+                if(this.errors[error]){
+                    return this.errors[error][0]
+                }else{
+                    return false
                 }
-            }
+            },
+
+            clearError: function(error) {
+                delete this.errors[error]
+            },
+
+            clearFields: function() {
+                this.user.lastName = ''
+                this.user.firstName = ''
+                this.user.email = ''
+                this.user.password = ''
+                this.user.password_confirmation = ''
+            },
         }
     }
 </script>

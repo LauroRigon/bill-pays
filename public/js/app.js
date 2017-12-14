@@ -1717,7 +1717,7 @@ exports.default = {
             this.$Progress.start();
 
             this.attemptLogin(this.user).then(function () {
-                _this.$router.push({ name: 'dashboard.index' });
+                _this.$router.push({ name: 'dashboard' });
                 _this.$Progress.finish();
                 _this.snackbar = true;
                 _this.snackbarContent = "Logado com sucesso!";
@@ -1781,80 +1781,55 @@ var _services = __webpack_require__("./resources/assets/js/services/index.js");
 exports.default = {
     data: function data() {
         return {
-            bill: {
-                client: {},
-                bill_type: {}
-            },
-
-            toast: {
-                toastVisible: false,
-                timeout: 3000,
-                y: 'top',
-                x: 'right',
-                text: '',
-                mode: 'vertical'
-            },
-            deleteDialog: false,
-            datePaymentPickDialog: false,
-
-            paymentDate: null
+            fields: [{
+                name: 'Id',
+                dbName: 'id'
+            }, {
+                name: 'Nome',
+                dbName: 'name'
+            }, {
+                name: 'Email',
+                dbName: 'email'
+            }, {
+                name: 'Admin',
+                dbName: 'isAdmin'
+            }, {
+                name: '__actions'
+            }],
+            tableActions: [{ name: 'edit-item', icon: 'create', class: 'btn waves-effect waves-light orange', action: this.editUser }, { name: 'delete-item', icon: 'delete_forever', class: 'btn waves-effect waves-light red', action: this.deleteUser }]
         };
     },
 
 
-    props: ['bill_id'],
-
-    watch: {
-        '$route': 'getBill'
-    },
-
-    created: function created() {
-        this.getBill();
-        this.setPaymentDateToday();
-    },
-
-
     methods: {
-        setPaymentDateToday: function setPaymentDateToday() {
-            var date = new Date();
-            this.paymentDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+        editUser: function editUser(item) {
+            this.$router.push({ name: 'users.edit', params: { user_id: item.id } });
+            console.log(item);
         },
-        getBill: function getBill() {
+        deleteUser: function deleteUser(item) {
             var _this = this;
 
-            this.$Progress.start();
-            _services.http.get('/dashboard/contas/conta/view/' + this.bill_id).then(function (response) {
-                _this.bill = response.data;
-                _this.$Progress.finish();
+            swal({
+                title: "Tem certeza?",
+                text: "Não será possivel recuperar este usuário",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: 'red',
+                confirmButtonText: "Deletar",
+                cancelButtonText: "Cancelar",
+                closeOnConfirm: true
+            }, function () {
+                _this.sendDeleteRequest(item.id);
             });
         },
-        deleteBill: function deleteBill() {
+        sendDeleteRequest: function sendDeleteRequest(id) {
             var _this2 = this;
 
             this.$Progress.start();
-            _services.http.delete('/dashboard/contas/conta/delete/' + this.bill_id).then(function (response) {
-                _this2.$router.back();
+            _services.http.delete('dashboard/users/delete/' + id).then(function () {
                 _this2.$Progress.finish();
-            });
-        },
-        sendPayment: function sendPayment() {
-            var _this3 = this;
-
-            this.$Progress.start();
-            _services.http.post('/dashboard/contas/conta/pay/' + this.bill_id, { paymentDate: this.paymentDate }).then(function (_ref) {
-                var data = _ref.data;
-
-                _this3.$Progress.finish();
-                _this3.toast.text = data.message;
-                _this3.toast.toastVisible = true;
-
-                _this3.getBill();
-            }).catch(function (error) {
-                _this3.$Progress.fail();
-                var errors = error.response.data.errors;
-
-                _this3.toast.text = errors.paymentDate[0];
-                _this3.toast.toastVisible = true;
+                Materialize.toast('Usuário deletado com sucesso!', 3000);
+                _this2.$children[0].loadData();
             });
         }
     }
@@ -1873,349 +1848,10 @@ exports.default = {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/Create.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-var _services = __webpack_require__("./resources/assets/js/services/index.js");
-
-var _lodash = __webpack_require__("./node_modules/lodash/lodash.js");
-
-exports.default = {
-    data: function data() {
-        return {
-            isLoading: false,
-            bill: {
-                clients: [],
-                type: null,
-                price: null,
-                description: "",
-                expire_date: null
-            },
-            clients: [],
-            billTypes: [],
-            default_value: true,
-            modal_date_active: false,
-
-            toast: {
-                toastVisible: false,
-                timeout: 3000,
-                y: 'top',
-                x: 'right',
-                text: '',
-                mode: 'vertical'
-            },
-            valid: true,
-            requiredRule: [function (v) {
-                return !!v || 'Este campo é obrigatório!';
-            }]
-        };
-    },
-    created: function created() {
-        this.setExpireDateToday();
-
-        this.$Progress.start();
-        this.getClients();
-
-        this.getBillTypes();
-        this.$Progress.finish();
-    },
-
-
-    watch: {
-        /*default_value(){
-            if(this.bill.type != null && this.default_value){
-                this.bill.price = this.bill.type.default_price
-            }
-        }*/
-        billPriceSelected: function billPriceSelected(value) {
-            if (this.bill.type != null) {
-                if (value != this.bill.type.default_price) {
-                    this.default_value = false;
-                }
-            }
-        }
-    },
-
-    computed: {
-        setDefaultValue: function setDefaultValue() {
-            if (this.bill.type != null && this.default_value) {
-                this.bill.price = this.bill.type.default_price;
-            }
-        },
-        billPriceSelected: function billPriceSelected() {
-            return this.bill.price;
-        }
-    },
-
-    methods: {
-        setExpireDateToday: function setExpireDateToday() {
-            var date = new Date();
-            this.bill.expire_date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-        },
-        getDataAsRequest: function getDataAsRequest() {
-            var request = _extends({}, this.bill); //cria um novo objeto com as coisas do this.bill. Só atribuir ele retorna um observer que altera o valor original DATA
-            request.type = request.type.id;
-            return request;
-        },
-        sendForm: function sendForm() {
-            var _this = this;
-
-            this.isLoading = true;
-            this.$Progress.start();
-
-            _services.http.post('/dashboard/contas/store', this.getDataAsRequest()).then(function (response) {
-                _this.isLoading = false;
-                _this.$Progress.finish();
-                _this.toast.text = "Contas criadas com sucesso!";
-                _this.toast.toastVisible = true;
-            }).catch(function (error) {
-                _this.isLoading = false;
-                _this.$Progress.fail();
-                _this.handleErrors(error.response);
-            });
-        },
-        getClients: function getClients() {
-            var _this2 = this;
-
-            _services.http.get('/dashboard/clients').then(function (_ref) {
-                var data = _ref.data;
-                return _this2.clients = data;
-            }).catch(function (error) {
-                _this2.handleErrors(error.response);
-                _this2.$Progress.fail();
-            });
-        },
-        getBillTypes: function getBillTypes() {
-            var _this3 = this;
-
-            _services.http.get('/dashboard/contas/tipos').then(function (_ref2) {
-                var data = _ref2.data;
-                return _this3.billTypes = data;
-            }).catch(function (error) {
-                _this3.handleErrors(error.response);
-                _this3.$Progress.fail();
-            });
-        },
-        handleErrors: function handleErrors(errorResponse) {
-            if (!(0, _lodash.isEmpty)(errorResponse.data.errors.name[0])) {
-                this.toast.text = errorResponse.data.errors.name[0];
-                this.toast.color = 'error';
-                this.toast.toastVisible = true;
-            }
-        }
-    }
-};
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/Edit.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Client/Client.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2231,581 +1867,6 @@ var _lodash = __webpack_require__("./node_modules/lodash/lodash.js");
 
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-    data: function data() {
-        return {
-            isLoading: false,
-            billType: {
-                name: '',
-                default_price: ''
-            },
-            toast: {
-                toastVisible: false,
-                timeout: 3000,
-                y: 'top',
-                x: 'right',
-                text: '',
-                mode: 'vertical'
-            },
-            valid: true,
-            requiredRule: [function (v) {
-                return !!v || 'Este campo é obrigatório!';
-            }]
-        };
-    },
-
-
-    props: ['bill_type_id'],
-
-    created: function created() {
-        var _this = this;
-
-        this.$Progress.start();
-        _services.http.get('/dashboard/contas/tipos/edit/' + this.bill_type_id).then(function (response) {
-            console.log(response);
-            _this.billType.name = response.data.name;
-            _this.billType.default_price = response.data.default_price;
-
-            _this.$Progress.finish();
-        });
-    },
-
-
-    methods: {
-        sendForm: function sendForm() {
-            var _this2 = this;
-
-            this.$Progress.start();
-            this.isLoading = true;
-            _services.http.put('/dashboard/contas/tipos/update/' + this.bill_type_id, this.billType).then(function (response) {
-                _this2.$Progress.finish();
-                _this2.toast.text = "Tipo de conta atualizado com sucesso!";
-                _this2.toast.toastVisible = true;
-
-                _this2.$router.push({ name: 'bills.types' });
-            }).catch(function (error) {
-                _this2.$Progress.fail();
-                _this2.handleErrors(error.response);
-                _this2.isLoading = false;
-            });
-        },
-        handleErrors: function handleErrors(errorResponse) {
-            if (!(0, _lodash.isEmpty)(errorResponse.data.errors.name[0])) {
-                this.toast.text = errorResponse.data.errors.name[0];
-                this.toast.color = 'error';
-                this.toast.toastVisible = true;
-            }
-        }
-    }
-};
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/BillType/BillTypes.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _services = __webpack_require__("./resources/assets/js/services/index.js");
-
-var _lodash = __webpack_require__("./node_modules/lodash/lodash.js");
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-    data: function data() {
-        return {
-            headers: [{
-                text: 'Id',
-                value: 'id'
-            }, {
-                text: 'Nome',
-                value: 'name'
-            }, {
-                text: 'Preço padrão',
-                value: 'default_price'
-            }],
-            items: [],
-            tableIsLoading: true,
-            pagination: {
-                sortBy: 'column',
-                page: 1,
-                rowsPerPage: 8,
-                descending: false,
-                totalItems: 0,
-                pages: 0
-            },
-            selected: [],
-            toast: {
-                toastVisible: false,
-                timeout: 3000,
-                y: 'top',
-                x: 'right',
-                text: '',
-                mode: 'vertical'
-            },
-            deleteDialog: false
-        };
-    },
-    created: function created() {
-        this.loadData();
-    },
-
-
-    computed: {
-        howManyItemSelected: function howManyItemSelected() {
-            return this.selected.length;
-        }
-    },
-
-    methods: {
-        loadData: function loadData() {
-            var _this = this;
-
-            this.tableIsLoading = true;
-            this.selected = [];
-            _services.http.get("/dashboard/contas/tipos").then(function (response) {
-                _this.items = response.data;
-                _this.pagination.totalItems = response.data.length;
-                _this.pagination.pages = Math.round(_this.pagination.totalItems / _this.pagination.rowsPerPage);
-                _this.tableIsLoading = false;
-            });
-        },
-        deleteItems: function deleteItems() {
-            var _this2 = this;
-
-            this.$Progress.start();
-            _services.http.delete('dashboard/contas/tipos/delete', { data: this.selected }).then(function () {
-                _this2.$Progress.finish();
-                _this2.toast.text = "Tipos(s) deletado(s) com sucesso!";
-                _this2.toast.toastVisible = true;
-                _this2.loadData();
-            }).catch(function (error) {
-                _this2.$Progress.fail();
-                switch (error.response.status) {
-                    case 403:
-                        _this2.toast.text = "Sem permissão para isso!";
-                        _this2.toast.toastVisible = true;
-                        break;
-                }
-            });
-        }
-    }
-};
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/BillType/Create.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _services = __webpack_require__("./resources/assets/js/services/index.js");
-
-var _lodash = __webpack_require__("./node_modules/lodash/lodash.js");
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-    data: function data() {
-        return {
-            isLoading: false,
-            billType: {
-                name: '',
-                default_price: ''
-            },
-            toast: {
-                toastVisible: false,
-                timeout: 3000,
-                y: 'top',
-                x: 'right',
-                text: '',
-                mode: 'vertical'
-            },
-            valid: true,
-            requiredRule: [function (v) {
-                return !!v || 'Este campo é obrigatório!';
-            }]
-        };
-    },
-
-
-    methods: {
-        sendForm: function sendForm() {
-            var _this = this;
-
-            this.isLoading = true;
-            this.$Progress.start();
-            _services.http.post('/dashboard/contas/tipos/store', this.billType).then(function (response) {
-                _this.isLoading = false;
-                _this.$Progress.finish();
-                _this.toast.text = "Cliente criado com sucesso!";
-                _this.toast.toastVisible = true;
-            }).catch(function (error) {
-                _this.isLoading = false;
-                _this.handleErrors(error.response);
-                _this.$Progress.fail();
-            });
-        },
-        handleErrors: function handleErrors(errorResponse) {
-            if (!(0, _lodash.isEmpty)(errorResponse.data.errors.name[0])) {
-                this.toast.text = errorResponse.data.errors.name[0];
-                this.toast.color = 'error';
-                this.toast.toastVisible = true;
-            }
-        }
-    }
-};
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/BillType/Edit.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _services = __webpack_require__("./resources/assets/js/services/index.js");
-
-var _lodash = __webpack_require__("./node_modules/lodash/lodash.js");
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-    data: function data() {
-        return {
-            isLoading: false,
-            billType: {
-                name: '',
-                default_price: ''
-            },
-            toast: {
-                toastVisible: false,
-                timeout: 3000,
-                y: 'top',
-                x: 'right',
-                text: '',
-                mode: 'vertical'
-            },
-            valid: true,
-            requiredRule: [function (v) {
-                return !!v || 'Este campo é obrigatório!';
-            }]
-        };
-    },
-
-
-    props: ['bill_type_id'],
-
-    created: function created() {
-        var _this = this;
-
-        this.$Progress.start();
-        _services.http.get('/dashboard/contas/tipos/edit/' + this.bill_type_id).then(function (response) {
-            console.log(response);
-            _this.billType.name = response.data.name;
-            _this.billType.default_price = response.data.default_price;
-
-            _this.$Progress.finish();
-        });
-    },
-
-
-    methods: {
-        sendForm: function sendForm() {
-            var _this2 = this;
-
-            this.$Progress.start();
-            this.isLoading = true;
-            _services.http.put('/dashboard/contas/tipos/update/' + this.bill_type_id, this.billType).then(function (response) {
-                _this2.$Progress.finish();
-                _this2.toast.text = "Tipo de conta atualizado com sucesso!";
-                _this2.toast.toastVisible = true;
-
-                _this2.$router.push({ name: 'bills.types' });
-            }).catch(function (error) {
-                _this2.$Progress.fail();
-                _this2.handleErrors(error.response);
-                _this2.isLoading = false;
-            });
-        },
-        handleErrors: function handleErrors(errorResponse) {
-            if (!(0, _lodash.isEmpty)(errorResponse.data.errors.name[0])) {
-                this.toast.text = errorResponse.data.errors.name[0];
-                this.toast.color = 'error';
-                this.toast.toastVisible = true;
-            }
-        }
-    }
-};
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Client/Clients.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _services = __webpack_require__("./resources/assets/js/services/index.js");
-
-var _lodash = __webpack_require__("./node_modules/lodash/lodash.js");
-
 //
 //
 //
@@ -3240,48 +2301,6 @@ exports.default = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Dashboard/Index.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _http = __webpack_require__("./resources/assets/js/services/http.js");
-
-var _ExpiredTable = __webpack_require__("./resources/assets/js/App/Dashboard/components/ExpiredTable.vue");
-
-var _ExpiredTable2 = _interopRequireDefault(_ExpiredTable);
-
-var _NotExpiredTable = __webpack_require__("./resources/assets/js/App/Dashboard/components/NotExpiredTable.vue");
-
-var _NotExpiredTable2 = _interopRequireDefault(_NotExpiredTable);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-    components: {
-        'expired-table': _ExpiredTable2.default,
-        'not-expired-table': _NotExpiredTable2.default
-    }
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Main.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3301,8 +2320,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
   data: function data() {
     return {
-      menus: _menus2.default,
-      menuActive: true
+      menus: _menus2.default
     };
   },
 
@@ -3313,22 +2331,6 @@ exports.default = {
     }
   }
 }; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -3630,7 +2632,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/User/Users.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/User/User.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3644,6 +2646,8 @@ var _services = __webpack_require__("./resources/assets/js/services/index.js");
 
 var _lodash = __webpack_require__("./node_modules/lodash/lodash.js");
 
+//
+//
 //
 //
 //
@@ -3826,215 +2830,6 @@ exports.default = {
         }
     }
 };
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/components/ExpiredTable.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _http = __webpack_require__("./resources/assets/js/services/http.js");
-
-exports.default = {
-    data: function data() {
-        return {
-            expired_table: {
-                headers: [{
-                    text: 'Cliente',
-                    value: 'id'
-                }, {
-                    text: 'Tipo',
-                    value: 'id'
-                }, {
-                    text: 'Vencimento',
-                    value: 'id'
-                }, {
-                    text: '(R$)Preço',
-                    value: 'id'
-                }],
-                pagination: {
-                    sortBy: 'column',
-                    page: 1,
-                    rowsPerPage: 8,
-                    descending: false,
-                    totalItems: 0,
-                    pages: 0
-                },
-                items: [],
-                selected: [],
-                tableIsLoading: true
-            }
-        };
-    },
-    created: function created() {
-        this.getExpiredBills();
-    },
-
-
-    methods: {
-        getExpiredBills: function getExpiredBills() {
-            var _this = this;
-
-            this.expired_table.tableIsLoading = true;
-            this.expired_table.selected = [];
-            _http.http.get("/dashboard/contas/expireds").then(function (response) {
-                _this.expired_table.items = response.data;
-                _this.expired_table.pagination.totalItems = response.data.length;
-                _this.expired_table.pagination.pages = Math.round(_this.expired_table.pagination.totalItems / _this.expired_table.pagination.rowsPerPage);
-                _this.expired_table.tableIsLoading = false;
-            });
-        }
-    }
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/components/NotExpiredTable.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _http = __webpack_require__("./resources/assets/js/services/http.js");
-
-exports.default = {
-    data: function data() {
-        return {
-            not_expired_table: {
-                headers: [{
-                    text: 'Cliente',
-                    value: 'id'
-                }, {
-                    text: 'Tipo',
-                    value: 'id'
-                }, {
-                    text: 'Vencimento',
-                    value: 'id'
-                }, {
-                    text: '(R$)Preço',
-                    value: 'id'
-                }],
-                pagination: {
-                    sortBy: 'column',
-                    page: 1,
-                    rowsPerPage: 8,
-                    descending: false,
-                    totalItems: 0,
-                    pages: 0
-                },
-                items: [],
-                selected: [],
-                tableIsLoading: true
-            }
-        };
-    },
-    created: function created() {
-        this.getNotExpiredBills();
-    },
-
-
-    methods: {
-        getNotExpiredBills: function getNotExpiredBills() {
-            var _this = this;
-
-            this.not_expired_table.tableIsLoading = true;
-            this.not_expired_table.selected = [];
-            _http.http.get("/dashboard/contas/notexpireds").then(function (response) {
-                _this.not_expired_table.items = response.data;
-                _this.not_expired_table.pagination.totalItems = response.data.length;
-                _this.not_expired_table.pagination.pages = Math.round(_this.not_expired_table.pagination.totalItems / _this.not_expired_table.pagination.rowsPerPage);
-                _this.not_expired_table.tableIsLoading = false;
-            });
-        }
-    }
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /***/ }),
 
@@ -4325,21 +3120,6 @@ exports.default = {
     }
   }
 };
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7e572436\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/Bill.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n.subheader{\r\n    display:block\n}\r\n", ""]);
-
-// exports
-
 
 /***/ }),
 
@@ -32401,143 +31181,6 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-0612e664\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/BillType/Edit.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "v-layout",
-    { attrs: { row: "", wrap: "" } },
-    [
-      _c(
-        "v-flex",
-        { attrs: { md9: "" } },
-        [
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "primary" },
-              on: {
-                click: function($event) {
-                  _vm.$router.push({ name: "bills.types" })
-                }
-              }
-            },
-            [_vm._v("\r\n        Voltar\r\n    ")]
-          ),
-          _vm._v(" "),
-          _c(
-            "v-form",
-            {
-              model: {
-                value: _vm.valid,
-                callback: function($$v) {
-                  _vm.valid = $$v
-                },
-                expression: "valid"
-              }
-            },
-            [
-              _c("v-text-field", {
-                attrs: { label: "Nome", required: "", rules: _vm.requiredRule },
-                model: {
-                  value: _vm.billType.name,
-                  callback: function($$v) {
-                    _vm.$set(_vm.billType, "name", $$v)
-                  },
-                  expression: "billType.name"
-                }
-              }),
-              _vm._v(" "),
-              _c("v-text-field", {
-                attrs: { label: "Valor padrão", type: "number" },
-                model: {
-                  value: _vm.billType.default_price,
-                  callback: function($$v) {
-                    _vm.$set(_vm.billType, "default_price", $$v)
-                  },
-                  expression: "billType.default_price"
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: {
-                    disabled: !_vm.valid,
-                    color: "primary",
-                    loading: _vm.isLoading
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.sendForm()
-                    }
-                  }
-                },
-                [_vm._v("\r\n        Confirmar\r\n        ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-snackbar",
-                {
-                  attrs: {
-                    timeout: _vm.toast.timeout,
-                    y: _vm.toast.y,
-                    x: _vm.toast.x,
-                    mode: _vm.toast.mode
-                  },
-                  model: {
-                    value: _vm.toast.toastVisible,
-                    callback: function($$v) {
-                      _vm.$set(_vm.toast, "toastVisible", $$v)
-                    },
-                    expression: "toast.toastVisible"
-                  }
-                },
-                [
-                  _vm._v(
-                    "\r\n        " + _vm._s(_vm.toast.text) + "\r\n        "
-                  ),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { flat: "", color: "pink" },
-                      nativeOn: {
-                        click: function($event) {
-                          _vm.toast.toastVisible = false
-                        }
-                      }
-                    },
-                    [_vm._v("Close")]
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-0612e664", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-15bcfcd3\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/components/Pagination.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32626,141 +31269,6 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-195a38fc\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/components/NotExpiredTable.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("h5", { staticClass: "text-xs-center" }, [_vm._v("Contas no prazo")]),
-      _vm._v(" "),
-      _c("v-data-table", {
-        staticClass: "elevation-1",
-        attrs: {
-          loading: _vm.not_expired_table.tableIsLoading,
-          "item-key": "id",
-          headers: _vm.not_expired_table.headers,
-          items: _vm.not_expired_table.items,
-          pagination: _vm.not_expired_table.pagination,
-          "hide-actions": ""
-        },
-        on: {
-          "update:pagination": function($event) {
-            _vm.$set(_vm.not_expired_table, "pagination", $event)
-          }
-        },
-        scopedSlots: _vm._u([
-          {
-            key: "headerCell",
-            fn: function(props) {
-              return [
-                _c("v-tooltip", { attrs: { bottom: "" } }, [
-                  _c(
-                    "span",
-                    { attrs: { slot: "activator" }, slot: "activator" },
-                    [
-                      _vm._v(
-                        "\r\n            " +
-                          _vm._s(props.header.text) +
-                          "\r\n            "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("span", [
-                    _vm._v(
-                      "\r\n            " +
-                        _vm._s(props.header.text) +
-                        "\r\n            "
-                    )
-                  ])
-                ])
-              ]
-            }
-          },
-          {
-            key: "items",
-            fn: function(props) {
-              return [
-                _c(
-                  "router-link",
-                  {
-                    attrs: {
-                      to: {
-                        name: "bills.bill",
-                        params: { bill_id: props.item.id }
-                      },
-                      tag: "tr"
-                    }
-                  },
-                  [
-                    _c("td", { staticClass: "text-xs-right" }, [
-                      _vm._v(_vm._s(props.item.client.name))
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "text-xs-right" }, [
-                      _vm._v(_vm._s(props.item.bill_type.name))
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "text-xs-right" }, [
-                      _vm._v(_vm._s(props.item.expire_date))
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "text-xs-right" }, [
-                      _vm._v("R$" + _vm._s(props.item.price))
-                    ])
-                  ]
-                )
-              ]
-            }
-          }
-        ]),
-        model: {
-          value: _vm.not_expired_table.selected,
-          callback: function($$v) {
-            _vm.$set(_vm.not_expired_table, "selected", $$v)
-          },
-          expression: "not_expired_table.selected"
-        }
-      }),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "text-xs-center pt-2" },
-        [
-          _c("v-pagination", {
-            attrs: { length: _vm.not_expired_table.pagination.pages },
-            model: {
-              value: _vm.not_expired_table.pagination.page,
-              callback: function($$v) {
-                _vm.$set(_vm.not_expired_table.pagination, "page", $$v)
-              },
-              expression: "not_expired_table.pagination.page"
-            }
-          })
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-195a38fc", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-20d7211a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Main.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32773,81 +31281,29 @@ var render = function() {
     [
       _c(
         "v-navigation-drawer",
-        {
-          attrs: { app: "", fixed: "", enableResizeWatcher: true },
-          model: {
-            value: _vm.menuActive,
-            callback: function($$v) {
-              _vm.menuActive = $$v
-            },
-            expression: "menuActive"
-          }
-        },
+        { attrs: { app: "" } },
         [
           _c(
             "v-list",
             { staticClass: "pt-0", attrs: { dense: "" } },
             _vm._l(_vm.menus, function(item) {
               return _c(
-                "v-list-group",
-                { key: item.title },
+                "v-list-tile",
+                { key: item.title, attrs: { exact: "", to: item.uri } },
                 [
                   _c(
-                    "v-list-tile",
-                    {
-                      attrs: { slot: "item", exact: "", to: item.uri },
-                      slot: "item"
-                    },
-                    [
-                      _c(
-                        "v-list-tile-action",
-                        [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [_c("v-list-tile-title", [_vm._v(_vm._s(item.title))])],
-                        1
-                      ),
-                      _vm._v(" "),
-                      item.items
-                        ? _c(
-                            "v-list-tile-action",
-                            [_c("v-icon", [_vm._v("keyboard_arrow_down")])],
-                            1
-                          )
-                        : _vm._e()
-                    ],
+                    "v-list-tile-action",
+                    [_c("v-icon", [_vm._v(_vm._s(item.icon))])],
                     1
                   ),
                   _vm._v(" "),
-                  _vm._l(item.items, function(subItem) {
-                    return _c(
-                      "v-list-tile",
-                      { key: subItem.title, attrs: { to: subItem.uri } },
-                      [
-                        _c(
-                          "v-list-tile-action",
-                          [_c("v-icon", [_vm._v(_vm._s(subItem.icon))])],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-list-tile-content",
-                          [
-                            _c("v-list-tile-title", [
-                              _vm._v(_vm._s(subItem.title))
-                            ])
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  })
+                  _c(
+                    "v-list-tile-content",
+                    [_c("v-list-tile-title", [_vm._v(_vm._s(item.title))])],
+                    1
+                  )
                 ],
-                2
+                1
               )
             })
           )
@@ -32855,25 +31311,25 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "v-toolbar",
-        { attrs: { app: "", dark: "", fixed: "" } },
-        [
-          _c("v-toolbar-side-icon", {
-            on: {
-              click: function($event) {
-                $event.stopPropagation()
-                _vm.menuActive = !_vm.menuActive
-              }
-            }
-          })
-        ],
-        1
-      ),
+      _c("v-toolbar", { attrs: { app: "" } }),
       _vm._v(" "),
       _c(
-        "v-content",
-        [_c("v-container", { attrs: { fluid: "" } }, [_c("router-view")], 1)],
+        "main",
+        [
+          _c(
+            "v-content",
+            { staticStyle: { "padding-left": "100px" } },
+            [
+              _c(
+                "v-container",
+                { attrs: { fluid: "" } },
+                [_c("router-view")],
+                1
+              )
+            ],
+            1
+          )
+        ],
         1
       ),
       _vm._v(" "),
@@ -32894,7 +31350,7 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-296a0330\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/Edit.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-240d6865\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/User/User.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -32902,109 +31358,320 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-layout",
-    { attrs: { row: "", wrap: "" } },
+    "div",
     [
       _c(
-        "v-flex",
-        { attrs: { md9: "" } },
+        "v-layout",
+        { attrs: { row: "", wrap: "" } },
         [
           _c(
-            "v-btn",
-            {
-              attrs: { color: "primary" },
-              on: {
-                click: function($event) {
-                  _vm.$router.push({ name: "bills.types" })
+            "v-flex",
+            { attrs: { md9: "" } },
+            [
+              _c("v-data-table", {
+                staticClass: "elevation-1",
+                attrs: {
+                  loading: _vm.tableIsLoading,
+                  "select-all": "",
+                  "item-key": "name",
+                  headers: _vm.headers,
+                  items: _vm.items,
+                  pagination: _vm.pagination,
+                  "hide-actions": ""
+                },
+                on: {
+                  "update:pagination": function($event) {
+                    _vm.pagination = $event
+                  }
+                },
+                scopedSlots: _vm._u([
+                  {
+                    key: "headerCell",
+                    fn: function(props) {
+                      return [
+                        _c("v-tooltip", { attrs: { bottom: "" } }, [
+                          _c(
+                            "span",
+                            { attrs: { slot: "activator" }, slot: "activator" },
+                            [
+                              _vm._v(
+                                "\r\n            " +
+                                  _vm._s(props.header.text) +
+                                  "\r\n          "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("span", [
+                            _vm._v(
+                              "\r\n            " +
+                                _vm._s(props.header.text) +
+                                "\r\n          "
+                            )
+                          ])
+                        ])
+                      ]
+                    }
+                  },
+                  {
+                    key: "items",
+                    fn: function(props) {
+                      return [
+                        _c(
+                          "tr",
+                          {
+                            attrs: { active: props.selected },
+                            on: {
+                              click: function($event) {
+                                props.selected = !props.selected
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "td",
+                              [
+                                _c("v-checkbox", {
+                                  attrs: {
+                                    primary: "",
+                                    "hide-details": "",
+                                    "input-value": props.selected
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "text-xs-right" }, [
+                              _vm._v(_vm._s(props.item.id))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "text-xs-right" }, [
+                              _vm._v(_vm._s(props.item.name))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "text-xs-right" }, [
+                              _vm._v(_vm._s(props.item.email))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "text-xs-right" }, [
+                              _vm._v(_vm._s(props.item.isAdmin))
+                            ])
+                          ]
+                        )
+                      ]
+                    }
+                  }
+                ]),
+                model: {
+                  value: _vm.selected,
+                  callback: function($$v) {
+                    _vm.selected = $$v
+                  },
+                  expression: "selected"
                 }
-              }
-            },
-            [_vm._v("\r\n        Voltar\r\n    ")]
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "text-xs-center pt-2" },
+                [
+                  _c("v-pagination", {
+                    attrs: { length: _vm.pagination.pages },
+                    model: {
+                      value: _vm.pagination.page,
+                      callback: function($$v) {
+                        _vm.$set(_vm.pagination, "page", $$v)
+                      },
+                      expression: "pagination.page"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
           ),
           _vm._v(" "),
           _c(
-            "v-form",
-            {
-              model: {
-                value: _vm.valid,
-                callback: function($$v) {
-                  _vm.valid = $$v
-                },
-                expression: "valid"
-              }
-            },
+            "v-flex",
+            { attrs: { md2: "", "offset-md1": "" } },
             [
-              _c("v-text-field", {
-                attrs: { label: "Nome", required: "", rules: _vm.requiredRule },
-                model: {
-                  value: _vm.billType.name,
-                  callback: function($$v) {
-                    _vm.$set(_vm.billType, "name", $$v)
-                  },
-                  expression: "billType.name"
-                }
-              }),
-              _vm._v(" "),
-              _c("v-text-field", {
-                attrs: { label: "Valor padrão", type: "number" },
-                model: {
-                  value: _vm.billType.default_price,
-                  callback: function($$v) {
-                    _vm.$set(_vm.billType, "default_price", $$v)
-                  },
-                  expression: "billType.default_price"
-                }
-              }),
-              _vm._v(" "),
               _c(
-                "v-btn",
-                {
-                  attrs: {
-                    disabled: !_vm.valid,
-                    color: "primary",
-                    loading: _vm.isLoading
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.sendForm()
-                    }
-                  }
-                },
-                [_vm._v("\r\n        Confirmar\r\n        ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-snackbar",
-                {
-                  attrs: {
-                    timeout: _vm.toast.timeout,
-                    y: _vm.toast.y,
-                    x: _vm.toast.x,
-                    mode: _vm.toast.mode
-                  },
-                  model: {
-                    value: _vm.toast.toastVisible,
-                    callback: function($$v) {
-                      _vm.$set(_vm.toast, "toastVisible", $$v)
-                    },
-                    expression: "toast.toastVisible"
-                  }
-                },
+                "v-card",
                 [
-                  _vm._v(
-                    "\r\n        " + _vm._s(_vm.toast.text) + "\r\n        "
-                  ),
+                  _c("v-card-title", [
+                    _c("div", [
+                      _c("h3", { staticClass: "headline mb-0" }, [
+                        _vm._v("Ações")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
                   _c(
-                    "v-btn",
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            color: "primary",
+                            dark: "",
+                            to: { name: "users.create" }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\r\n                  Cadastrar\r\n            "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm.howManyItemSelected >= 1
+                        ? [
+                            _vm.howManyItemSelected == 1
+                              ? _c(
+                                  "v-btn",
+                                  {
+                                    attrs: {
+                                      color: "warning",
+                                      dark: "",
+                                      to: {
+                                        name: "users.edit",
+                                        params: { user_id: this.selected[0].id }
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\r\n                  Editar\r\n                "
+                                    )
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: { color: "error", dark: "" },
+                                nativeOn: {
+                                  click: function($event) {
+                                    _vm.deleteDialog = true
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\r\n                  Excluir\r\n                "
+                                )
+                              ]
+                            )
+                          ]
+                        : _vm._e()
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-snackbar",
                     {
-                      attrs: { flat: "", color: "pink" },
-                      nativeOn: {
-                        click: function($event) {
-                          _vm.toast.toastVisible = false
-                        }
+                      attrs: {
+                        timeout: _vm.toast.timeout,
+                        y: _vm.toast.y,
+                        x: _vm.toast.x,
+                        mode: _vm.toast.mode
+                      },
+                      model: {
+                        value: _vm.toast.toastVisible,
+                        callback: function($$v) {
+                          _vm.$set(_vm.toast, "toastVisible", $$v)
+                        },
+                        expression: "toast.toastVisible"
                       }
                     },
-                    [_vm._v("Close")]
+                    [
+                      _vm._v(
+                        "\r\n        " + _vm._s(_vm.toast.text) + "\r\n        "
+                      ),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { flat: "", color: "pink" },
+                          nativeOn: {
+                            click: function($event) {
+                              _vm.toast.toastVisible = false
+                            }
+                          }
+                        },
+                        [_vm._v("Close")]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-dialog",
+                    {
+                      attrs: { persistent: "" },
+                      model: {
+                        value: _vm.deleteDialog,
+                        callback: function($$v) {
+                          _vm.deleteDialog = $$v
+                        },
+                        expression: "deleteDialog"
+                      }
+                    },
+                    [
+                      _c(
+                        "v-card",
+                        [
+                          _c("v-card-title", { staticClass: "headline" }, [
+                            _vm._v("Deletar usuário?")
+                          ]),
+                          _vm._v(" "),
+                          _c("v-card-text", [
+                            _vm._v("Essa ação será irreversível.")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-actions",
+                            [
+                              _c("v-spacer"),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "green darken-1", flat: "" },
+                                  nativeOn: {
+                                    click: function($event) {
+                                      _vm.deleteDialog = false
+                                    }
+                                  }
+                                },
+                                [_vm._v("Cancelar")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "error", flat: "" },
+                                  nativeOn: {
+                                    click: function($event) {
+                                      _vm.deleteItems()
+                                      _vm.deleteDialog = false
+                                    }
+                                  }
+                                },
+                                [_vm._v("Deletar")]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
                   )
                 ],
                 1
@@ -33025,7 +31692,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-296a0330", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-240d6865", module.exports)
   }
 }
 
@@ -33047,980 +31714,6 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-312084c8", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-4f5d2d5e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Client/Clients.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "v-layout",
-    { attrs: { row: "", wrap: "" } },
-    [
-      _c(
-        "v-flex",
-        { attrs: { md9: "" } },
-        [
-          _c("v-data-table", {
-            staticClass: "elevation-1",
-            attrs: {
-              loading: _vm.tableIsLoading,
-              "select-all": "",
-              "item-key": "id",
-              headers: _vm.headers,
-              items: _vm.items,
-              pagination: _vm.pagination,
-              "hide-actions": ""
-            },
-            on: {
-              "update:pagination": function($event) {
-                _vm.pagination = $event
-              }
-            },
-            scopedSlots: _vm._u([
-              {
-                key: "headerCell",
-                fn: function(props) {
-                  return [
-                    _c("v-tooltip", { attrs: { bottom: "" } }, [
-                      _c(
-                        "span",
-                        { attrs: { slot: "activator" }, slot: "activator" },
-                        [
-                          _vm._v(
-                            "\r\n            " +
-                              _vm._s(props.header.text) +
-                              "\r\n          "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("span", [
-                        _vm._v(
-                          "\r\n            " +
-                            _vm._s(props.header.text) +
-                            "\r\n          "
-                        )
-                      ])
-                    ])
-                  ]
-                }
-              },
-              {
-                key: "items",
-                fn: function(props) {
-                  return [
-                    _c(
-                      "tr",
-                      {
-                        attrs: { active: props.selected },
-                        on: {
-                          click: function($event) {
-                            props.selected = !props.selected
-                          }
-                        }
-                      },
-                      [
-                        _c(
-                          "td",
-                          [
-                            _c("v-checkbox", {
-                              attrs: {
-                                primary: "",
-                                "hide-details": "",
-                                "input-value": props.selected
-                              }
-                            })
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-xs-right" }, [
-                          _vm._v(_vm._s(props.item.id))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-xs-right" }, [
-                          _vm._v(_vm._s(props.item.name))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-xs-right" }, [
-                          _vm._v(_vm._s(props.item.email))
-                        ])
-                      ]
-                    )
-                  ]
-                }
-              }
-            ]),
-            model: {
-              value: _vm.selected,
-              callback: function($$v) {
-                _vm.selected = $$v
-              },
-              expression: "selected"
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "text-xs-center pt-2" },
-            [
-              _c("v-pagination", {
-                attrs: { length: _vm.pagination.pages },
-                model: {
-                  value: _vm.pagination.page,
-                  callback: function($$v) {
-                    _vm.$set(_vm.pagination, "page", $$v)
-                  },
-                  expression: "pagination.page"
-                }
-              })
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-flex",
-        { attrs: { md2: "", "offset-md1": "" } },
-        [
-          _c(
-            "v-card",
-            [
-              _c("v-card-title", [
-                _c("div", [
-                  _c("h3", { staticClass: "headline mb-0" }, [_vm._v("Ações")])
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-card-text",
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        color: "primary",
-                        dark: "",
-                        to: { name: "clients.create" }
-                      }
-                    },
-                    [_vm._v("\r\n                  Cadastrar\r\n            ")]
-                  ),
-                  _vm._v(" "),
-                  _vm.howManyItemSelected >= 1
-                    ? [
-                        _vm.howManyItemSelected == 1
-                          ? _c(
-                              "v-btn",
-                              {
-                                attrs: {
-                                  color: "warning",
-                                  dark: "",
-                                  to: {
-                                    name: "clients.edit",
-                                    params: { client_id: this.selected[0].id }
-                                  }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\r\n                  Editar\r\n                "
-                                )
-                              ]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { color: "error", dark: "" },
-                            nativeOn: {
-                              click: function($event) {
-                                _vm.deleteDialog = true
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\r\n                  Excluir\r\n                "
-                            )
-                          ]
-                        )
-                      ]
-                    : _vm._e()
-                ],
-                2
-              ),
-              _vm._v(" "),
-              _c(
-                "v-snackbar",
-                {
-                  attrs: {
-                    timeout: _vm.toast.timeout,
-                    y: _vm.toast.y,
-                    x: _vm.toast.x,
-                    mode: _vm.toast.mode
-                  },
-                  model: {
-                    value: _vm.toast.toastVisible,
-                    callback: function($$v) {
-                      _vm.$set(_vm.toast, "toastVisible", $$v)
-                    },
-                    expression: "toast.toastVisible"
-                  }
-                },
-                [
-                  _vm._v(
-                    "\r\n        " + _vm._s(_vm.toast.text) + "\r\n        "
-                  ),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { flat: "", color: "pink" },
-                      nativeOn: {
-                        click: function($event) {
-                          _vm.toast.toastVisible = false
-                        }
-                      }
-                    },
-                    [_vm._v("Close")]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-dialog",
-                {
-                  attrs: { persistent: "" },
-                  model: {
-                    value: _vm.deleteDialog,
-                    callback: function($$v) {
-                      _vm.deleteDialog = $$v
-                    },
-                    expression: "deleteDialog"
-                  }
-                },
-                [
-                  _c(
-                    "v-card",
-                    [
-                      _c("v-card-title", { staticClass: "headline" }, [
-                        _vm._v("Deletar cliente?")
-                      ]),
-                      _vm._v(" "),
-                      _c("v-card-text", [
-                        _vm._v("Essa ação será irreversível.")
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-actions",
-                        [
-                          _c("v-spacer"),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { color: "green darken-1", flat: "" },
-                              nativeOn: {
-                                click: function($event) {
-                                  _vm.deleteDialog = false
-                                }
-                              }
-                            },
-                            [_vm._v("Cancelar")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { color: "error", flat: "" },
-                              nativeOn: {
-                                click: function($event) {
-                                  _vm.deleteItems()
-                                  _vm.deleteDialog = false
-                                }
-                              }
-                            },
-                            [_vm._v("Deletar")]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-4f5d2d5e", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-614b455e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/User/Users.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "v-layout",
-    { attrs: { row: "", wrap: "" } },
-    [
-      _c(
-        "v-flex",
-        { attrs: { md9: "" } },
-        [
-          _c("v-data-table", {
-            staticClass: "elevation-1",
-            attrs: {
-              loading: _vm.tableIsLoading,
-              "select-all": "",
-              "item-key": "id",
-              headers: _vm.headers,
-              items: _vm.items,
-              pagination: _vm.pagination,
-              "hide-actions": ""
-            },
-            on: {
-              "update:pagination": function($event) {
-                _vm.pagination = $event
-              }
-            },
-            scopedSlots: _vm._u([
-              {
-                key: "headerCell",
-                fn: function(props) {
-                  return [
-                    _c("v-tooltip", { attrs: { bottom: "" } }, [
-                      _c(
-                        "span",
-                        { attrs: { slot: "activator" }, slot: "activator" },
-                        [
-                          _vm._v(
-                            "\r\n            " +
-                              _vm._s(props.header.text) +
-                              "\r\n          "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("span", [
-                        _vm._v(
-                          "\r\n            " +
-                            _vm._s(props.header.text) +
-                            "\r\n          "
-                        )
-                      ])
-                    ])
-                  ]
-                }
-              },
-              {
-                key: "items",
-                fn: function(props) {
-                  return [
-                    _c(
-                      "tr",
-                      {
-                        attrs: { active: props.selected },
-                        on: {
-                          click: function($event) {
-                            props.selected = !props.selected
-                          }
-                        }
-                      },
-                      [
-                        _c(
-                          "td",
-                          [
-                            _c("v-checkbox", {
-                              attrs: {
-                                primary: "",
-                                "hide-details": "",
-                                "input-value": props.selected
-                              }
-                            })
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-xs-right" }, [
-                          _vm._v(_vm._s(props.item.id))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-xs-right" }, [
-                          _vm._v(_vm._s(props.item.name))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-xs-right" }, [
-                          _vm._v(_vm._s(props.item.email))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-xs-right" }, [
-                          _vm._v(_vm._s(props.item.isAdmin))
-                        ])
-                      ]
-                    )
-                  ]
-                }
-              }
-            ]),
-            model: {
-              value: _vm.selected,
-              callback: function($$v) {
-                _vm.selected = $$v
-              },
-              expression: "selected"
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "text-xs-center pt-2" },
-            [
-              _c("v-pagination", {
-                attrs: { length: _vm.pagination.pages },
-                model: {
-                  value: _vm.pagination.page,
-                  callback: function($$v) {
-                    _vm.$set(_vm.pagination, "page", $$v)
-                  },
-                  expression: "pagination.page"
-                }
-              })
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-flex",
-        { attrs: { md2: "", "offset-md1": "" } },
-        [
-          _c(
-            "v-card",
-            [
-              _c("v-card-title", [
-                _c("div", [
-                  _c("h3", { staticClass: "headline mb-0" }, [_vm._v("Ações")])
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-card-text",
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        color: "primary",
-                        dark: "",
-                        to: { name: "users.create" }
-                      }
-                    },
-                    [_vm._v("\r\n                  Cadastrar\r\n            ")]
-                  ),
-                  _vm._v(" "),
-                  _vm.howManyItemSelected >= 1
-                    ? [
-                        _vm.howManyItemSelected == 1
-                          ? _c(
-                              "v-btn",
-                              {
-                                attrs: {
-                                  color: "warning",
-                                  dark: "",
-                                  to: {
-                                    name: "users.edit",
-                                    params: { user_id: this.selected[0].id }
-                                  }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\r\n                  Editar\r\n                "
-                                )
-                              ]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { color: "error", dark: "" },
-                            nativeOn: {
-                              click: function($event) {
-                                _vm.deleteDialog = true
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\r\n                  Excluir\r\n                "
-                            )
-                          ]
-                        )
-                      ]
-                    : _vm._e()
-                ],
-                2
-              ),
-              _vm._v(" "),
-              _c(
-                "v-snackbar",
-                {
-                  attrs: {
-                    timeout: _vm.toast.timeout,
-                    y: _vm.toast.y,
-                    x: _vm.toast.x,
-                    mode: _vm.toast.mode
-                  },
-                  model: {
-                    value: _vm.toast.toastVisible,
-                    callback: function($$v) {
-                      _vm.$set(_vm.toast, "toastVisible", $$v)
-                    },
-                    expression: "toast.toastVisible"
-                  }
-                },
-                [
-                  _vm._v(
-                    "\r\n        " + _vm._s(_vm.toast.text) + "\r\n        "
-                  ),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { flat: "", color: "pink" },
-                      nativeOn: {
-                        click: function($event) {
-                          _vm.toast.toastVisible = false
-                        }
-                      }
-                    },
-                    [_vm._v("Close")]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-dialog",
-                {
-                  attrs: { persistent: "" },
-                  model: {
-                    value: _vm.deleteDialog,
-                    callback: function($$v) {
-                      _vm.deleteDialog = $$v
-                    },
-                    expression: "deleteDialog"
-                  }
-                },
-                [
-                  _c(
-                    "v-card",
-                    [
-                      _c("v-card-title", { staticClass: "headline" }, [
-                        _vm._v("Deletar usuário?")
-                      ]),
-                      _vm._v(" "),
-                      _c("v-card-text", [
-                        _vm._v("Essa ação será irreversível.")
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-actions",
-                        [
-                          _c("v-spacer"),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { color: "green darken-1", flat: "" },
-                              nativeOn: {
-                                click: function($event) {
-                                  _vm.deleteDialog = false
-                                }
-                              }
-                            },
-                            [_vm._v("Cancelar")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { color: "error", flat: "" },
-                              nativeOn: {
-                                click: function($event) {
-                                  _vm.deleteItems()
-                                  _vm.deleteDialog = false
-                                }
-                              }
-                            },
-                            [_vm._v("Deletar")]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-614b455e", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6178ceda\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/Create.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "v-layout",
-    { attrs: { row: "", wrap: "" } },
-    [
-      _c(
-        "v-flex",
-        { attrs: { md9: "" } },
-        [
-          _c(
-            "v-form",
-            {
-              model: {
-                value: _vm.valid,
-                callback: function($$v) {
-                  _vm.valid = $$v
-                },
-                expression: "valid"
-              }
-            },
-            [
-              _c(
-                "v-flex",
-                { attrs: { xs12: "" } },
-                [
-                  _c("v-select", {
-                    attrs: {
-                      label: "Clientes",
-                      "item-text": "name",
-                      "item-value": "id",
-                      multiple: "",
-                      chips: "",
-                      items: _vm.clients,
-                      required: "",
-                      rules: _vm.requiredRule
-                    },
-                    model: {
-                      value: _vm.bill.clients,
-                      callback: function($$v) {
-                        _vm.$set(_vm.bill, "clients", $$v)
-                      },
-                      expression: "bill.clients"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { xs4: "" } },
-                [
-                  _c("v-select", {
-                    attrs: {
-                      label: "Tipo de conta",
-                      items: _vm.billTypes,
-                      "item-text": "name",
-                      "single-line": "",
-                      bottom: "",
-                      required: "",
-                      rules: _vm.requiredRule
-                    },
-                    model: {
-                      value: _vm.bill.type,
-                      callback: function($$v) {
-                        _vm.$set(_vm.bill, "type", $$v)
-                      },
-                      expression: "bill.type"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { xs6: "" } },
-                [
-                  _c(
-                    "v-flex",
-                    { attrs: { xs4: "" } },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          label: "Valor",
-                          type: "number",
-                          required: "",
-                          rules: _vm.requiredRule,
-                          value: _vm.setDefaultValue
-                        },
-                        model: {
-                          value: _vm.bill.price,
-                          callback: function($$v) {
-                            _vm.$set(_vm.bill, "price", $$v)
-                          },
-                          expression: "bill.price"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("v-switch", {
-                    attrs: { label: "Pegar valor padrão" },
-                    model: {
-                      value: _vm.default_value,
-                      callback: function($$v) {
-                        _vm.default_value = $$v
-                      },
-                      expression: "default_value"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { xs11: "", sm5: "" } },
-                [
-                  _c(
-                    "v-dialog",
-                    {
-                      attrs: {
-                        lazy: "",
-                        "full-width": "",
-                        "max-width": "340px"
-                      },
-                      model: {
-                        value: _vm.modal_date_active,
-                        callback: function($$v) {
-                          _vm.modal_date_active = $$v
-                        },
-                        expression: "modal_date_active"
-                      }
-                    },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          slot: "activator",
-                          label: "Escolha uma data de vencimento",
-                          "prepend-icon": "event",
-                          readonly: ""
-                        },
-                        slot: "activator",
-                        model: {
-                          value: _vm.bill.expire_date,
-                          callback: function($$v) {
-                            _vm.$set(_vm.bill, "expire_date", $$v)
-                          },
-                          expression: "bill.expire_date"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("v-date-picker", {
-                        attrs: { scrollable: "", actions: "", locale: "pt-br" },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "default",
-                            fn: function(ref) {
-                              var save = ref.save
-                              var cancel = ref.cancel
-                              return [
-                                _c(
-                                  "v-card-actions",
-                                  [
-                                    _c("v-spacer"),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-btn",
-                                      {
-                                        attrs: { flat: "", color: "primary" },
-                                        on: { click: cancel }
-                                      },
-                                      [_vm._v("Cancelar")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-btn",
-                                      {
-                                        attrs: { flat: "", color: "primary" },
-                                        on: { click: save }
-                                      },
-                                      [_vm._v("Ok")]
-                                    )
-                                  ],
-                                  1
-                                )
-                              ]
-                            }
-                          }
-                        ]),
-                        model: {
-                          value: _vm.bill.expire_date,
-                          callback: function($$v) {
-                            _vm.$set(_vm.bill, "expire_date", $$v)
-                          },
-                          expression: "bill.expire_date"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { xs6: "" } },
-                [
-                  _c("v-text-field", {
-                    attrs: { label: "Descrição", type: "text" },
-                    model: {
-                      value: _vm.bill.description,
-                      callback: function($$v) {
-                        _vm.$set(_vm.bill, "description", $$v)
-                      },
-                      expression: "bill.description"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: {
-                    disabled: !_vm.valid,
-                    color: "primary",
-                    loading: _vm.isLoading
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.sendForm()
-                    }
-                  }
-                },
-                [_vm._v("\r\n        Confirmar\r\n        ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-snackbar",
-                {
-                  attrs: {
-                    timeout: _vm.toast.timeout,
-                    y: _vm.toast.y,
-                    x: _vm.toast.x,
-                    mode: _vm.toast.mode
-                  },
-                  model: {
-                    value: _vm.toast.toastVisible,
-                    callback: function($$v) {
-                      _vm.$set(_vm.toast, "toastVisible", $$v)
-                    },
-                    expression: "toast.toastVisible"
-                  }
-                },
-                [
-                  _vm._v(
-                    "\r\n        " + _vm._s(_vm.toast.text) + "\r\n        "
-                  ),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { flat: "", color: "pink" },
-                      nativeOn: {
-                        click: function($event) {
-                          _vm.toast.toastVisible = false
-                        }
-                      }
-                    },
-                    [_vm._v("Close")]
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6178ceda", module.exports)
   }
 }
 
@@ -34195,373 +31888,37 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-layout",
-    { attrs: { row: "", wrap: "" } },
+    "div",
     [
       _c(
-        "v-flex",
-        { attrs: { md9: "" } },
-        [
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "primary" },
-              on: {
-                click: function($event) {
-                  _vm.$router.back()
-                }
-              }
-            },
-            [_vm._v("\r\n        Voltar\r\n    ")]
-          ),
-          _vm._v(" "),
-          _c(
-            "v-layout",
-            { attrs: { row: "", wrap: "" } },
-            [
-              _c(
-                "v-flex",
-                { attrs: { md6: "" } },
-                [
-                  _c(
-                    "v-layout",
-                    { attrs: { row: "", wrap: "" } },
-                    [
-                      _c("v-subheader", [
-                        _c("span", { staticClass: "grey--text" }, [
-                          _vm._v("ID: ")
-                        ]),
-                        _vm._v(" " + _vm._s(_vm.bill.id))
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-layout",
-                    { attrs: { row: "", wrap: "" } },
-                    [
-                      _c("v-subheader", [
-                        _c("span", { staticClass: "grey--text" }, [
-                          _vm._v("Cliente: ")
-                        ]),
-                        _vm._v(" " + _vm._s(_vm.bill.client.name))
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-layout",
-                    { attrs: { row: "", wrap: "" } },
-                    [
-                      _c("v-subheader", [
-                        _c("span", { staticClass: "grey--text" }, [
-                          _vm._v("Tipo: ")
-                        ]),
-                        _vm._v(" " + _vm._s(_vm.bill.bill_type.name))
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-layout",
-                    { attrs: { row: "", wrap: "" } },
-                    [
-                      _c("v-subheader", [
-                        _c("span", { staticClass: "grey--text" }, [
-                          _vm._v("Vencimento: ")
-                        ]),
-                        _vm._v(" " + _vm._s(_vm.bill.expire_date))
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-layout",
-                    { attrs: { row: "", wrap: "" } },
-                    [
-                      _c("v-subheader", [
-                        _c("span", { staticClass: "grey--text" }, [
-                          _vm._v("Pago em: ")
-                        ]),
-                        _vm._v(
-                          " " +
-                            _vm._s(
-                              _vm.bill.paid_at ? _vm.bill.paid_at : "Não pago"
-                            )
-                        )
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-layout",
-                    { attrs: { row: "", wrap: "" } },
-                    [
-                      _c("v-subheader", [
-                        _c("span", { staticClass: "grey--text" }, [
-                          _vm._v("Preço: ")
-                        ]),
-                        _vm._v(" R$" + _vm._s(_vm.bill.price))
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-layout",
-                    { attrs: { row: "", wrap: "" } },
-                    [
-                      _c("v-subheader", [
-                        _c("span", { staticClass: "grey--text" }, [
-                          _vm._v("Descrição: ")
-                        ]),
-                        _vm._v(" " + _vm._s(_vm.bill.description))
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-layout",
-                    { attrs: { row: "", wrap: "" } },
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { disabled: _vm.bill.paid_at, color: "green" },
-                          nativeOn: {
-                            click: function($event) {
-                              _vm.datePaymentPickDialog = true
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\r\n                    Pagar\r\n                "
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { md5: "", "offset-md1": "" } },
-                [
-                  _c(
-                    "v-layout",
-                    { attrs: { row: "", wrap: "" } },
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { color: "error" },
-                          nativeOn: {
-                            click: function($event) {
-                              _vm.deleteDialog = true
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\r\n                Excluir\r\n                "
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-snackbar",
+        "vue-table",
         {
           attrs: {
-            timeout: _vm.toast.timeout,
-            y: _vm.toast.y,
-            x: _vm.toast.x,
-            mode: _vm.toast.mode
-          },
-          model: {
-            value: _vm.toast.toastVisible,
-            callback: function($$v) {
-              _vm.$set(_vm.toast, "toastVisible", $$v)
-            },
-            expression: "toast.toastVisible"
-          }
-        },
-        [
-          _vm._v("\r\n    " + _vm._s(_vm.toast.text) + "\r\n    "),
-          _c(
-            "v-btn",
-            {
-              attrs: { flat: "", color: "pink" },
-              nativeOn: {
-                click: function($event) {
-                  _vm.toast.toastVisible = false
-                }
-              }
-            },
-            [_vm._v("Close")]
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-dialog",
-        {
-          attrs: { persistent: "" },
-          model: {
-            value: _vm.deleteDialog,
-            callback: function($$v) {
-              _vm.deleteDialog = $$v
-            },
-            expression: "deleteDialog"
+            title: "Tabela de usuários",
+            "has-actions": true,
+            fields: _vm.fields,
+            "source-data": "/dashboard/users",
+            "delete-api": "/dashboard/users/delete/",
+            actions: _vm.tableActions
           }
         },
         [
           _c(
-            "v-card",
+            "div",
+            { attrs: { slot: "buttons" }, slot: "buttons" },
             [
-              _c("v-card-title", { staticClass: "headline" }, [
-                _vm._v("Deletar conta?")
-              ]),
-              _vm._v(" "),
               _c(
-                "v-card-actions",
-                [
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "green darken-1", flat: "" },
-                      nativeOn: {
-                        click: function($event) {
-                          _vm.deleteDialog = false
-                        }
-                      }
-                    },
-                    [_vm._v("Cancelar")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "error", flat: "" },
-                      nativeOn: {
-                        click: function($event) {
-                          _vm.deleteBill()
-                          _vm.deleteDialog = false
-                        }
-                      }
-                    },
-                    [_vm._v("Deletar")]
-                  )
-                ],
-                1
+                "router-link",
+                {
+                  staticClass: "left btn-floating btn-med blue",
+                  attrs: { to: { name: "users.create" } }
+                },
+                [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
               )
             ],
             1
           )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-dialog",
-        {
-          attrs: { "max-width": "400px" },
-          model: {
-            value: _vm.datePaymentPickDialog,
-            callback: function($$v) {
-              _vm.datePaymentPickDialog = $$v
-            },
-            expression: "datePaymentPickDialog"
-          }
-        },
-        [
-          _c(
-            "v-card",
-            [
-              _c("v-card-title", { staticClass: "headline" }, [
-                _vm._v("Selecione o dia de pagamento!")
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-card-text",
-                [
-                  _c("v-date-picker", {
-                    attrs: { locale: "pt-br" },
-                    model: {
-                      value: _vm.paymentDate,
-                      callback: function($$v) {
-                        _vm.paymentDate = $$v
-                      },
-                      expression: "paymentDate"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "green darken-1", flat: "" },
-                      nativeOn: {
-                        click: function($event) {
-                          _vm.datePaymentPickDialog = false
-                        }
-                      }
-                    },
-                    [_vm._v("Cancelar")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "error", flat: "" },
-                      nativeOn: {
-                        click: function($event) {
-                          _vm.sendPayment()
-                          _vm.datePaymentPickDialog = false
-                        }
-                      }
-                    },
-                    [_vm._v("Confirmar")]
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
+        ]
       )
     ],
     1
@@ -34742,7 +32099,7 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-920aaf0e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/components/ExpiredTable.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-8fc2ff36\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Client/Client.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -34752,242 +32109,316 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("h5", { staticClass: "text-xs-center" }, [_vm._v("Contas atrasadas")]),
-      _vm._v(" "),
-      _c("v-data-table", {
-        staticClass: "elevation-1",
-        attrs: {
-          loading: _vm.expired_table.tableIsLoading,
-          "item-key": "id",
-          headers: _vm.expired_table.headers,
-          items: _vm.expired_table.items,
-          pagination: _vm.expired_table.pagination,
-          "hide-actions": ""
-        },
-        on: {
-          "update:pagination": function($event) {
-            _vm.$set(_vm.expired_table, "pagination", $event)
-          }
-        },
-        scopedSlots: _vm._u([
-          {
-            key: "headerCell",
-            fn: function(props) {
-              return [
-                _c("v-tooltip", { attrs: { bottom: "" } }, [
-                  _c(
-                    "span",
-                    { attrs: { slot: "activator" }, slot: "activator" },
-                    [
-                      _vm._v(
-                        "\r\n            " +
-                          _vm._s(props.header.text) +
-                          "\r\n            "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("span", [
-                    _vm._v(
-                      "\r\n            " +
-                        _vm._s(props.header.text) +
-                        "\r\n            "
-                    )
-                  ])
-                ])
-              ]
-            }
-          },
-          {
-            key: "items",
-            fn: function(props) {
-              return [
-                _c(
-                  "router-link",
-                  {
-                    attrs: {
-                      to: {
-                        name: "bills.bill",
-                        params: { bill_id: props.item.id }
-                      },
-                      tag: "tr"
-                    }
-                  },
-                  [
-                    _c("td", { staticClass: "text-xs-right" }, [
-                      _vm._v(_vm._s(props.item.client.name))
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "text-xs-right" }, [
-                      _vm._v(_vm._s(props.item.bill_type.name))
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "text-xs-right" }, [
-                      _vm._v(_vm._s(props.item.expire_date))
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "text-xs-right" }, [
-                      _vm._v("R$" + _vm._s(props.item.price))
-                    ])
-                  ]
-                )
-              ]
-            }
-          }
-        ]),
-        model: {
-          value: _vm.expired_table.selected,
-          callback: function($$v) {
-            _vm.$set(_vm.expired_table, "selected", $$v)
-          },
-          expression: "expired_table.selected"
-        }
-      }),
-      _vm._v(" "),
       _c(
-        "div",
-        { staticClass: "text-xs-center pt-2" },
-        [
-          _c("v-pagination", {
-            attrs: { length: _vm.expired_table.pagination.pages },
-            model: {
-              value: _vm.expired_table.pagination.page,
-              callback: function($$v) {
-                _vm.$set(_vm.expired_table.pagination, "page", $$v)
-              },
-              expression: "expired_table.pagination.page"
-            }
-          })
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-920aaf0e", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-930b4880\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/BillType/Create.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "v-layout",
-    { attrs: { row: "", wrap: "" } },
-    [
-      _c(
-        "v-flex",
-        { attrs: { md9: "" } },
+        "v-layout",
+        { attrs: { row: "", wrap: "" } },
         [
           _c(
-            "v-btn",
-            {
-              attrs: { color: "primary" },
-              on: {
-                click: function($event) {
-                  _vm.$router.push({ name: "bills.types" })
+            "v-flex",
+            { attrs: { md9: "" } },
+            [
+              _c("v-data-table", {
+                staticClass: "elevation-1",
+                attrs: {
+                  loading: _vm.tableIsLoading,
+                  "select-all": "",
+                  "item-key": "name",
+                  headers: _vm.headers,
+                  items: _vm.items,
+                  pagination: _vm.pagination,
+                  "hide-actions": ""
+                },
+                on: {
+                  "update:pagination": function($event) {
+                    _vm.pagination = $event
+                  }
+                },
+                scopedSlots: _vm._u([
+                  {
+                    key: "headerCell",
+                    fn: function(props) {
+                      return [
+                        _c("v-tooltip", { attrs: { bottom: "" } }, [
+                          _c(
+                            "span",
+                            { attrs: { slot: "activator" }, slot: "activator" },
+                            [
+                              _vm._v(
+                                "\r\n            " +
+                                  _vm._s(props.header.text) +
+                                  "\r\n          "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("span", [
+                            _vm._v(
+                              "\r\n            " +
+                                _vm._s(props.header.text) +
+                                "\r\n          "
+                            )
+                          ])
+                        ])
+                      ]
+                    }
+                  },
+                  {
+                    key: "items",
+                    fn: function(props) {
+                      return [
+                        _c(
+                          "tr",
+                          {
+                            attrs: { active: props.selected },
+                            on: {
+                              click: function($event) {
+                                props.selected = !props.selected
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "td",
+                              [
+                                _c("v-checkbox", {
+                                  attrs: {
+                                    primary: "",
+                                    "hide-details": "",
+                                    "input-value": props.selected
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "text-xs-right" }, [
+                              _vm._v(_vm._s(props.item.id))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "text-xs-right" }, [
+                              _vm._v(_vm._s(props.item.name))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "text-xs-right" }, [
+                              _vm._v(_vm._s(props.item.email))
+                            ])
+                          ]
+                        )
+                      ]
+                    }
+                  }
+                ]),
+                model: {
+                  value: _vm.selected,
+                  callback: function($$v) {
+                    _vm.selected = $$v
+                  },
+                  expression: "selected"
                 }
-              }
-            },
-            [_vm._v("\r\n        Voltar\r\n    ")]
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "text-xs-center pt-2" },
+                [
+                  _c("v-pagination", {
+                    attrs: { length: _vm.pagination.pages },
+                    model: {
+                      value: _vm.pagination.page,
+                      callback: function($$v) {
+                        _vm.$set(_vm.pagination, "page", $$v)
+                      },
+                      expression: "pagination.page"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
           ),
           _vm._v(" "),
           _c(
-            "v-form",
-            {
-              model: {
-                value: _vm.valid,
-                callback: function($$v) {
-                  _vm.valid = $$v
-                },
-                expression: "valid"
-              }
-            },
+            "v-flex",
+            { attrs: { md2: "", "offset-md1": "" } },
             [
-              _c("v-text-field", {
-                attrs: { label: "Nome", required: "", rules: _vm.requiredRule },
-                model: {
-                  value: _vm.billType.name,
-                  callback: function($$v) {
-                    _vm.$set(_vm.billType, "name", $$v)
-                  },
-                  expression: "billType.name"
-                }
-              }),
-              _vm._v(" "),
-              _c("v-text-field", {
-                attrs: { label: "Valor padrão", type: "number" },
-                model: {
-                  value: _vm.billType.default_price,
-                  callback: function($$v) {
-                    _vm.$set(_vm.billType, "default_price", $$v)
-                  },
-                  expression: "billType.default_price"
-                }
-              }),
-              _vm._v(" "),
               _c(
-                "v-btn",
-                {
-                  attrs: {
-                    disabled: !_vm.valid,
-                    color: "primary",
-                    loading: _vm.isLoading
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.sendForm()
-                    }
-                  }
-                },
-                [_vm._v("\r\n        Confirmar\r\n        ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-snackbar",
-                {
-                  attrs: {
-                    timeout: _vm.toast.timeout,
-                    y: _vm.toast.y,
-                    x: _vm.toast.x,
-                    mode: _vm.toast.mode
-                  },
-                  model: {
-                    value: _vm.toast.toastVisible,
-                    callback: function($$v) {
-                      _vm.$set(_vm.toast, "toastVisible", $$v)
-                    },
-                    expression: "toast.toastVisible"
-                  }
-                },
+                "v-card",
                 [
-                  _vm._v(
-                    "\r\n        " + _vm._s(_vm.toast.text) + "\r\n        "
-                  ),
+                  _c("v-card-title", [
+                    _c("div", [
+                      _c("h3", { staticClass: "headline mb-0" }, [
+                        _vm._v("Ações")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
                   _c(
-                    "v-btn",
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            color: "primary",
+                            dark: "",
+                            to: { name: "clients.create" }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\r\n                  Cadastrar\r\n            "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _vm.howManyItemSelected >= 1
+                        ? [
+                            _vm.howManyItemSelected == 1
+                              ? _c(
+                                  "v-btn",
+                                  {
+                                    attrs: {
+                                      color: "warning",
+                                      dark: "",
+                                      to: {
+                                        name: "clients.edit",
+                                        params: {
+                                          client_id: this.selected[0].id
+                                        }
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\r\n                  Editar\r\n                "
+                                    )
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: { color: "error", dark: "" },
+                                nativeOn: {
+                                  click: function($event) {
+                                    _vm.deleteDialog = true
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\r\n                  Excluir\r\n                "
+                                )
+                              ]
+                            )
+                          ]
+                        : _vm._e()
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-snackbar",
                     {
-                      attrs: { flat: "", color: "pink" },
-                      nativeOn: {
-                        click: function($event) {
-                          _vm.toast.toastVisible = false
-                        }
+                      attrs: {
+                        timeout: _vm.toast.timeout,
+                        y: _vm.toast.y,
+                        x: _vm.toast.x,
+                        mode: _vm.toast.mode
+                      },
+                      model: {
+                        value: _vm.toast.toastVisible,
+                        callback: function($$v) {
+                          _vm.$set(_vm.toast, "toastVisible", $$v)
+                        },
+                        expression: "toast.toastVisible"
                       }
                     },
-                    [_vm._v("Close")]
+                    [
+                      _vm._v(
+                        "\r\n        " + _vm._s(_vm.toast.text) + "\r\n        "
+                      ),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { flat: "", color: "pink" },
+                          nativeOn: {
+                            click: function($event) {
+                              _vm.toast.toastVisible = false
+                            }
+                          }
+                        },
+                        [_vm._v("Close")]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-dialog",
+                    {
+                      attrs: { persistent: "" },
+                      model: {
+                        value: _vm.deleteDialog,
+                        callback: function($$v) {
+                          _vm.deleteDialog = $$v
+                        },
+                        expression: "deleteDialog"
+                      }
+                    },
+                    [
+                      _c(
+                        "v-card",
+                        [
+                          _c("v-card-title", { staticClass: "headline" }, [
+                            _vm._v("Deletar cliente?")
+                          ]),
+                          _vm._v(" "),
+                          _c("v-card-text", [
+                            _vm._v("Essa ação será irreversível.")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-actions",
+                            [
+                              _c("v-spacer"),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "green darken-1", flat: "" },
+                                  nativeOn: {
+                                    click: function($event) {
+                                      _vm.deleteDialog = false
+                                    }
+                                  }
+                                },
+                                [_vm._v("Cancelar")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "error", flat: "" },
+                                  nativeOn: {
+                                    click: function($event) {
+                                      _vm.deleteItems()
+                                      _vm.deleteDialog = false
+                                    }
+                                  }
+                                },
+                                [_vm._v("Deletar")]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
                   )
                 ],
                 1
@@ -35008,7 +32439,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-930b4880", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-8fc2ff36", module.exports)
   }
 }
 
@@ -35211,340 +32642,6 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-bc5dd6c4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/BillType/BillTypes.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "v-layout",
-    { attrs: { row: "", wrap: "" } },
-    [
-      _c(
-        "v-flex",
-        { attrs: { md9: "" } },
-        [
-          _c("v-data-table", {
-            staticClass: "elevation-1",
-            attrs: {
-              loading: _vm.tableIsLoading,
-              "select-all": "",
-              "item-key": "name",
-              headers: _vm.headers,
-              items: _vm.items,
-              pagination: _vm.pagination,
-              "hide-actions": ""
-            },
-            on: {
-              "update:pagination": function($event) {
-                _vm.pagination = $event
-              }
-            },
-            scopedSlots: _vm._u([
-              {
-                key: "headerCell",
-                fn: function(props) {
-                  return [
-                    _c("v-tooltip", { attrs: { bottom: "" } }, [
-                      _c(
-                        "span",
-                        { attrs: { slot: "activator" }, slot: "activator" },
-                        [
-                          _vm._v(
-                            "\r\n            " +
-                              _vm._s(props.header.text) +
-                              "\r\n          "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("span", [
-                        _vm._v(
-                          "\r\n            " +
-                            _vm._s(props.header.text) +
-                            "\r\n          "
-                        )
-                      ])
-                    ])
-                  ]
-                }
-              },
-              {
-                key: "items",
-                fn: function(props) {
-                  return [
-                    _c(
-                      "tr",
-                      {
-                        attrs: { active: props.selected },
-                        on: {
-                          click: function($event) {
-                            props.selected = !props.selected
-                          }
-                        }
-                      },
-                      [
-                        _c(
-                          "td",
-                          [
-                            _c("v-checkbox", {
-                              attrs: {
-                                primary: "",
-                                "hide-details": "",
-                                "input-value": props.selected
-                              }
-                            })
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-xs-right" }, [
-                          _vm._v(_vm._s(props.item.id))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-xs-right" }, [
-                          _vm._v(_vm._s(props.item.name))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "text-xs-right" }, [
-                          _vm._v(_vm._s(props.item.default_price))
-                        ])
-                      ]
-                    )
-                  ]
-                }
-              }
-            ]),
-            model: {
-              value: _vm.selected,
-              callback: function($$v) {
-                _vm.selected = $$v
-              },
-              expression: "selected"
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "text-xs-center pt-2" },
-            [
-              _c("v-pagination", {
-                attrs: { length: _vm.pagination.pages },
-                model: {
-                  value: _vm.pagination.page,
-                  callback: function($$v) {
-                    _vm.$set(_vm.pagination, "page", $$v)
-                  },
-                  expression: "pagination.page"
-                }
-              })
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-flex",
-        { attrs: { md2: "", "offset-md1": "" } },
-        [
-          _c(
-            "v-card",
-            [
-              _c("v-card-title", [
-                _c("div", [
-                  _c("h3", { staticClass: "headline mb-0" }, [_vm._v("Ações")])
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-card-text",
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        color: "primary",
-                        dark: "",
-                        to: { name: "bills.types.create" }
-                      }
-                    },
-                    [_vm._v("\r\n                  Cadastrar\r\n            ")]
-                  ),
-                  _vm._v(" "),
-                  _vm.howManyItemSelected >= 1
-                    ? [
-                        _vm.howManyItemSelected == 1
-                          ? _c(
-                              "v-btn",
-                              {
-                                attrs: {
-                                  color: "warning",
-                                  dark: "",
-                                  to: {
-                                    name: "bills.types.edit",
-                                    params: {
-                                      bill_type_id: this.selected[0].id
-                                    }
-                                  }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\r\n                  Editar\r\n                "
-                                )
-                              ]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { color: "error", dark: "" },
-                            nativeOn: {
-                              click: function($event) {
-                                _vm.deleteDialog = true
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\r\n                  Excluir\r\n                "
-                            )
-                          ]
-                        )
-                      ]
-                    : _vm._e()
-                ],
-                2
-              ),
-              _vm._v(" "),
-              _c(
-                "v-snackbar",
-                {
-                  attrs: {
-                    timeout: _vm.toast.timeout,
-                    y: _vm.toast.y,
-                    x: _vm.toast.x,
-                    mode: _vm.toast.mode
-                  },
-                  model: {
-                    value: _vm.toast.toastVisible,
-                    callback: function($$v) {
-                      _vm.$set(_vm.toast, "toastVisible", $$v)
-                    },
-                    expression: "toast.toastVisible"
-                  }
-                },
-                [
-                  _vm._v(
-                    "\r\n        " + _vm._s(_vm.toast.text) + "\r\n        "
-                  ),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { flat: "", color: "pink" },
-                      nativeOn: {
-                        click: function($event) {
-                          _vm.toast.toastVisible = false
-                        }
-                      }
-                    },
-                    [_vm._v("Close")]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-dialog",
-                {
-                  attrs: { persistent: "" },
-                  model: {
-                    value: _vm.deleteDialog,
-                    callback: function($$v) {
-                      _vm.deleteDialog = $$v
-                    },
-                    expression: "deleteDialog"
-                  }
-                },
-                [
-                  _c(
-                    "v-card",
-                    [
-                      _c("v-card-title", { staticClass: "headline" }, [
-                        _vm._v("Deletar tipo de conta?")
-                      ]),
-                      _vm._v(" "),
-                      _c("v-card-text", [
-                        _vm._v("Essa ação será irreversível.")
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-actions",
-                        [
-                          _c("v-spacer"),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { color: "green darken-1", flat: "" },
-                              nativeOn: {
-                                click: function($event) {
-                                  _vm.deleteDialog = false
-                                }
-                              }
-                            },
-                            [_vm._v("Cancelar")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { color: "error", flat: "" },
-                              nativeOn: {
-                                click: function($event) {
-                                  _vm.deleteItems()
-                                  _vm.deleteDialog = false
-                                }
-                              }
-                            },
-                            [_vm._v("Deletar")]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-bc5dd6c4", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d92699b8\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/User/Edit.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -35704,45 +32801,6 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-d92699b8", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-edfb58a6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Dashboard/Index.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "v-layout",
-    [
-      _c(
-        "v-flex",
-        { attrs: { xs12: "", sm12: "", md12: "", lg6: "" } },
-        [_c("expired-table")],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-flex",
-        { attrs: { xs12: "", sm12: "", md12: "", lg6: "" } },
-        [_c("not-expired-table")],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-edfb58a6", module.exports)
   }
 }
 
@@ -38689,33 +35747,6 @@ if (inBrowser && window.Vue) {
 
 /* harmony default export */ __webpack_exports__["default"] = (VueRouter);
 
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7e572436\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/Bill.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7e572436\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/Bill.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("f1b725c6", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7e572436\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./Bill.vue", function() {
-     var newContent = require("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7e572436\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./Bill.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
 
 /***/ }),
 
@@ -67006,10 +64037,6 @@ exports.default = {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7e572436\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/Bill.vue")
-}
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
 var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/Bill.vue")
@@ -67018,7 +64045,7 @@ var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/templa
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -67055,15 +64082,15 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/App/Dashboard/Views/Bill/Create.vue":
+/***/ "./resources/assets/js/App/Dashboard/Views/Client/Client.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/Create.vue")
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Client/Client.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6178ceda\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/Create.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-8fc2ff36\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Client/Client.vue")
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -67080,7 +64107,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\App\\Dashboard\\Views\\Bill\\Create.vue"
+Component.options.__file = "resources\\assets\\js\\App\\Dashboard\\Views\\Client\\Client.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -67090,254 +64117,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6178ceda", Component.options)
+    hotAPI.createRecord("data-v-8fc2ff36", Component.options)
   } else {
-    hotAPI.reload("data-v-6178ceda", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/App/Dashboard/Views/Bill/Edit.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/Edit.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-296a0330\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/Edit.vue")
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\App\\Dashboard\\Views\\Bill\\Edit.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-296a0330", Component.options)
-  } else {
-    hotAPI.reload("data-v-296a0330", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/App/Dashboard/Views/BillType/BillTypes.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/BillType/BillTypes.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-bc5dd6c4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/BillType/BillTypes.vue")
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\App\\Dashboard\\Views\\BillType\\BillTypes.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-bc5dd6c4", Component.options)
-  } else {
-    hotAPI.reload("data-v-bc5dd6c4", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/App/Dashboard/Views/BillType/Create.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/BillType/Create.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-930b4880\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/BillType/Create.vue")
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\App\\Dashboard\\Views\\BillType\\Create.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-930b4880", Component.options)
-  } else {
-    hotAPI.reload("data-v-930b4880", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/App/Dashboard/Views/BillType/Edit.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/BillType/Edit.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-0612e664\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/BillType/Edit.vue")
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\App\\Dashboard\\Views\\BillType\\Edit.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0612e664", Component.options)
-  } else {
-    hotAPI.reload("data-v-0612e664", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/App/Dashboard/Views/Client/Clients.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Client/Clients.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-4f5d2d5e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Client/Clients.vue")
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\App\\Dashboard\\Views\\Client\\Clients.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4f5d2d5e", Component.options)
-  } else {
-    hotAPI.reload("data-v-4f5d2d5e", Component.options)
+    hotAPI.reload("data-v-8fc2ff36", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -67436,55 +64218,6 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-eedc88b8", Component.options)
   } else {
     hotAPI.reload("data-v-eedc88b8", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/App/Dashboard/Views/Dashboard/Index.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Dashboard/Index.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-edfb58a6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Dashboard/Index.vue")
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\App\\Dashboard\\Views\\Dashboard\\Index.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-edfb58a6", Component.options)
-  } else {
-    hotAPI.reload("data-v-edfb58a6", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -67643,15 +64376,15 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/App/Dashboard/Views/User/Users.vue":
+/***/ "./resources/assets/js/App/Dashboard/Views/User/User.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/User/Users.vue")
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/User/User.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-614b455e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/User/Users.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-240d6865\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/User/User.vue")
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -67668,7 +64401,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\App\\Dashboard\\Views\\User\\Users.vue"
+Component.options.__file = "resources\\assets\\js\\App\\Dashboard\\Views\\User\\User.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -67678,107 +64411,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-614b455e", Component.options)
+    hotAPI.createRecord("data-v-240d6865", Component.options)
   } else {
-    hotAPI.reload("data-v-614b455e", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/App/Dashboard/components/ExpiredTable.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/components/ExpiredTable.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-920aaf0e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/components/ExpiredTable.vue")
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\App\\Dashboard\\components\\ExpiredTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-920aaf0e", Component.options)
-  } else {
-    hotAPI.reload("data-v-920aaf0e", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/App/Dashboard/components/NotExpiredTable.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/components/NotExpiredTable.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-195a38fc\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/components/NotExpiredTable.vue")
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\App\\Dashboard\\components\\NotExpiredTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-195a38fc", Component.options)
-  } else {
-    hotAPI.reload("data-v-195a38fc", Component.options)
+    hotAPI.reload("data-v-240d6865", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -67933,8 +64568,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _ref;
-
 var _Main = __webpack_require__("./resources/assets/js/App/Dashboard/Views/Main.vue");
 
 var _Main2 = _interopRequireDefault(_Main);
@@ -67955,14 +64588,7 @@ var _vuex2 = _interopRequireDefault(_vuex);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; } //Main do dashboard
-
 //Main de Auth
-
-
-//Parent component
-
-
 exports.default = [{
     path: '/login',
     component: _Main4.default,
@@ -67974,6 +64600,7 @@ exports.default = [{
     }]
 }, {
     path: '/dashboard',
+    name: 'dashboard',
     component: _Main2.default,
     beforeEnter: function beforeEnter(to, from, next) {
         if (_vuex2.default.getters.isLogged) {
@@ -67983,15 +64610,11 @@ exports.default = [{
         }
     },
     children: [{
-        path: '/',
-        name: 'dashboard.index',
-        component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/Dashboard/Index.vue")
-    }, {
         path: 'usuarios',
         component: _Parent2.default,
         children: [{
             path: '/',
-            component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/User/Users.vue"),
+            component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/User/User.vue"),
             name: 'users'
         }, {
             path: 'criar',
@@ -68008,14 +64631,14 @@ exports.default = [{
         component: _Parent2.default,
         children: [{
             path: '/',
-            component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/Client/Clients.vue"),
+            component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/Client/Client.vue"),
             name: 'clients'
         }, {
             path: 'criar',
             component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/Client/Create.vue"),
             name: 'clients.create'
         }, {
-            path: 'editar/:client_id',
+            path: 'editar/:clients_id',
             name: 'clients.edit',
             component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/Client/Edit.vue"),
             props: true
@@ -68023,44 +64646,25 @@ exports.default = [{
     }, {
         path: 'contas',
         component: _Parent2.default,
-        children: [(_ref = {
-            path: 'tipos',
-            component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/BillType/Edit.vue")
-        }, _defineProperty(_ref, 'component', _Parent2.default), _defineProperty(_ref, 'children', [{
-            name: 'bills.types',
-            path: '/',
-            component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/BillType/BillTypes.vue")
-        }, {
-            name: 'bills.types.create',
-            path: 'criar',
-            component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/BillType/Create.vue")
-        }, {
-            name: 'bills.types.edit',
-            path: 'editar/:bill_type_id',
-            component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/BillType/Edit.vue"),
-            props: true
-        }]), _ref), {
+        children: [{
             path: '/',
             component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/Bill/Bill.vue"),
             name: 'bills'
         }, {
-            path: 'criar',
-            component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/Bill/Create.vue"),
+            path: '/criar',
+            component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/User/Create.vue"),
             name: 'bills.create'
         }, {
-            path: 'editar/:bill_id',
+            path: '/editar/:bill_id',
             name: 'bills.edit',
-            component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/Bill/Edit.vue"),
-            props: true
-        }, {
-            path: 'conta/:bill_id',
-            name: 'bills.bill',
-            component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/Bill/Bill.vue"),
+            component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/User/Edit.vue"),
             props: true
         }]
     }]
 }];
 
+//Parent component
+//Main do dashboard
 
 function requireAuth(to, from, next) {
     if (_vuex2.default.getters.isLogged) {
@@ -68303,7 +64907,7 @@ exports.default = [{
 	title: 'Dashboard',
 	icon: 'dashboard',
 	uri: {
-		name: 'dashboard.index'
+		name: 'dashboard'
 	}
 }, {
 	title: 'Usuários',
@@ -68320,19 +64924,9 @@ exports.default = [{
 }, {
 	title: 'Contas',
 	icon: 'attach_money',
-	items: [{
-		title: 'Lançar contas',
-		icon: 'attach_money',
-		uri: {
-			name: 'bills.create'
-		}
-	}, {
-		title: 'Tipos',
-		icon: 'line_weight',
-		uri: {
-			name: 'bills.types'
-		}
-	}]
+	uri: {
+		name: 'bills'
+	}
 }, {
 	title: 'Configurações',
 	icon: 'tal',

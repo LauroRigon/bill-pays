@@ -1,6 +1,6 @@
 <template>
 <v-app>
-  <v-navigation-drawer app fixed v-model="menuActive" :enableResizeWatcher="true">
+  <v-navigation-drawer app>
     <v-list dense class="pt-0">
       <v-list-group v-for="item in menus" :key="item.title">
         <v-list-tile slot="item" exact :to='item.uri'>
@@ -26,16 +26,14 @@
       </v-list-group>
     </v-list>
   </v-navigation-drawer>
-  <v-toolbar app dark fixed>
-    <v-toolbar-side-icon @click.stop="menuActive = !menuActive"></v-toolbar-side-icon>
-  </v-toolbar>
-
-    <v-content>
+  <v-toolbar app></v-toolbar>
+  <main>
+    <v-content style="padding-left:100px;">
       <v-container fluid>
         <router-view></router-view>
       </v-container>
     </v-content>
-
+  </main>
   <v-footer app></v-footer>
 </v-app>
 </template>
@@ -47,8 +45,7 @@ import menus from '../../../configs/menus.js'
 export default {    
     data() {
       return {
-        menus: menus,
-        menuActive: true
+        menus: menus
       }
     },
 

@@ -1,11 +1,12 @@
 <template>
+<div>
 <v-layout row wrap>
   <v-flex md9>
     <v-data-table
         :loading="tableIsLoading"
         v-model="selected"
         select-all
-        item-key="id"
+        item-key="name"
         v-bind:headers="headers"
         v-bind:items="items"
         v-bind:pagination.sync="pagination"
@@ -94,6 +95,7 @@
     </v-card>
   </v-flex>
 </v-layout>
+</div>
 </template>
 
 <script>
