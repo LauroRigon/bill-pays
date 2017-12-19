@@ -4,8 +4,8 @@ namespace App\Domains\Bills\Repositories;
 
 use App\Domains\BillTypes\Bill;
 use App\Repositories\Eloquent\Repository;
-
-
+use Illuminate\Notifications\ChannelManager;
+use App\Domains\Clients\Client;
 class BillRepository extends Repository
 {
     protected $modelClass = Bill::class;
@@ -23,7 +23,10 @@ class BillRepository extends Repository
                 'expire_date' =>  $data['expire_date']
             ];
 
-            $this->create($storeData);
+            $billCreated = $this->create($storeData);
+
+            $clientModel = Client::find($client);
+            $clientModel->sendBillCreatedNotification($billCreated);
         }
     }
 
