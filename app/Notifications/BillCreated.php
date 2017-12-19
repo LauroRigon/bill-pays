@@ -42,6 +42,7 @@ class BillCreated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->subject('Conta lançada')
                     ->greeting('Olá')
                     ->line('Uma conta de internet foi lançada!')
                     ->line('Data de vencimento: ' . $this->billCreatedModel->expire_date)
