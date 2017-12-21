@@ -25,7 +25,7 @@ class Bill extends Model
 
     public function bill_type()
     {
-        return $this->belongsTo(BillType::class);
+        return $this->belongsTo(BillType::class)->withTrashed();
     }
 
     public function getExpireDateAttribute($date)
