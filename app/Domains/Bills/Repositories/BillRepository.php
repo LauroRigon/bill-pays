@@ -2,10 +2,11 @@
 
 namespace App\Domains\Bills\Repositories;
 
-use App\Domains\BillTypes\Bill;
+use App\Domains\Bills\Bill;
 use App\Repositories\Eloquent\Repository;
 use Illuminate\Notifications\ChannelManager;
 use App\Domains\Clients\Client;
+
 class BillRepository extends Repository
 {
     protected $modelClass = Bill::class;
@@ -40,5 +41,9 @@ class BillRepository extends Repository
 
     public function getBill($id) {
         return $this->model->where('id', "=",  $id)->with(['client', 'bill_type'])->first();
+    }
+
+    public function getLastBillUpdated() {
+        return $this->model->orderBy('updated_at')->first();
     }
 }

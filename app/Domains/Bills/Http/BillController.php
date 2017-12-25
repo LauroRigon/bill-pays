@@ -3,9 +3,9 @@
 namespace App\Domains\Bills\Http;
 
 use App\Domains\Bills\Http\Requests\PayBill;
-use App\Domains\BillTypes\Bill;
+use App\Domains\Bills\Bill;
 use Illuminate\Http\Request;
-
+use App\Domains\Clients\Client;
 use App\Http\Controllers\Controller;
 use App\Domains\Bills\Repositories\BillRepository;
 use App\Domains\Bills\Http\Requests\StoreBill;
@@ -81,12 +81,17 @@ class BillController extends Controller
             'paid_at' => $request->input('paymentDate')
         ];
 
-        $bill = $this->repository->update($data, $bill_id);
+        $this->repository->update($data, $bill_id);
+
+        $billPaid = $this->repository->getLastBillUpdated();
+
+        $clientModel = Client::withTrashed()->find($billPaid->client_id);
+        $clientModel->sendBillPaidNotification($billPaid);
 
         return response()->json([
             'success' => true,
             'message' => "Conta paga!",
-            'data' => $bill
+            'data' => $billPaid
         ], 200);
     }
 

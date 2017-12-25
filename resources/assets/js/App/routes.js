@@ -11,7 +11,7 @@ import store from '../vuex/'
 
 export default [
     {
-        path: '/login',
+        path: '',
         component: AuthMain,
         children: [
             {

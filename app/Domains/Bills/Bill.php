@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Domains\BillTypes;
+namespace App\Domains\Bills;
 
 use App\Domains\Clients\Client;
+use App\Domains\BillTypes\BillType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+
 class Bill extends Model
 {
     protected $fillable = ['client_id', 'description', 'bill_type_id', 'price', 'expire_date'];
@@ -33,5 +35,16 @@ class Bill extends Model
         $newDate = $this->asDate($date);
 
         return $newDate->format('d-m-Y');
+    }
+
+    public function getPaidAtAttribute($date)
+    {
+        if($date !== null) {
+            $newDate = $this->asDate($date);
+
+            return $newDate->format('d-m-Y');
+        }else{
+            return $date;
+        }
     }
 }

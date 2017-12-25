@@ -71,7 +71,6 @@ export default {
                     pages: 0
                 },
                 items: [],
-                selected: [],
                 tableIsLoading: true,
             },
         }

@@ -2,7 +2,7 @@
 
 namespace App\Domains\Users;
 
-use App\Notifications\ResetPassword;
+use App\Domains\Bills\Notifications\ResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;

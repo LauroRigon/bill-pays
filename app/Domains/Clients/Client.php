@@ -2,7 +2,8 @@
 
 namespace App\Domains\Clients;
 
-use App\Notifications\BillCreated;
+use App\Domains\Bills\Notifications\BillCreated;
+use App\Domains\Bills\Notifications\BillPaid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -19,6 +20,11 @@ class Client extends Model
     public function sendBillCreatedNotification($bill)
     {
         $this->notify(new BillCreated($bill));
+    }
+
+    public function sendBillPaidNotification($bill)
+    {
+        $this->notify(new BillPaid($bill));
     }
 
     public function bills()

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Domains\Users\Notifications;
 
 use Illuminate\Auth\Notifications\ResetPassword as LaravelResetPassword;
 use Illuminate\Notifications\Messages\MailMessage;

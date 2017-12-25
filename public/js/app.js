@@ -3869,7 +3869,6 @@ exports.default = {
                     pages: 0
                 },
                 items: [],
-                selected: [],
                 tableIsLoading: true
             }
         };
@@ -67999,7 +67998,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 exports.default = [{
-    path: '/login',
+    path: '',
     component: _Main4.default,
     children: [{
         path: '/',
