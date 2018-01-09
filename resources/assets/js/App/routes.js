@@ -112,8 +112,8 @@ export default [
 
                     {
                         path: '/',
-                        component: require('./Dashboard/Views/Bill/Bill.vue'),
-                        name: 'bills'
+                        component: require('./Dashboard/Views/Bill/BillsFilter.vue'),
+                        name: 'bills.filter'
                     },
                     {
                         path: 'criar',

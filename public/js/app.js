@@ -1970,6 +1970,240 @@ exports.default = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/BillsFilter.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _http = __webpack_require__("./resources/assets/js/services/http.js");
+
+exports.default = {
+    data: function data() {
+        return {
+            filter: {
+                clients: [],
+                types: [],
+                BillsDeleted: false
+            },
+
+            clients: [],
+            billTypes: [],
+
+            modal_expire_date_from_active: false,
+            modal_expire_date_to_active: false,
+            modal_pay_date_from_active: false,
+            modal_pay_date_to_active: false
+
+        };
+    },
+    created: function created() {
+        this.$Progress.start();
+        this.getClients();
+
+        this.getBillTypes();
+        this.$Progress.finish();
+    },
+
+
+    methods: {
+        getClients: function getClients() {
+            var _this = this;
+
+            _http.http.get('/dashboard/clients').then(function (_ref) {
+                var data = _ref.data;
+                return _this.clients = data;
+            }).catch(function (error) {
+                //this.handleErrors(error.response);
+                _this.$Progress.fail();
+            });
+        },
+        getBillTypes: function getBillTypes() {
+            var _this2 = this;
+
+            _http.http.get('/dashboard/contas/tipos').then(function (_ref2) {
+                var data = _ref2.data;
+                return _this2.billTypes = data;
+            }).catch(function (error) {
+                //this.handleErrors(error.response);
+                _this2.$Progress.fail();
+            });
+        }
+    }
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/Create.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3951,6 +4185,7 @@ exports.default = {
 //
 //
 //
+//
 
 /***/ }),
 
@@ -4017,6 +4252,7 @@ exports.default = {
         }
     }
 }; //
+//
 //
 //
 //
@@ -32647,6 +32883,579 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-180f8ef6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/BillsFilter.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-layout",
+    { attrs: { row: "", wrap: "" } },
+    [
+      _c(
+        "v-flex",
+        { attrs: { md12: "" } },
+        [
+          _c("h6", [_vm._v("Filtros básicos")]),
+          _vm._v(" "),
+          _c(
+            "v-form",
+            [
+              _c(
+                "v-layout",
+                { attrs: { row: "", wrap: "" } },
+                [
+                  _c(
+                    "v-flex",
+                    {
+                      staticClass: "mr-3",
+                      attrs: { lg4: "", md6: "", sm12: "", xs12: "" }
+                    },
+                    [
+                      _c("v-select", {
+                        attrs: {
+                          label: "Clientes",
+                          "item-text": "name",
+                          "item-value": "id",
+                          multiple: "",
+                          chips: "",
+                          items: _vm.clients
+                        },
+                        model: {
+                          value: _vm.filter.clients,
+                          callback: function($$v) {
+                            _vm.$set(_vm.filter, "clients", $$v)
+                          },
+                          expression: "filter.clients"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    {
+                      staticClass: "mr-3",
+                      attrs: { lg4: "", md6: "", sm12: "", xs12: "" }
+                    },
+                    [
+                      _c("v-select", {
+                        attrs: {
+                          label: "Tipos de conta",
+                          "item-text": "name",
+                          "item-value": "id",
+                          multiple: "",
+                          chips: "",
+                          items: _vm.billTypes
+                        },
+                        model: {
+                          value: _vm.filter.billTypes,
+                          callback: function($$v) {
+                            _vm.$set(_vm.filter, "billTypes", $$v)
+                          },
+                          expression: "filter.billTypes"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-layout",
+                { attrs: { row: "", wrap: "" } },
+                [
+                  _c(
+                    "v-flex",
+                    {
+                      staticClass: "mr-3",
+                      attrs: { lg4: "", md3: "", sm4: "", xs5: "" }
+                    },
+                    [
+                      _c("v-select", {
+                        attrs: {
+                          label: "Situação de pagamento",
+                          items: ["Todas", "Apenas pagas", "Apenas não pagas"],
+                          "item-text": "name",
+                          "single-line": "",
+                          required: "",
+                          bottom: ""
+                        },
+                        model: {
+                          value: _vm.filter.paiment_situation,
+                          callback: function($$v) {
+                            _vm.$set(_vm.filter, "paiment_situation", $$v)
+                          },
+                          expression: "filter.paiment_situation"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-layout",
+                { attrs: { row: "", wrap: "" } },
+                [
+                  _c(
+                    "v-flex",
+                    { attrs: { lg4: "" } },
+                    [
+                      _c("v-switch", {
+                        attrs: {
+                          label: "Procurar contas deletadas",
+                          color: "red"
+                        },
+                        model: {
+                          value: _vm.filter.BillsDeleted,
+                          callback: function($$v) {
+                            _vm.$set(_vm.filter, "BillsDeleted", $$v)
+                          },
+                          expression: "filter.BillsDeleted"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("h6", [_vm._v("Filtrar por datas")]),
+              _vm._v(" "),
+              _c(
+                "v-layout",
+                { attrs: { row: "", wrap: "" } },
+                [
+                  _c(
+                    "v-flex",
+                    { staticClass: "mr-3", attrs: { lg3: "" } },
+                    [
+                      _c(
+                        "v-dialog",
+                        {
+                          attrs: { "full-width": "", "max-width": "340px" },
+                          model: {
+                            value: _vm.modal_expire_date_from_active,
+                            callback: function($$v) {
+                              _vm.modal_expire_date_from_active = $$v
+                            },
+                            expression: "modal_expire_date_from_active"
+                          }
+                        },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              slot: "activator",
+                              label: "Vencimento de...",
+                              "prepend-icon": "event",
+                              readonly: ""
+                            },
+                            slot: "activator",
+                            model: {
+                              value: _vm.filter.expire_date_from,
+                              callback: function($$v) {
+                                _vm.$set(_vm.filter, "expire_date_from", $$v)
+                              },
+                              expression: "filter.expire_date_from"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("v-date-picker", {
+                            attrs: {
+                              scrollable: "",
+                              actions: "",
+                              locale: "pt-br"
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "default",
+                                fn: function(ref) {
+                                  var save = ref.save
+                                  var cancel = ref.cancel
+                                  return [
+                                    _c(
+                                      "v-card-actions",
+                                      [
+                                        _c("v-spacer"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              flat: "",
+                                              color: "primary"
+                                            },
+                                            on: { click: cancel }
+                                          },
+                                          [_vm._v("Cancelar")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              flat: "",
+                                              color: "primary"
+                                            },
+                                            on: { click: save }
+                                          },
+                                          [_vm._v("Ok")]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                }
+                              }
+                            ]),
+                            model: {
+                              value: _vm.filter.expire_date_from,
+                              callback: function($$v) {
+                                _vm.$set(_vm.filter, "expire_date_from", $$v)
+                              },
+                              expression: "filter.expire_date_from"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    { attrs: { lg3: "" } },
+                    [
+                      _c(
+                        "v-dialog",
+                        {
+                          attrs: { "full-width": "", "max-width": "340px" },
+                          model: {
+                            value: _vm.modal_expire_date_to_active,
+                            callback: function($$v) {
+                              _vm.modal_expire_date_to_active = $$v
+                            },
+                            expression: "modal_expire_date_to_active"
+                          }
+                        },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              slot: "activator",
+                              label: "Vencimento até...",
+                              "prepend-icon": "event",
+                              readonly: ""
+                            },
+                            slot: "activator",
+                            model: {
+                              value: _vm.filter.expire_date_to,
+                              callback: function($$v) {
+                                _vm.$set(_vm.filter, "expire_date_to", $$v)
+                              },
+                              expression: "filter.expire_date_to"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("v-date-picker", {
+                            attrs: {
+                              scrollable: "",
+                              actions: "",
+                              locale: "pt-br"
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "default",
+                                fn: function(ref) {
+                                  var save = ref.save
+                                  var cancel = ref.cancel
+                                  return [
+                                    _c(
+                                      "v-card-actions",
+                                      [
+                                        _c("v-spacer"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              flat: "",
+                                              color: "primary"
+                                            },
+                                            on: { click: cancel }
+                                          },
+                                          [_vm._v("Cancelar")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              flat: "",
+                                              color: "primary"
+                                            },
+                                            on: { click: save }
+                                          },
+                                          [_vm._v("Ok")]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                }
+                              }
+                            ]),
+                            model: {
+                              value: _vm.filter.expire_date_to,
+                              callback: function($$v) {
+                                _vm.$set(_vm.filter, "expire_date_to", $$v)
+                              },
+                              expression: "filter.expire_date_to"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-layout",
+                { staticClass: "mt-3", attrs: { row: "", wrap: "" } },
+                [
+                  _c(
+                    "v-flex",
+                    { staticClass: "mr-3", attrs: { lg3: "" } },
+                    [
+                      _c(
+                        "v-dialog",
+                        {
+                          attrs: { "full-width": "", "max-width": "340px" },
+                          model: {
+                            value: _vm.modal_pay_date_from_active,
+                            callback: function($$v) {
+                              _vm.modal_pay_date_from_active = $$v
+                            },
+                            expression: "modal_pay_date_from_active"
+                          }
+                        },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              slot: "activator",
+                              label: "Pagamento de...",
+                              "prepend-icon": "event",
+                              readonly: ""
+                            },
+                            slot: "activator",
+                            model: {
+                              value: _vm.filter.pay_date_from,
+                              callback: function($$v) {
+                                _vm.$set(_vm.filter, "pay_date_from", $$v)
+                              },
+                              expression: "filter.pay_date_from"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("v-date-picker", {
+                            attrs: {
+                              scrollable: "",
+                              actions: "",
+                              locale: "pt-br"
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "default",
+                                fn: function(ref) {
+                                  var save = ref.save
+                                  var cancel = ref.cancel
+                                  return [
+                                    _c(
+                                      "v-card-actions",
+                                      [
+                                        _c("v-spacer"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              flat: "",
+                                              color: "primary"
+                                            },
+                                            on: { click: cancel }
+                                          },
+                                          [_vm._v("Cancelar")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              flat: "",
+                                              color: "primary"
+                                            },
+                                            on: { click: save }
+                                          },
+                                          [_vm._v("Ok")]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                }
+                              }
+                            ]),
+                            model: {
+                              value: _vm.filter.pay_date_from,
+                              callback: function($$v) {
+                                _vm.$set(_vm.filter, "pay_date_from", $$v)
+                              },
+                              expression: "filter.pay_date_from"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    { attrs: { lg3: "" } },
+                    [
+                      _c(
+                        "v-dialog",
+                        {
+                          attrs: { "full-width": "", "max-width": "340px" },
+                          model: {
+                            value: _vm.modal_pay_date_to_active,
+                            callback: function($$v) {
+                              _vm.modal_pay_date_to_active = $$v
+                            },
+                            expression: "modal_pay_date_to_active"
+                          }
+                        },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              slot: "activator",
+                              label: "Pagamento até...",
+                              "prepend-icon": "event",
+                              readonly: ""
+                            },
+                            slot: "activator",
+                            model: {
+                              value: _vm.filter.pay_date_to,
+                              callback: function($$v) {
+                                _vm.$set(_vm.filter, "pay_date_to", $$v)
+                              },
+                              expression: "filter.pay_date_to"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("v-date-picker", {
+                            attrs: {
+                              scrollable: "",
+                              actions: "",
+                              locale: "pt-br"
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "default",
+                                fn: function(ref) {
+                                  var save = ref.save
+                                  var cancel = ref.cancel
+                                  return [
+                                    _c(
+                                      "v-card-actions",
+                                      [
+                                        _c("v-spacer"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              flat: "",
+                                              color: "primary"
+                                            },
+                                            on: { click: cancel }
+                                          },
+                                          [_vm._v("Cancelar")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              flat: "",
+                                              color: "primary"
+                                            },
+                                            on: { click: save }
+                                          },
+                                          [_vm._v("Ok")]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                }
+                              }
+                            ]),
+                            model: {
+                              value: _vm.filter.pay_date_to,
+                              callback: function($$v) {
+                                _vm.$set(_vm.filter, "pay_date_to", $$v)
+                              },
+                              expression: "filter.pay_date_to"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-180f8ef6", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-195a38fc\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/components/NotExpiredTable.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32662,6 +33471,7 @@ var render = function() {
       _c("v-data-table", {
         staticClass: "elevation-1",
         attrs: {
+          dark: "",
           loading: _vm.not_expired_table.tableIsLoading,
           "item-key": "id",
           headers: _vm.not_expired_table.headers,
@@ -34832,6 +35642,7 @@ var render = function() {
       _c("v-data-table", {
         staticClass: "elevation-1",
         attrs: {
+          dark: "",
           loading: _vm.expired_table.tableIsLoading,
           "item-key": "id",
           headers: _vm.expired_table.headers,
@@ -67131,6 +67942,55 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/App/Dashboard/Views/Bill/BillsFilter.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\"],\"env\":{\"node\":true,\"development\":{\"presets\":[\"es2015\",\"stage-2\"]}}}!./node_modules/vue-loader/lib/selector.js?type=script&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/BillsFilter.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-180f8ef6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0&bustCache!./resources/assets/js/App/Dashboard/Views/Bill/BillsFilter.vue")
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\App\\Dashboard\\Views\\Bill\\BillsFilter.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-180f8ef6", Component.options)
+  } else {
+    hotAPI.reload("data-v-180f8ef6", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/App/Dashboard/Views/Bill/Create.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -68117,8 +68977,8 @@ exports.default = [{
             props: true
         }]), _ref), {
             path: '/',
-            component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/Bill/Bill.vue"),
-            name: 'bills'
+            component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/Bill/BillsFilter.vue"),
+            name: 'bills.filter'
         }, {
             path: 'criar',
             component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/Bill/Create.vue"),
@@ -68407,6 +69267,12 @@ exports.default = [{
 		icon: 'line_weight',
 		uri: {
 			name: 'bills.types'
+		}
+	}, {
+		title: 'Ver contas',
+		icon: 'attach_money',
+		uri: {
+			name: 'bills.filter'
 		}
 	}]
 }];

@@ -2,6 +2,7 @@
 <div>
   <h5 class="text-xs-center">Contas atrasadas</h5>
     <v-data-table
+    dark
     :loading="expired_table.tableIsLoading"
     v-model="expired_table.selected"
     item-key="id"

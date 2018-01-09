@@ -2,6 +2,7 @@
 <div>
     <h5 class="text-xs-center">Contas no prazo</h5>
     <v-data-table
+        dark
         :loading="not_expired_table.tableIsLoading"
         v-model="not_expired_table.selected"
         item-key="id"

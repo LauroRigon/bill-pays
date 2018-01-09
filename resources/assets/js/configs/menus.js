@@ -37,6 +37,13 @@ export default [
 				uri: {
 					name: 'bills.types'
 				}
+			},
+			{
+				title: 'Ver contas',
+				icon: 'attach_money',
+				uri: {
+					name: 'bills.filter'
+				}
 			}
 		]
 	}
