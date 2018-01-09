@@ -38,6 +38,12 @@ export const http = {
     })
 
     this.axiosInstance.interceptors.response.use(response => {
+        // If it`s a request to logout
+        if(response.config.url == '/api/logout') {
+          authPersistence.removeSession()
+          window.location.reload()
+        }
+
         return response
       }, error => {
         console.log(error)

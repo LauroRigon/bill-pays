@@ -28,6 +28,10 @@
   </v-navigation-drawer>
   <v-toolbar app dark fixed>
     <v-toolbar-side-icon @click.stop="menuActive = !menuActive"></v-toolbar-side-icon>
+    <v-spacer></v-spacer>
+    <v-btn icon outline small fab color="white" @click.native="logout()">
+      <v-icon>close</v-icon>
+    </v-btn>
   </v-toolbar>
 
     <v-content>
@@ -43,6 +47,7 @@
 <script>
 
 import menus from '../../../configs/menus.js'
+import { http } from '../../../services/http'
 
 export default {    
     data() {
@@ -55,6 +60,16 @@ export default {
     computed: {
       styles(){
         return {paddingLeft:"0px"}
+      }
+    },
+
+    methods: {
+      logout(){
+        http.delete('logout')
+        .then((response) => {
+          console.log(this.$router)
+          this.$router.push('./')
+        })
       }
     }
 }

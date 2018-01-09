@@ -3298,7 +3298,57 @@ var _menus = __webpack_require__("./resources/assets/js/configs/menus.js");
 
 var _menus2 = _interopRequireDefault(_menus);
 
+var _http = __webpack_require__("./resources/assets/js/services/http.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 exports.default = {
   data: function data() {
@@ -3313,49 +3363,19 @@ exports.default = {
     styles: function styles() {
       return { paddingLeft: "0px" };
     }
+  },
+
+  methods: {
+    logout: function logout() {
+      var _this = this;
+
+      _http.http.delete('logout').then(function (response) {
+        console.log(_this.$router);
+        _this.$router.push('./');
+      });
+    }
   }
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+};
 
 /***/ }),
 
@@ -32867,7 +32887,29 @@ var render = function() {
                 _vm.menuActive = !_vm.menuActive
               }
             }
-          })
+          }),
+          _vm._v(" "),
+          _c("v-spacer"),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: {
+                icon: "",
+                outline: "",
+                small: "",
+                fab: "",
+                color: "white"
+              },
+              nativeOn: {
+                click: function($event) {
+                  _vm.logout()
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("close")])],
+            1
+          )
         ],
         1
       ),
@@ -68560,6 +68602,12 @@ var http = exports.http = {
     });
 
     this.axiosInstance.interceptors.response.use(function (response) {
+      // If it`s a request to logout
+      if (response.config.url == '/api/logout') {
+        _services.authPersistence.removeSession();
+        window.location.reload();
+      }
+
       return response;
     }, function (error) {
       console.log(error);
