@@ -57,6 +57,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function () 
             //Route::get('/', '\App\Domains\BillTypes\Http\BillTypeController@index');
             //Route::get('/edit/{bill_type}', '\App\Domains\BillTypes\Http\BillTypeController@edit');
             Route::post('/store', '\App\Domains\Bills\Http\BillController@store');
+            Route::post('/filter', '\App\Domains\Bills\Http\BillController@filter');
             //Route::put('/update/{bill_type}', '\App\Domains\BillTypes\Http\BillTypeController@update');
             //Route::delete('/delete', '\App\Domains\BillTypes\Http\BillTypeController@destroyMany');
 

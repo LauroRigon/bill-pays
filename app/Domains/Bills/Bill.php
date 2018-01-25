@@ -5,10 +5,13 @@ namespace App\Domains\Bills;
 use App\Domains\Clients\Client;
 use App\Domains\BillTypes\BillType;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 class Bill extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = ['client_id', 'description', 'bill_type_id', 'price', 'expire_date'];
 
     protected $dates = ['created_at',

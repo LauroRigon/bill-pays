@@ -111,7 +111,7 @@ export default [
                     },
 
                     {
-                        path: '/',
+                        path: 'procurar',
                         component: require('./Dashboard/Views/Bill/BillsFilter.vue'),
                         name: 'bills.filter'
                     },
@@ -142,7 +142,7 @@ export default [
 
 function requireAuth(to, from, next) {
     if(store.getters.isLogged) {
-        next(false)
+        next({name: 'dashboard.index'})
     }else{
         next()
     }

@@ -39,7 +39,7 @@ export default [
 				}
 			},
 			{
-				title: 'Ver contas',
+				title: 'Procurar contas',
 				icon: 'attach_money',
 				uri: {
 					name: 'bills.filter'

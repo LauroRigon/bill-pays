@@ -2,6 +2,7 @@
 
 namespace App\Domains\Bills\Http;
 
+use App\Domains\Bills\Http\Requests\FilterBill;
 use App\Domains\Bills\Http\Requests\PayBill;
 use App\Domains\Bills\Bill;
 use Illuminate\Http\Request;
@@ -93,6 +94,26 @@ class BillController extends Controller
             'message' => "Conta paga!",
             'data' => $billPaid
         ], 200);
+    }
+
+    /**
+     * Return all bills based on a given filter options
+     *
+     * @param  request ['bills_deleted',
+                        'clients',
+                        'types',
+                        'expire_date_from',
+                        'expire_date_to',
+                        'paiment_situation',
+                        'pay_date_from',
+                        'pay_date_to']
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(FilterBill $request)
+    {
+        $bills = $this->repository->getFilterdBills($request->all());
+
+        return response()->json($bills);
     }
 
     /**

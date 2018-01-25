@@ -46,4 +46,54 @@ class BillRepository extends Repository
     public function getLastBillUpdated() {
         return $this->model->orderBy('updated_at')->first();
     }
+
+    public function getFilterdBills($data) {
+        $query = $this->model;
+
+        //Add where clausule to bill type selected
+        if(isset($data['bill_type'])) {
+            $query = $query->where('bill_type_id', '=', $data['bill_type']);
+        }
+
+        //Verify if is any client selected, if so, add where conditions with clients
+        if(!empty($data['clients'])){
+            //add an 'and' condition and grouping '()' to next conditions
+            $query = $query->where(function ($query) use ($data) {
+                foreach ($data['clients'] as $client) {
+                    //add or conditions
+                    $query->orWhere('client_id', '=', $client);
+                }
+            });
+        }
+
+        if(isset($data['paiment_situation'])) {
+            if($data['paiment_situation'] == 'only_paid') {
+                $query->whereNotNull('paid_at');
+            }
+
+            if($data['paiment_situation'] == 'only_not_paid') {
+                $query->whereNull('paid_at');
+            }
+        }
+
+        /*
+         * Falta a parte da situação das contas e bug no tipo de conta
+         * */
+
+        //If there is expire date from, add date conditions on expire date column
+        if(isset($data['expire_date_from']) && isset($data['expire_date_to'])) {
+            $query = $query->whereDate('expire_date', ">=", $data['expire_date_from'])->whereDate('expire_date', "<=", $data['expire_date_to']);
+        }
+
+        if(isset($data['pay_date_from']) && isset($data['pay_date_to'])) {
+            $query = $query->whereDate('paid_at', ">=", $data['pay_date_from'])->whereDate('paid_at', "<=", $data['pay_date_to']);
+        }
+
+        //If deleted bills option is true, add withTrashed chain
+        if($data['bills_deleted']) {
+            $query = $query->withTrashed();
+        }
+
+        return $query->with(['client', 'bill_type'])->get();
+    }
 }
