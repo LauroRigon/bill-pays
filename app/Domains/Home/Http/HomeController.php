@@ -3,6 +3,7 @@
 namespace App\Domains\Home\Http;
 
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Contracts\Providers\JWT;
 
 use App\Http\Controllers\Controller;
 

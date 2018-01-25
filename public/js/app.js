@@ -1987,18 +1987,54 @@ exports.default = {
         return {
             filter: {
                 clients: [],
-                types: [],
-                BillsDeleted: false
+                bill_type: null,
+                paiment_situation: '',
+                bills_deleted: false,
+
+                expire_date_from: null,
+                expire_date_to: null,
+
+                pay_date_from: null,
+                pay_date_to: null
             },
 
             clients: [],
             billTypes: [],
+            paiment_situations: [{
+                text: "Todas",
+                value: "all"
+            }, {
+                text: "Apenas pagas",
+                value: "only_paid"
+            }, {
+                text: "Apenas não pagas",
+                value: "only_not_paid"
+            }],
+
+            dataTable: {
+                headers: [{ text: 'Cliente', value: 'client.name' }, { text: 'Tipo', value: 'bill_type.name' }, { text: 'Vencimento', value: 'expire_date' }, { text: 'Preço', value: 'price' }, { text: 'Pago em', value: 'paid_at' }],
+
+                pagination: {
+
+                    rowsPerPage: 10
+                }
+            },
 
             modal_expire_date_from_active: false,
             modal_expire_date_to_active: false,
             modal_pay_date_from_active: false,
-            modal_pay_date_to_active: false
+            modal_pay_date_to_active: false,
 
+            isLoading: false,
+
+            toast: {
+                toastVisible: false,
+                timeout: 8000,
+                y: 'top',
+                x: 'right',
+                text: '',
+                mode: 'vertical'
+            }
         };
     },
     created: function created() {
@@ -2029,12 +2065,113 @@ exports.default = {
                 var data = _ref2.data;
                 return _this2.billTypes = data;
             }).catch(function (error) {
-                //this.handleErrors(error.response);
                 _this2.$Progress.fail();
             });
+        },
+        submit: function submit() {
+            var _this3 = this;
+
+            this.isLoading = true;
+            this.$Progress.start();
+            _http.http.post('/dashboard/contas/filter', this.filter).then(function (response) {
+                _this3.dataTable.items = response.data;
+                _this3.setPagination(response.data);
+
+                _this3.isLoading = false;
+                _this3.$Progress.finish();
+            }).catch(function (error) {
+                //console.log(error.response.data)
+                var errors;
+                errors = error.response.data.errors;
+
+                _this3.toast.text = errors[Object.getOwnPropertyNames(errors)[0]][0];
+                _this3.toast.toastVisible = true;
+
+                _this3.isLoading = false;
+                _this3.$Progress.fail();
+            });
+        },
+        setPagination: function setPagination(data) {
+            this.dataTable.pagination.page = 1;
+            this.dataTable.pagination.totalItems = data.length;
+            this.dataTable.pagination.pages = Math.round(this.dataTable.pagination.totalItems / this.dataTable.pagination.rowsPerPage);
+        },
+        resetForm: function resetForm() {
+            this.filter.bill_type = null;
+            this.filter.bills_deleted = false;
+            this.filter.clients = [];
+            this.filter.expire_date_from = null;
+            this.filter.expire_date_to = null;
+            this.filter.paiment_situation = "";
+            this.filter.pay_date_from = null;
+            this.filter.pay_date_to = null;
         }
     }
 }; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3601,12 +3738,7 @@ exports.default = {
 
   methods: {
     logout: function logout() {
-      var _this = this;
-
-      _http.http.delete('logout').then(function (response) {
-        console.log(_this.$router);
-        _this.$router.push('./');
-      });
+      _http.http.delete('logout');
     }
   }
 };
@@ -4140,10 +4272,13 @@ exports.default = {
             this.expired_table.selected = [];
             _http.http.get("/dashboard/contas/expireds").then(function (response) {
                 _this.expired_table.items = response.data;
-                _this.expired_table.pagination.totalItems = response.data.length;
-                _this.expired_table.pagination.pages = Math.round(_this.expired_table.pagination.totalItems / _this.expired_table.pagination.rowsPerPage);
+                _this.setPagination(response.data);
                 _this.expired_table.tableIsLoading = false;
             });
+        },
+        setPagination: function setPagination(data) {
+            this.expired_table.pagination.totalItems = data.length;
+            this.expired_table.pagination.pages = Math.round(this.expired_table.pagination.totalItems / this.expired_table.pagination.rowsPerPage);
         }
     }
 }; //
@@ -32898,11 +33033,11 @@ var render = function() {
         "v-flex",
         { attrs: { md12: "" } },
         [
-          _c("h6", [_vm._v("Filtros básicos")]),
-          _vm._v(" "),
           _c(
             "v-form",
             [
+              _c("h6", [_vm._v("Filtros básicos")]),
+              _vm._v(" "),
               _c(
                 "v-layout",
                 { attrs: { row: "", wrap: "" } },
@@ -32945,18 +33080,18 @@ var render = function() {
                       _c("v-select", {
                         attrs: {
                           label: "Tipos de conta",
+                          items: _vm.billTypes,
                           "item-text": "name",
                           "item-value": "id",
-                          multiple: "",
-                          chips: "",
-                          items: _vm.billTypes
+                          "single-line": "",
+                          bottom: ""
                         },
                         model: {
-                          value: _vm.filter.billTypes,
+                          value: _vm.filter.bill_type,
                           callback: function($$v) {
-                            _vm.$set(_vm.filter, "billTypes", $$v)
+                            _vm.$set(_vm.filter, "bill_type", $$v)
                           },
-                          expression: "filter.billTypes"
+                          expression: "filter.bill_type"
                         }
                       })
                     ],
@@ -32980,10 +33115,10 @@ var render = function() {
                       _c("v-select", {
                         attrs: {
                           label: "Situação de pagamento",
-                          items: ["Todas", "Apenas pagas", "Apenas não pagas"],
-                          "item-text": "name",
+                          items: _vm.paiment_situations,
+                          "item-text": "text",
+                          "item-value": "value",
                           "single-line": "",
-                          required: "",
                           bottom: ""
                         },
                         model: {
@@ -33015,11 +33150,11 @@ var render = function() {
                           color: "red"
                         },
                         model: {
-                          value: _vm.filter.BillsDeleted,
+                          value: _vm.filter.bills_deleted,
                           callback: function($$v) {
-                            _vm.$set(_vm.filter, "BillsDeleted", $$v)
+                            _vm.$set(_vm.filter, "bills_deleted", $$v)
                           },
-                          expression: "filter.BillsDeleted"
+                          expression: "filter.bills_deleted"
                         }
                       })
                     ],
@@ -33433,9 +33568,206 @@ var render = function() {
                   )
                 ],
                 1
+              ),
+              _vm._v(" "),
+              _c("v-layout", {
+                staticClass: "mt-3",
+                attrs: { row: "", wrap: "" }
+              }),
+              _vm._v(" "),
+              _c(
+                "v-layout",
+                { attrs: { row: "" } },
+                [
+                  _c(
+                    "v-flex",
+                    { attrs: { l5: "" } },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "primary", loading: _vm.isLoading },
+                          nativeOn: {
+                            click: function($event) {
+                              _vm.submit()
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                            Procurar\n                        "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          nativeOn: {
+                            click: function($event) {
+                              _vm.resetForm()
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                            Limpar\n                        "
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
               )
             ],
             1
+          ),
+          _vm._v(" "),
+          _c("v-data-table", {
+            staticClass: "elevation-3",
+            attrs: {
+              headers: _vm.dataTable.headers,
+              items: _vm.dataTable.items,
+              pagination: _vm.dataTable.pagination,
+              "hide-actions": ""
+            },
+            on: {
+              "update:pagination": function($event) {
+                _vm.$set(_vm.dataTable, "pagination", $event)
+              }
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "headerCell",
+                fn: function(props) {
+                  return [
+                    _c("v-tooltip", { attrs: { bottom: "" } }, [
+                      _c(
+                        "span",
+                        { attrs: { slot: "activator" }, slot: "activator" },
+                        [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(props.header.text) +
+                              "\n            "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("span", [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(props.header.text) +
+                            "\n            "
+                        )
+                      ])
+                    ])
+                  ]
+                }
+              },
+              {
+                key: "items",
+                fn: function(props) {
+                  return [
+                    _c(
+                      "router-link",
+                      {
+                        attrs: {
+                          to: {
+                            name: "bills.bill",
+                            params: { bill_id: props.item.id }
+                          },
+                          tag: "tr"
+                        }
+                      },
+                      [
+                        _c("td", { staticClass: "text-xs-right" }, [
+                          _vm._v(_vm._s(props.item.client.name))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-xs-right" }, [
+                          _vm._v(_vm._s(props.item.bill_type.name))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-xs-right" }, [
+                          _vm._v(_vm._s(props.item.expire_date))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "text-xs-right" }, [
+                          _vm._v("R$ " + _vm._s(props.item.price))
+                        ]),
+                        _vm._v(" "),
+                        props.item.paid_at !== null
+                          ? _c("td", { staticClass: "text-xs-right" }, [
+                              _vm._v(_vm._s(props.item.paid_at))
+                            ])
+                          : _c("td", { staticClass: "text-xs-right" }, [
+                              _vm._v("Não pago")
+                            ])
+                      ]
+                    )
+                  ]
+                }
+              }
+            ])
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "text-xs-center pt-2" },
+            [
+              _c("v-pagination", {
+                attrs: {
+                  length: _vm.dataTable.pagination.pages,
+                  "rows-per-page-items": _vm.dataTable.pagination.rowsPerPage
+                },
+                model: {
+                  value: _vm.dataTable.pagination.page,
+                  callback: function($$v) {
+                    _vm.$set(_vm.dataTable.pagination, "page", $$v)
+                  },
+                  expression: "dataTable.pagination.page"
+                }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-snackbar",
+        {
+          attrs: {
+            timeout: _vm.toast.timeout,
+            y: _vm.toast.y,
+            x: _vm.toast.x,
+            mode: _vm.toast.mode
+          },
+          model: {
+            value: _vm.toast.toastVisible,
+            callback: function($$v) {
+              _vm.$set(_vm.toast, "toastVisible", $$v)
+            },
+            expression: "toast.toastVisible"
+          }
+        },
+        [
+          _vm._v("\n        " + _vm._s(_vm.toast.text) + "\n        "),
+          _c(
+            "v-btn",
+            {
+              attrs: { flat: "", color: "pink" },
+              nativeOn: {
+                click: function($event) {
+                  _vm.toast.toastVisible = false
+                }
+              }
+            },
+            [_vm._v("Close")]
           )
         ],
         1
@@ -68976,7 +69308,7 @@ exports.default = [{
             component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/BillType/Edit.vue"),
             props: true
         }]), _ref), {
-            path: '/',
+            path: 'procurar',
             component: __webpack_require__("./resources/assets/js/App/Dashboard/Views/Bill/BillsFilter.vue"),
             name: 'bills.filter'
         }, {
@@ -69000,7 +69332,7 @@ exports.default = [{
 
 function requireAuth(to, from, next) {
     if (_vuex2.default.getters.isLogged) {
-        next(false);
+        next({ name: 'dashboard.index' });
     } else {
         next();
     }
@@ -69269,7 +69601,7 @@ exports.default = [{
 			name: 'bills.types'
 		}
 	}, {
-		title: 'Ver contas',
+		title: 'Procurar contas',
 		icon: 'attach_money',
 		uri: {
 			name: 'bills.filter'

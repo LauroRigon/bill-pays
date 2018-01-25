@@ -66,10 +66,6 @@ export default {
     methods: {
       logout(){
         http.delete('logout')
-        .then((response) => {
-          console.log(this.$router)
-          this.$router.push('./')
-        })
       }
     }
 }

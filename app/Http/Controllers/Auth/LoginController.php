@@ -82,4 +82,24 @@ class LoginController extends Controller
 
         return response()->json($errors, Response::HTTP_TOO_MANY_REQUESTS);
     }
+
+    /**
+     * Redirect the user after determining they are locked out.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function checkSession(Request $request)
+    {
+        if (JWTAuth::getToken()) {
+            return response()->json([
+                'status' => 'success',
+                'data' => JWTAuth::getToken()
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 'error'
+        ], 401);
+    }
 }

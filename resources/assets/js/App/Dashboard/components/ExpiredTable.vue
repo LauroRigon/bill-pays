@@ -88,11 +88,15 @@ export default {
                 http.get("/dashboard/contas/expireds")
                 .then((response) => {
                     this.expired_table.items = response.data
-                    this.expired_table.pagination.totalItems = response.data.length
-                    this.expired_table.pagination.pages = Math.round(this.expired_table.pagination.totalItems / this.expired_table.pagination.rowsPerPage)
+                    this.setPagination(response.data)
                     this.expired_table.tableIsLoading = false
                 })
         },
+
+        setPagination(data) {
+            this.expired_table.pagination.totalItems = data.length
+            this.expired_table.pagination.pages = Math.round(this.expired_table.pagination.totalItems / this.expired_table.pagination.rowsPerPage)
+        }
     }
 }
 </script>
