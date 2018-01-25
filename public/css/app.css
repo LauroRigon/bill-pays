@@ -19011,3 +19011,7 @@ table.table tfoot tr {
 
 
 
+.clickable {
+  cursor: pointer;
+}
+

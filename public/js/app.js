@@ -33031,7 +33031,7 @@ var render = function() {
     [
       _c(
         "v-flex",
-        { attrs: { md12: "" } },
+        { attrs: { xs12: "", sm12: "", md12: "", lg12: "" } },
         [
           _c(
             "v-form",
@@ -33674,6 +33674,7 @@ var render = function() {
                     _c(
                       "router-link",
                       {
+                        staticClass: "clickable",
                         attrs: {
                           to: {
                             name: "bills.bill",
@@ -33852,6 +33853,7 @@ var render = function() {
                 _c(
                   "router-link",
                   {
+                    staticClass: "clickable",
                     attrs: {
                       to: {
                         name: "bills.bill",
@@ -36023,6 +36025,7 @@ var render = function() {
                 _c(
                   "router-link",
                   {
+                    staticClass: "clickable",
                     attrs: {
                       to: {
                         name: "bills.bill",

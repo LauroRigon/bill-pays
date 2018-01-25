@@ -1,6 +1,6 @@
 <template>
     <v-layout row wrap>
-        <v-flex md12>
+        <v-flex xs12 sm12 md12 lg12>
             <v-form>
                 <h6>Filtros básicos</h6>
                 <v-layout row wrap>
@@ -195,7 +195,7 @@
                 </v-tooltip>
             </template>
             <template slot="items" slot-scope="props">
-                <router-link :to="{name: 'bills.bill', params: {bill_id: props.item.id}}" tag="tr">
+                <router-link :to="{name: 'bills.bill', params: {bill_id: props.item.id}}" tag="tr" class="clickable">
                     <td class="text-xs-right">{{ props.item.client.name }}</td>
                     <td class="text-xs-right">{{ props.item.bill_type.name }}</td>
                     <td class="text-xs-right">{{ props.item.expire_date }}</td>
