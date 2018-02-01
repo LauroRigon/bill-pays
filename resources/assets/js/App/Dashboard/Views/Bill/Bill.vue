@@ -152,7 +152,7 @@ import { http } from '../../../../services'
 
             getBill() {
                 this.$Progress.start()
-                http.get('/dashboard/contas/conta/view/' + this.bill_id)            
+                http.get(`/dashboard/contas/conta/view/${this.bill_id}`)            
                 .then((response) => {
                     this.bill = response.data;
                     this.$Progress.finish()
@@ -161,7 +161,7 @@ import { http } from '../../../../services'
 
             deleteBill() {
                 this.$Progress.start()
-                http.delete('/dashboard/contas/conta/delete/' + this.bill_id)
+                http.delete(`/dashboard/contas/conta/delete/${this.bill_id}`)
                 .then((response) => {
                     this.$router.back()
                     this.$Progress.finish()
@@ -170,7 +170,7 @@ import { http } from '../../../../services'
 
             sendPayment() {
                 this.$Progress.start()
-                http.post('/dashboard/contas/conta/pay/' + this.bill_id, {paymentDate: this.paymentDate})
+                http.post(`/dashboard/contas/conta/pay/${this.bill_id}`, {paymentDate: this.paymentDate})
                 .then(({data}) => {
                     this.$Progress.finish()
                     this.toast.text = data.message

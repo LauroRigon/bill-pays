@@ -26,7 +26,7 @@ Route::get('/check', 'App\Http\Controllers\Auth\LoginController@checkSession');
 $this->post('password/email', 'App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 $this->post('password/reset', 'App\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.reset');
 
-Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:api'], function () {
+Route::group(['prefix' => 'dashboard', 'middleware' => 'jwt.auth'], function () {
 
     Route::group(['prefix' => 'users'], function() {
         Route::get('/', '\App\Domains\Users\Http\UserController@index');

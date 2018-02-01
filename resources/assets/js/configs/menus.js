@@ -26,7 +26,7 @@ export default [
 		items: [
 			{
 				title: 'Lançar contas',
-				icon: 'attach_money',
+				icon: 'mdi-credit-card-plus',
 				uri: {
 					name: 'bills.create'
 				}
@@ -40,7 +40,7 @@ export default [
 			},
 			{
 				title: 'Procurar contas',
-				icon: 'attach_money',
+				icon: 'search',
 				uri: {
 					name: 'bills.filter'
 				}

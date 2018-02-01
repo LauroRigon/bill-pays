@@ -37,8 +37,9 @@
     "webpack-hot-middleware": "^2.15.0"
   },
   "dependencies": {
-    "vuex": "^2.3.1",
+    "mdi": "^2.1.19",
     "vue": "^2.1.10",
-    "vue-router": "^2.7.0"
+    "vue-router": "^2.7.0",
+    "vuex": "^2.3.1"
   }
 }

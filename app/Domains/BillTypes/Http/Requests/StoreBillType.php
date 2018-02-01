@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
 class StoreBillType extends FormRequest
-{
+{ 
 
     public function messages()
     {

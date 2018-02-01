@@ -102,4 +102,20 @@ class LoginController extends Controller
             'status' => 'error'
         ], 401);
     }
+
+    public function user(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        return response([
+            'status' => 'success',
+            'data' => $user
+        ]);
+    }
+
+    public function refresh()
+    {
+        return response([
+            'status' => 'success'
+        ]);
+    }
 }
